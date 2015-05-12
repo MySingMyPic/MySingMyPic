@@ -7,6 +7,7 @@ import com.ylsg365.pai.R;
 
 public class PrivateMessageSendActivity extends ActionBarActivity {
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

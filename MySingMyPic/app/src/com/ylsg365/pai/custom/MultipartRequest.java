@@ -118,7 +118,7 @@ public class MultipartRequest extends Request {
     }
 
     @Override
-    public int compareTo(Request another) {
+    public int compareTo(Object another) {
         return 0;
     }
 }
