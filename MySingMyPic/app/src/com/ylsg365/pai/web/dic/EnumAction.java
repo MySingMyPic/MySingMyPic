@@ -123,13 +123,16 @@ public enum EnumAction {
     GETGIFTLIST("getGiftList"),
     SENDGIFT("sendGift"),
     GETMYGIFTLIST("getMyGiftList"),
+    INDEXGIFTLIST("indexGiftList"),
 
     //cashController
     GETBANKLIST("getBankList"),
     CASH("cash"),
     GETCASHLIST("getCashList"),
     RECHARGE("recharge"),
+
     GETRECHARGELIST("getRechargeList"),
+    SENDINDEXGIFT("sendIndexGift"),
     ;
 
 

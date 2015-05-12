@@ -235,7 +235,7 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
 
     private void doNewsInfoLike(){
 
-        NavHelper.toGiftListActivity(NewsInfoDetalActivity.this,userId+"",""); //送礼物
+        NavHelper.toGiftListActivityForNewsInfo(NewsInfoDetalActivity.this,newsInfoId+"",1); //送礼物
     }
 
     private void toCommentSendPage(){

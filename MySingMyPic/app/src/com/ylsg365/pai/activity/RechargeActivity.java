@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ylsg365.pai.R;
-import com.ylsg365.pai.activity.base.BaseActivity;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.model.User;
 import com.ylsg365.pai.model.UserService;
@@ -79,7 +78,7 @@ public class RechargeActivity extends FragmentActivity implements RechargeFragme
 
         User user = UserService.getUser();
 
-        ((TextView)findViewById(R.id.money_txt)).setText(user.getBalance() + "");
+        ((TextView)findViewById(R.id.money_txt)).setText(user.getBalance() + "(1元兑换1音乐币)");
 
         mGridView = (GridView) findViewById(R.id.grid);
 
@@ -96,19 +95,51 @@ public class RechargeActivity extends FragmentActivity implements RechargeFragme
         });
 
         datas = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 9; i++) {
+
             Map map = new HashMap<String, String>();
-            map.put("num", i + "00");
-            map.put("money", i + "0");
+            map.put("num", 5+ "");
+            map.put("money", 5 + "元");
             datas.add(map);
-        }
+         map = new HashMap<String, String>();
+        map.put("num", 10 + "");
+        map.put("money", 10 + "元");
+        datas.add(map);
+        map = new HashMap<String, String>();
+        map.put("num", 20 + "");
+        map.put("money", 20 + "元");
+        datas.add(map);
+         map = new HashMap<String, String>();
+        map.put("num", 50 + "");
+        map.put("money", 50 + "元(返50元)");
+        datas.add(map);
+         map = new HashMap<String, String>();
+        map.put("num", 80 + "");
+        map.put("money", 80 + "元(返80元)");
+        datas.add(map);
+         map = new HashMap<String, String>();
+        map.put("num", 150 + "");
+        map.put("money", 150 + "元(返150元)");
+        datas.add(map);
+         map = new HashMap<String, String>();
+        map.put("num",300 + "");
+        map.put("money",300 + "元(返300元)");
+        datas.add(map);
+         map = new HashMap<String, String>();
+        map.put("num", 500 + "");
+        map.put("money", 500 + "元(返500元)");
+        datas.add(map);
+         map = new HashMap<String, String>();
+        map.put("num", 1000 + "");
+        map.put("money", 1000 + "元(返1000元)");
+        datas.add(map);
+
         mGridView.setAdapter(new CommonAdapter(RechargeActivity.this, datas, R.layout.recharge_grid_item) {
 
             @Override
             public void convert(ViewHolder holder, Object item) {
                 Map<String, String> mapItem = (Map<String, String>) item;
                 holder.setText(R.id.num, mapItem.get("num") + "音乐币");
-                holder.setText(R.id.money, mapItem.get("money") + "元");
+                holder.setText(R.id.money, mapItem.get("money") + "");
             }
         });
 

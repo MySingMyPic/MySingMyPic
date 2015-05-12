@@ -3,14 +3,10 @@ package com.ylsg365.pai.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.ylsg365.pai.OpenVipSelectActivity;
 import com.ylsg365.pai.R;
-import com.ylsg365.pai.activity.user.AlreadyPurchaseActivity;
-import com.ylsg365.pai.activity.user.BuyTheCopyrightActivity;
-import com.ylsg365.pai.activity.user.MyAttentionsActivity;
 import com.ylsg365.pai.activity.PicCutActivity;
 import com.ylsg365.pai.activity.RechargeActivity;
 import com.ylsg365.pai.activity.login.AccountSettingActivity;
@@ -43,16 +39,19 @@ import com.ylsg365.pai.activity.setting.SettingActivity;
 import com.ylsg365.pai.activity.singsong.SingerActivity;
 import com.ylsg365.pai.activity.singsong.SongActivity;
 import com.ylsg365.pai.activity.singsong.SongCategoryActivity;
+import com.ylsg365.pai.activity.user.AlreadyPurchaseActivity;
 import com.ylsg365.pai.activity.user.AttentionListActivity;
+import com.ylsg365.pai.activity.user.BuyTheCopyrightActivity;
 import com.ylsg365.pai.activity.user.FansListActivity;
 import com.ylsg365.pai.activity.user.LookMeActivity;
 import com.ylsg365.pai.activity.user.MoneyManagerActivity;
+import com.ylsg365.pai.activity.user.MyAttentionsActivity;
 import com.ylsg365.pai.activity.user.MyCollectionListActivity;
-import com.ylsg365.pai.activity.user.WorksListActivity;
 import com.ylsg365.pai.activity.user.NewsInfoListActivity;
 import com.ylsg365.pai.activity.user.PrivateMessageUserListActivity;
 import com.ylsg365.pai.activity.user.UserHomeActivity;
 import com.ylsg365.pai.activity.user.UserInfoActivity;
+import com.ylsg365.pai.activity.user.WorksListActivity;
 import com.ylsg365.pai.activity.video.CappellaRecordActivity;
 import com.ylsg365.pai.activity.video.VideoDetalActivity;
 import com.ylsg365.pai.model.UserService;
@@ -533,6 +532,17 @@ public class NavHelper {
         forwardAnim((Activity) mContext);
     }
 
+    public static void toGiftInfoActivityForNewsInfo(Context mContext, String[] giftInfo,int type
+            ,String houseId,String count) {  //houseId,receiveUserId ,count
+        Intent i = new Intent(mContext,GiftInfoActivity.class);
+        i.putExtra("giftInfo",giftInfo);
+        i.putExtra("houseId",houseId);
+        i.putExtra("type",type);
+        i.putExtra("count",count);
+        mContext.startActivity(i);
+        forwardAnim((Activity) mContext);
+    }
+
     public static void toMyGiftActivity(Context mContext) {
         Intent i = new Intent(mContext,MyGiftListActivity.class);
         mContext.startActivity(i);
@@ -544,6 +554,19 @@ public class NavHelper {
             i = new Intent(mContext,GiftListActivity.class);
             i.putExtra("houseId",houseId);
             i.putExtra("receiveUserId",receiveUserId);
+        }else{
+            i = new Intent(mContext,LoginActivity.class);
+        }
+        mContext.startActivity(i);
+        forwardAnim((Activity) mContext);
+    }
+
+    public static void toGiftListActivityForNewsInfo(Context mContext,String newsInfoId,int type ) {
+        Intent i;
+        if(UserService.isLogin()){
+            i = new Intent(mContext,GiftListActivity.class);
+            i.putExtra("houseId",newsInfoId);
+            i.putExtra("type",type);
         }else{
             i = new Intent(mContext,LoginActivity.class);
         }

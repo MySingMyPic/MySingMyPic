@@ -1,11 +1,6 @@
 package com.ylsg365.pai.activity.room;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -25,7 +20,6 @@ import com.ylsg365.pai.activity.base.BaseActivity;
 import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
-import com.ylsg365.pai.model.RoomInfo;
 import com.ylsg365.pai.util.CommonAdapter;
 import com.ylsg365.pai.util.JsonUtil;
 import com.ylsg365.pai.util.LogUtil;
@@ -33,11 +27,9 @@ import com.ylsg365.pai.util.StringUtil;
 import com.ylsg365.pai.util.ViewHolder;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * 我的包房界面
@@ -169,7 +161,7 @@ public class MyRoomActivity extends BaseActivity {
                     adapter.addData(infoList);
                     if (infoList.size() < rows) {
                         recyclerView.setIsLoadMore(false);
-                        Toast.makeText(MyRoomActivity.this,"没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(MyRoomActivity.this,"没有更多数据", Toast.LENGTH_LONG).show();
                     }
 
                 }

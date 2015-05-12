@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -157,7 +156,7 @@ public class InfoCommentFragment extends TabFragment implements OnItemClickListe
                     commentAdapter.addData(infoList);
                     if(infoList.size() < rows){
                         recyclerView.setLoadingMore(false);
-                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }
                 }
                 commentAdapter.notifyDataSetChanged();

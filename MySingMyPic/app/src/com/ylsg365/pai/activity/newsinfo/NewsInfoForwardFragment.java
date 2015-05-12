@@ -159,7 +159,7 @@ public class NewsInfoForwardFragment extends TabFragment implements OnItemClickL
                     forwardAdapter.addData(infoList);
                     if(infoList.size() < rows){
                         recyclerView.setLoadingMore(false);
-                        Toast.makeText(getActivity(),"没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(),"没有更多数据", Toast.LENGTH_LONG).show();
                     }
                     forwardAdapter.notifyDataSetChanged();
                 }

@@ -42,6 +42,7 @@ public class GiftListActivity extends BaseActivity implements PullToRefreshBase.
     private boolean isRefresh = false;
     private String houseId  ;
     private  String receiveUserId ;
+    private int type=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class GiftListActivity extends BaseActivity implements PullToRefreshBase.
 
         gridView = (PullToRefreshGridView) findViewById(R.id.grid);
 
+        type=getIntent().getIntExtra("type",0);
         houseId = getIntent().getStringExtra("houseId");
         receiveUserId = getIntent().getStringExtra("receiveUserId");
 
@@ -101,7 +103,11 @@ public class GiftListActivity extends BaseActivity implements PullToRefreshBase.
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String count = "1" ;
                 String[] datas = new String[]{giftList.get(position).get("name"), giftList.get(position).get("img"), giftList.get(position).get("money"),giftList.get(position).get("nid")};
-                NavHelper.toGiftInfoActivity(GiftListActivity.this, datas,houseId,receiveUserId ,count);
+
+                if(type==0)
+                    NavHelper.toGiftInfoActivity(GiftListActivity.this, datas,houseId,receiveUserId ,count);
+                else if(type==1)
+                    NavHelper.toGiftInfoActivityForNewsInfo(GiftListActivity.this, datas,type,houseId ,count);
             }
         });
         getGiftList();

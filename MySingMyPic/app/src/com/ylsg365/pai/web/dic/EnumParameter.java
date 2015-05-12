@@ -58,7 +58,8 @@ public enum EnumParameter {
     BANKPHONE("bankPhone"),
     MONEY("money"),
     MEALID("mealId"),
-
+    ntype("ntype"),
+    NTYPE("ntype"),
     ;
 
     private String desc;

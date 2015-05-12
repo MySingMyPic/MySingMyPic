@@ -30,6 +30,7 @@ public class GiftInfoActivity extends BaseActivity {
     private CircleImageView img_gift;
     private Button btn_login_login;
     private String[] datas;
+    private int type=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class GiftInfoActivity extends BaseActivity {
 
         setTitle("送礼物");
 
+        type=getIntent().getIntExtra("type",0);
 
         money = (TextView) findViewById(R.id.money);
         price = (TextView) findViewById(R.id.price);
@@ -72,6 +74,7 @@ public class GiftInfoActivity extends BaseActivity {
                 /**
                  * 赠送礼物的方法
                  */
+                if(type==0){
                 YinApi.sendGift(datas[3], getIntent().getStringExtra("count"), getIntent().getStringExtra("houseId"), getIntent().getStringExtra("receiveUserId"), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -88,6 +91,26 @@ public class GiftInfoActivity extends BaseActivity {
                         NavHelper.showToast(GiftInfoActivity.this, "礼物赠送失败!");
                     }
                 });
+                }
+                else
+                {
+                    YinApi.sendGiftForNewsInfo(datas[3], getIntent().getStringExtra("count"), getIntent().getStringExtra("houseId"),type, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            if (JsonUtil.getBoolean(response, "status")) {
+                                NavHelper.showToast(GiftInfoActivity.this, "礼物赠送成功!");
+                            } else {
+                                NavHelper.showToast(GiftInfoActivity.this, "礼物赠送失败!");
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            NavHelper.showToast(GiftInfoActivity.this, "礼物赠送失败!");
+                        }
+                    });
+                }
             }
         });
 

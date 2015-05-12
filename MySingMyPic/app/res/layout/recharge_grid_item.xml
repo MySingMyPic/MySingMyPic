@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/num"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:textColor="@color/white"
         android:gravity="center"
         android:text="2000音乐币"
@@ -15,7 +15,7 @@
         android:background="@drawable/yinbibeijing"/>
     <TextView
         android:id="@+id/money"
-        android:textSize="18dp"
+        android:textSize="13dp"
         android:gravity="center"
         android:textColor="@color/black"
         android:text="5元"

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -140,7 +139,7 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener, O
                     newInfoAdapter.addData(infoList);
                     if (infoList.size() < rows) {
                         recyclerView.setLoadingMore(false);
-                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+//                      /**/  Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }
                     newInfoAdapter.notifyDataSetChanged();
                 }

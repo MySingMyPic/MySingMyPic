@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -16,8 +15,6 @@ import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.Listener.OnViewClickListener;
-import com.ylsg365.pai.activity.NewInfoAdapter;
-import com.ylsg365.pai.activity.NumberedAdapter;
 import com.ylsg365.pai.activity.base.BaseActivity;
 import com.ylsg365.pai.app.UIHelper;
 import com.ylsg365.pai.app.YinApi;
@@ -121,7 +118,7 @@ public class FansListActivity extends BaseActivity implements OnViewClickListene
                     fansAdapter.addData(infoList);
                     if(infoList.size() < rows ){
                         recyclerView.setLoadingMore(false);
-                        Toast.makeText(FansListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(FansListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
                     }
 
                 }

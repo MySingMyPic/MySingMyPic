@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -77,6 +76,13 @@ public class MessageFragment extends Fragment {
         TextView rightTextView = (TextView) rootView.findViewById(R.id.text_right);
         rightTextView.setVisibility(View.VISIBLE);
         rightTextView.setText("发私信");
+
+        rightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         recyclerView = (SuperRecyclerView) rootView.findViewById(R.id.recycler_song_category);
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -167,7 +173,7 @@ public class MessageFragment extends Fragment {
 
                     }else if (infoList.size() < rows) {
                         recyclerView.setLoadingMore(false);
-                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }
                     messageAdapter.notifyDataSetChanged();
 

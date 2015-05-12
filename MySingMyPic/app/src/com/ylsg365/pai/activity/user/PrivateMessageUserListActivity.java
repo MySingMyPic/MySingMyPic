@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,7 +18,6 @@ import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.Listener.OnItemClickListener;
 import com.ylsg365.pai.activity.base.BaseActivity;
 import com.ylsg365.pai.app.NavHelper;
-import com.ylsg365.pai.app.UIHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.app.YinApplication;
 import com.ylsg365.pai.util.DensityUtil;
@@ -122,7 +120,7 @@ public class PrivateMessageUserListActivity extends BaseActivity implements OnIt
                     attentionUserAdapter.addData(infoList);
                     if(infoList.size() < rows){
                         recyclerView.setLoadingMore(false);
-                        Toast.makeText(PrivateMessageUserListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(PrivateMessageUserListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
                     }
 
                 }

@@ -3,7 +3,6 @@ package com.ylsg365.pai.activity.user;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -122,7 +121,7 @@ public class NewsInfoListActivity extends BaseActivity{
                     checkAdapterIsEmpty(adapter);
                     if(infoList.size() < rows){
                         recyclerView.setLoadingMore(false);
-                        Toast.makeText(NewsInfoListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(NewsInfoListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -160,7 +159,7 @@ public class NewsInfoListActivity extends BaseActivity{
                     }else{
                         recyclerView.setLoadingMore(false);
                         recyclerView.hideMoreProgress();
-                        Toast.makeText(NewsInfoListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(NewsInfoListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -195,7 +194,7 @@ public class NewsInfoListActivity extends BaseActivity{
                     }else{
                         recyclerView.setLoadingMore(false);
                         recyclerView.hideMoreProgress();
-                        Toast.makeText(NewsInfoListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(NewsInfoListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
                     }
                 }
 

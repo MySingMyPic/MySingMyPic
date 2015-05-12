@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -134,7 +133,7 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
 
     @Override
     public String getTitle() {
-        return String.format("评论", this.forwardCount);
+        return String.format("礼物", this.forwardCount);
     }
 
     private int currentPage = 0;
@@ -142,16 +141,16 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
     private InfoLikeAdapter infoLikeAdapter;
 
     private void getNewInfoNices(int newsInfoId, int currentPage, final int rows){
-        YinApi.getNewInfoNices(newsInfoId, currentPage, rows, new Response.Listener<JSONObject>() {
+        YinApi.getNewInfoGifts(1,newsInfoId, currentPage, rows, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                LogUtil.logd("getNewInfoForwards", response.toString());
+                LogUtil.logd("getNewInfoGifts", response.toString());
 
                 if (JsonUtil.getBoolean(response, "status")) {
                     if(isRefresh){
                         infoLikeAdapter.clear();
                     }
-                    JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "nices");
+                    JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "gifts");
                     infoList.clear();
                     for (int i = 0; i < infoJsonArray.length(); i++) {
                         infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
@@ -160,7 +159,7 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
                     infoLikeAdapter.addData(infoList);
                     if(infoList.size() < rows){
                         recyclerView.setLoadingMore(false);
-                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }
                 }
                 infoLikeAdapter.notifyDataSetChanged();

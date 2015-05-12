@@ -635,6 +635,26 @@ public class YinApi {
     }
 
     /**
+     * 获取新鲜事的点赞列表
+     *
+     * @param PAGE
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getNewInfoGifts(int type,int newsInfoId, int PAGE, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.GIFT);
+        URLUtils.addActionForGet(url, EnumAction.INDEXGIFTLIST);
+        URLUtils.addParameter(url, EnumParameter.ntype,type+"");
+        URLUtils.addParameter(url, EnumParameter.NEWINFOID, newsInfoId + "");
+        URLUtils.addParameter(url, EnumParameter.PAGE, PAGE + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
      * 获取新鲜事的图片列表
      *
      * @param responseListener
@@ -1297,6 +1317,32 @@ public class YinApi {
 
         httpGet(url.toString(), responseListener, errorListener);
     }
+
+
+    /**
+     * 送礼物
+     * @param giftId
+     * @param gCount
+     * @param houseId
+     * @param type
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void sendGiftForNewsInfo( String giftId ,String gCount,String houseId ,int type ,Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener){
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.GIFT);
+        URLUtils.addActionForGet(url, EnumAction.SENDINDEXGIFT);
+        URLUtils.addParameter(url, EnumParameter.GIFTID, giftId );
+        URLUtils.addParameter(url, EnumParameter.GCOUNT, gCount );
+        if(!StringUtil.isNull(houseId)){
+            URLUtils.addParameter(url, EnumParameter.NID , houseId  );
+        }
+        URLUtils.addParameter(url, EnumParameter.NTYPE , type+""  );
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
 
     /**
      * 通过银行卡号码获得银行名称
