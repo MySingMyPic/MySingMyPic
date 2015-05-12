@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/layout_edit_phone"
+            android:layout_height="67dp"
+            style="@style/Yin.login.edit.container">
+
+            <TextView
+                android:layout_centerVertical="true"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="头像"
+                android:inputType="phone"
+                android:maxLength="11" />
+
+            
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/img_user_avatar_default"
+                android:layout_width="46dp"
+                android:layout_height="46dp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_edit_password"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/edit_password_new"
+                style="@style/Yin.login.edit"
+                android:hint="昵称"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="荒岛余生"
+                android:textColor="@color/text_radio_normal"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_edit_password_new_confirm"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/edit_password_new_confirm"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="手机号"
+                android:inputType="textPassword" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="13612345678"
+                android:textColor="@color/text_radio_normal"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_edit_verify_code"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/edit_verify_code"
+                style="@style/Yin.login.edit"
+                android:layout_centerVertical="true"
+                android:hint="修改密码"
+                android:maxLength="20" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/login_dialog_frame"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="55dp"
+    android:layout_marginLeft="55dp"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical" >
+    <TextView
+        android:background="@color/purple"
+        android:layout_width="fill_parent"
+        android:textColor="@color/white"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textSize="@dimen/font_large"
+        android:text="请选择录制视频长度" />
+    <Button
+        android:background="@drawable/selector_text_common_white"
+        android:layout_width="fill_parent"
+        android:textColor="@color/text_radio_normal"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="30秒" />
+
+    <View
+        android:background="@color/line_radio"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+    <Button
+        android:background="@drawable/selector_text_common_white"
+        android:layout_width="fill_parent"
+        android:textColor="@color/text_radio_normal"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="3分钟" />
+
+    <View
+        android:background="@color/line_radio"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <Button
+        android:background="@drawable/selector_text_common_white"
+        android:layout_width="fill_parent"
+        android:textColor="@color/text_radio_normal"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="5分钟" />
+    <View
+        android:background="@color/line_radio"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:background="@drawable/selector_text_common_white"
+        android:layout_width="fill_parent"
+        android:textColor="@color/text_radio_normal"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="取消" />
+</LinearLayout>

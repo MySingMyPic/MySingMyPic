@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/layout_edit_phone"
+            android:layout_height="80dp"
+            style="@style/Yin.login.edit.container">
+
+            <TextView
+                android:layout_centerVertical="true"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="房间头像"
+                android:maxLength="11" />
+
+            
+            <ImageView
+                android:id="@+id/room_img"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/img_user_avatar_default"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_edit_password"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/edit_password_new"
+                style="@style/Yin.login.edit"
+                android:hint="房间名称"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:id="@+id/room_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="90年代歌曲秀"
+                android:minWidth="60dp"
+                android:textColor="@color/text_radio_normal"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+        <LinearLayout android:focusable="true"
+            android:focusableInTouchMode="true" android:layout_width="0px"
+            android:layout_height="0px" />
+        <RelativeLayout
+            android:id="@+id/layout_edit_password_new_confirm"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/edit_password_new_confirm"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="房间号"
+                android:inputType="textPassword" />
+
+
+            <TextView
+                android:id="@+id/room_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="9527"
+                android:textColor="@color/text_radio_normal"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_edit_verify_code"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                style="@style/Yin.login.edit"
+                android:layout_centerVertical="true"
+                android:hint="房间公告:"
+                android:maxLength="20" />
+
+            <TextView
+                android:id="@+id/edit_verify_code"
+                style="@style/Yin.login.edit"
+                android:layout_centerVertical="true"
+                android:hint="房间公告： 文明唱歌，和谐友善"
+                android:gravity="right|center_vertical"
+                android:maxLength="20" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:layout_height="67dp"
+            style="@style/Yin.login.edit.container">
+
+            <TextView
+
+                android:layout_centerVertical="true"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="房主"
+                android:inputType="phone"
+                android:maxLength="11" />
+
+
+            <ImageView
+                android:id="@+id/room_owner"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/img_user_avatar_default"
+                android:layout_width="46dp"
+                android:layout_height="46dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:layout_height="67dp"
+            style="@style/Yin.login.edit.container">
+
+            <TextView
+                android:layout_centerVertical="true"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="优先歌者(2)"
+                android:inputType="phone"
+                android:maxLength="11" />
+
+            <LinearLayout
+                android:id="@+id/priority_sing"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_user_avatar_default"
+                    android:layout_width="46dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="46dp"
+                    android:visibility="invisible"/>
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_user_avatar_default"
+                    android:layout_width="46dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="46dp"
+                    android:visibility="invisible"/>
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/img_user_avatar_default"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:visibility="invisible"/>
+                </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:layout_height="67dp"
+            style="@style/Yin.login.edit.container">
+
+            <TextView
+                android:layout_centerVertical="true"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="群主(13)"
+                android:inputType="phone"
+                android:maxLength="11" />
+
+
+            <LinearLayout
+                android:id="@+id/harem_master"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_user_avatar_default"
+                    android:layout_width="46dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="46dp"
+                    android:visibility="invisible"/>
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_user_avatar_default"
+                    android:layout_width="46dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="46dp"
+                    android:visibility="invisible"/>
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/img_user_avatar_default"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:visibility="invisible"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                style="@style/Yin.login.edit"
+                android:hint="120秒自动切麦"
+                android:inputType="textPassword" />
+
+            <ToggleButton
+                android:id="@+id/auto_switch"
+                android:layout_alignParentRight="true"
+                android:layout_width="53.5dp"
+                android:layout_height="25dp"
+                android:textOff=""
+                android:textOn=""
+                android:checked="true"
+                android:background="@drawable/selector_toggle_open_close"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/in_room_layout"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="谁可以来我房间"
+                android:inputType="textPassword" />
+
+
+            <TextView
+                android:id="@+id/in_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="任何人"
+                android:textColor="@color/text_radio_normal"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/remote_music_layout"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="谁可以点唱"
+                android:inputType="textPassword" />
+
+
+            <TextView
+                android:id="@+id/remote_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="房间内任何人"
+                android:textColor="@color/text_radio_normal"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

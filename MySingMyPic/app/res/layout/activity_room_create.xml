@@ -1,0 +1,154 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ylsg365.pai.activity.room.RoomCreateActivity"
+    android:background="@color/bg_main_common">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_common" />
+
+    <ScrollView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:gravity="bottom"
+                android:paddingBottom="7dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/text_radio_normal"
+                android:layout_width="match_parent"
+                android:text="房间名称(最长11字)"
+                android:layout_height="41dp" />
+
+            <RelativeLayout
+                android:id="@+id/layout_edit_login_phone"
+                style="@style/Yin.login.edit.container">
+
+                <com.rockerhieu.emojicon.EmojiconEditText
+                    android:id="@+id/edit_login_phone"
+                    style="@style/Yin.login.edit"
+                    android:hint="请输入房间名"
+                    android:inputType="text"
+                    android:maxLength="11" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:gravity="bottom"
+                android:paddingBottom="7dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/text_radio_normal"
+                android:layout_width="match_parent"
+                android:text="谁可以来我房间"
+                android:layout_height="41dp" />
+            <RadioGroup
+                android:id="@+id/group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/btn_in_all"
+                android:background="@drawable/bg_me_zong">
+
+                <RadioButton
+                    android:id="@+id/btn_in_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/selector_bg_radio_room"
+                    android:button="@null"
+                    android:paddingLeft="15dp"
+                    android:text="任何人"
+                    android:textColor="@color/text_radio_normal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/line_radio" />
+
+                <RadioButton
+                    android:id="@+id/btn_in_private"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/selector_bg_radio_room"
+                    android:button="@null"
+                    android:paddingLeft="15dp"
+                    android:text="仅我关注的人"
+                    android:textColor="@color/text_radio_normal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/line_radio" />
+
+                <RadioButton
+                    android:id="@+id/btn_in_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/selector_bg_radio_room"
+                    android:button="@null"
+                    android:paddingLeft="15dp"
+                    android:text="凭密码才能进入"
+                    android:textColor="@color/text_radio_normal"
+                    android:checked="false" />
+            </RadioGroup>
+
+            <TextView
+                android:gravity="bottom"
+                android:paddingBottom="7dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/text_radio_normal"
+                android:layout_width="match_parent"
+                android:text="谁可以排麦"
+                android:layout_height="41dp" />
+            <RadioGroup
+                android:id="@+id/mic_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/btn_mic_all"
+                android:background="@drawable/bg_me_zong">
+
+                <RadioButton
+                    android:id="@+id/btn_mic_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/selector_bg_radio_room"
+                    android:button="@null"
+                    android:paddingLeft="15dp"
+                    android:text="房间内所有人"
+                    android:textColor="@color/text_radio_normal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/line_radio" />
+
+                <RadioButton
+                    android:id="@+id/btn_mic_private"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/selector_bg_radio_room"
+                    android:button="@null"
+                    android:paddingLeft="15dp"
+                    android:text="仅我关注的人"
+                    android:textColor="@color/text_radio_normal" />
+            </RadioGroup>
+
+            <Button
+                android:layout_marginTop="60dp"
+                android:id="@+id/btn_login_login"
+                style="@style/Yin.login.button.red"
+                android:layout_below="@+id/btn_login_password_forget"
+                android:text="创建"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

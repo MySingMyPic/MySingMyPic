@@ -1,0 +1,48 @@
+<com.ylsg365.pai.face.KeyboardListenRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_main"
+    android:id="@+id/top_root"
+                tools:context="com.ylsg365.pai.activity.singsong.SongActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="100dp"
+        android:layout_below="@+id/toolbar"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="60dp"
+        android:focusable="true">
+
+        <com.rockerhieu.emojicon.EmojiconEditText
+            android:layout_width="match_parent"
+            android:id="@+id/edit_content"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
+            android:background="@drawable/bg_common_zone"
+            android:gravity="top"
+            android:hint="请输入文字"
+            android:padding="5dp"
+            android:textColor="@color/text_radio_normal"
+            android:textSize="16dp"/>
+
+    </ScrollView>
+
+
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/face_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></RelativeLayout>
+</com.ylsg365.pai.face.KeyboardListenRelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/login_dialog_frame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="55dp"
+    android:layout_marginLeft="55dp"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:text="您还不是会员"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/text_radio_normal"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/text_notice"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_horizontal"
+            android:text="开通会员就能查看最近访客"
+            android:textColor="@color/text_radio_normal"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/line_radio"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_cancel"
+            android:background="@drawable/selector_text_common_white"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/text_radio_normal"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="稍后开通" />
+
+        <View
+            android:background="@color/line_radio"
+            android:layout_width="1px"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_weight="1"
+            android:background="@drawable/selector_text_common_white"
+            android:layout_width="0dp"
+            android:textColor="@color/text_radio_normal"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="立即开通" />
+        </LinearLayout>
+
+</LinearLayout>

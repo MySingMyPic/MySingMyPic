@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/layout_edit_phone"
+            android:layout_height="67dp"
+            style="@style/Yin.login.edit.container">
+
+            <TextView
+                android:layout_centerVertical="true"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="点击设置头像"
+                android:inputType="phone"
+                android:maxLength="11" />
+
+            
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/img_setting_avatar_default"
+                android:layout_width="46dp"
+                android:layout_height="46dp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_edit_password"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/edit_password_new"
+                style="@style/Yin.login.edit"
+                android:hint="请输入昵称"
+                android:inputType="textPassword" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_edit_password_new_confirm"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/edit_password_new_confirm"
+                style="@style/Yin.login.edit"
+                android:layout_width="wrap_content"
+                android:hint="请选择性别"
+                android:inputType="textPassword" />
+
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:checkedButton="@+id/radio_male"
+                android:layout_alignParentRight="true">
+
+                <RadioButton
+                    android:id="@+id/radio_male"
+                    android:button="@drawable/selector_radio_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="40dp"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/icon_male"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:id="@+id/radio_female"
+                    android:drawablePadding="5dp"
+                    android:button="@drawable/selector_radio_sex"
+                    android:layout_width="wrap_content"
+                    android:drawableRight="@drawable/icon_female"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+        </RelativeLayout>
+            <TextView
+                android:includeFontPadding="false"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/text_hint_grey"
+                android:layout_width="wrap_content"
+                android:text="性别一旦决定之后无法修改"
+                android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:id="@+id/layout_edit_verify_code"
+            style="@style/Yin.login.edit.container"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/edit_verify_code"
+                style="@style/Yin.login.edit"
+                android:layout_centerVertical="true"
+                android:hint="请输入所在地区"
+                android:maxLength="20" />
+
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_register_next"
+            style="@style/Yin.login.button.red"
+            android:layout_marginTop="20dp"
+            android:text="完成" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

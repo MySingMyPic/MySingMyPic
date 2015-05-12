@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="80dp"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/bank"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:text="取现到银行卡-"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_toRightOf="@id/bank"
+        android:id="@+id/text_bankname"
+        android:textSize="18dp"
+        android:textColor="@color/purple"
+        android:text="未知数据"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_below="@id/bank"
+        android:layout_marginTop="5dp"
+        android:id="@+id/text_time"
+        android:textSize="18dp"
+        android:textColor="@color/purple"
+        android:text="12-09"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_toRightOf="@id/text_bankname"
+        android:layout_marginTop="5dp"
+        android:id="@+id/text_state"
+        android:textSize="18dp"
+        android:textColor="@color/red"
+        android:text="处理中"
+        android:layout_marginLeft="30dp"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/text_money"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:text="500"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

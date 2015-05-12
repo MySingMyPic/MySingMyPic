@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2011 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<resources>
+    
+    <!-- basic dimension -->
+    <dimen name="common_spacing">15dp</dimen>
+    <dimen name="line_height">1px</dimen>
+    
+    <!-- font size -->
+    <dimen name="font_mico">10dp</dimen>
+    <dimen name="font_mini">12dp</dimen>
+    <dimen name="font_small">14dp</dimen>
+    <dimen name="font_normal">16dp</dimen>
+    <dimen name="font_big">18dp</dimen>
+    <dimen name="font_large">20dp</dimen>
+    <dimen name="font_huge">22dp</dimen>
+    
+    <!-- home popmenu width -->
+    <dimen name="home_pop_menu_width">200dp</dimen>
+    <dimen name="home_pop_menu_item_padding">10dp</dimen>
+    
+    <!-- book cover shadow size -->
+    <dimen name="cover_shadow">3dp</dimen>
+    
+    <!-- book list cover -->
+    <dimen name="book_list_cover_width">60dp</dimen>
+    <dimen name="book_list_cover_height">84dp</dimen>
+    <dimen name="book_list_cover_margin_right">10dp</dimen>
+    <dimen name="book_list_title_margin_top">0dp</dimen>
+    <dimen name="book_list_intro_margin">4dp</dimen>
+    <dimen name="book_list_arrow_margin_left">40dp</dimen>
+    <dimen name="book_list_status_margin_bottm">11dp</dimen>
+    
+    <!-- ******* BOOK, book_detail_header.xml ******* -->
+    <dimen name="book_cover_width">100dp</dimen>
+    <dimen name="book_cover_height">140dp</dimen>
+    <dimen name="book_info_margin_top">6dp</dimen>
+    <dimen name="book_name_margin_top">3dp</dimen>
+    <dimen name="book_name_margin_left">12dp</dimen>
+    <dimen name="book_name_font_size">18dp</dimen>
+    <dimen name="book_info_font_size">14dp</dimen>
+    
+    <dimen name="book_cover_width_mini">80dp</dimen>
+    <dimen name="book_cover_height_mini">112dp</dimen>
+    <!-- tab height -->
+    <dimen name="tab_height">40dp</dimen>
+    
+
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+    <dimen name="book_detail_info_padding">10dp</dimen>
+    <dimen name="home_item_padding">2dp</dimen>
+    <dimen name="home_item_info_padding">5dp</dimen>
+    <dimen name="setting_list_margin">25dp</dimen>
+ <!-- listview left right margin -->
+    <dimen name="setting_item_padding">15dp</dimen>
+ <!-- listview item top bottom padding -->
+    <dimen name="setting_item_icon_margin">10dp</dimen>
+    <dimen name="setting_header_padding">20dp</dimen>
+    <dimen name="list_divider_height">1px</dimen>
+    <dimen name="book_detail_number_font_size">22sp</dimen>
+    <dimen name="book_detail_icon_txt_padding">6dp</dimen>
+    <dimen name="book_detail_item_txt_padding">6dp</dimen>
+    <dimen name="book_detail_padding">6dp</dimen>
+
+    <!-- read setting begin -->
+    <dimen name="read_view_top_margin">10dp</dimen>
+    <dimen name="read_view_bottom_margin">12dp</dimen>
+    <dimen name="read_left_right_margin">20dp</dimen>
+    <dimen name="read_line_margin">5dp</dimen>
+    <dimen name="read_top_button_width">50dp</dimen>
+ <!-- 行间距 -->
+    <dimen name="read_img_top_margin">3dp</dimen>
+ <!-- 图片注解与图片间距 -->
+    <!-- read setting end -->
+
+    <dimen name="common_margin_top">15dp</dimen>
+    <dimen name="list_item_top_bottom_margin">10dp</dimen>
+    <dimen name="list_item_left_right_margin">15dp</dimen>
+    <dimen name="read_bottom_padding_top">34dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    
+	<dimen name="list_divider_width">1px</dimen>
+	
+    <!-- 登录/注册 -->
+    <dimen name="login_fragment_padding">15dp</dimen>
+    <dimen name="login_button_height">58dp</dimen>
+    <dimen name="login_button_font_size">26sp</dimen>
+    <dimen name="login_tips_font_size">14sp</dimen>
+    <dimen name="setting_button_height">40dp</dimen>
+    <dimen name="shelf_item_padding">10dp</dimen>
+    
+    <!-- feedback dimension -->
+    <dimen name="feed_head_size">40dp</dimen>
+    <dimen name="feed_arrow_top">15dp</dimen>
+    <dimen name="feed_head_space">5dp</dimen>
+    <dimen name="feed_text_size">14sp</dimen>
+    <dimen name="feed_text_padding">10dp</dimen>
+    <dimen name="feed_bottom_space">20dp</dimen>
+    
+    <dimen name="read_max_font_szie">26sp</dimen>
+    <dimen name="read_min_font_szie">15sp</dimen>
+    
+    <dimen name="sort_item_margin">15dp</dimen>
+
+    <!-- calendar -->
+    <dimen name="historyscore_tb">10dp</dimen>
+    <!-- tab -->
+    <dimen name="tab_btn_padding">3dp</dimen>
+
+    <dimen name="read_author_line_margin">15dp</dimen>
+
+    <dimen name="toolbar_height">48dp</dimen>
+    <dimen name="bottombar_height">63dp</dimen>
+
+    <dimen name="line_margin_left">15dp</dimen>
+
+    <dimen name="face_height">180dp</dimen>
+    <dimen name="face_item_height">180dp</dimen>
+    <dimen name="face_item_length">50dp</dimen>
+</resources>

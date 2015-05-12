@@ -1,0 +1,707 @@
+package com.ylsg365.pai.app;
+
+import android.content.Context;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.ylsg365.pai.util.ConfigUtil;
+import com.ylsg365.pai.util.JsonPostRequest;
+import com.ylsg365.pai.util.LogUtil;
+import com.ylsg365.pai.util.MultiPartStack;
+import com.ylsg365.pai.util.MultiPartStringRequest;
+import com.ylsg365.pai.util.URLUtils;
+import com.ylsg365.pai.web.dic.EnumAction;
+import com.ylsg365.pai.web.dic.EnumController;
+import com.ylsg365.pai.web.dic.EnumParameter;
+
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+
+/**
+ * Created by ylsg365 on 2015-02-08.
+ */
+public class YinApi{
+    /**
+     * 获取短信验证码
+     * @param phone 手机号
+     */
+    public static void getValidateCode(String phone,  Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForPost(url, EnumAction.VALIDATECODE);
+//        URLUtils.addParameter(url, EnumParameter.PHONE, phone);
+
+        Map<String, String> params = new HashMap<>();
+        params.put( EnumParameter.PHONE.getDesc(), phone);
+        httpPost(url.toString(), params, responseListener, errorListener);
+    }
+//    /**
+//     * 忘记密码获取短信验证码
+//     * @param phone 手机号
+//     */
+//    public static void getValidateCodePwdForget(String phone,  Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+//       StringBuilder url = new StringBuilder();
+//        URLUtils.addController(url, EnumController.MEMBER);
+//        URLUtils.addActionForPost(url, EnumAction.FINDPWDVALIDATECODE);
+////        URLUtils.addParameter(url, EnumParameter.PHONE, phone);
+//
+//        Map<String, String> params = new HashMap<>();
+//        params.put( EnumParameter.PHONE.getDesc(), phone);
+//        httpPost(url.toString(), params, responseListener, errorListener);
+//    }
+
+
+    /***
+     * 用手机号登陆
+     * @param phone 手机号
+     * @param password 密码
+     */
+    public static void loginByPhone(String phone, String password,  Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForGet(url, EnumAction.LOGIN);
+        URLUtils.addParameter(url, EnumParameter.PHONE, phone);
+        URLUtils.addParameter(url, EnumParameter.PWD, password);
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 通过手机号注册
+     * @param phone 手机号
+     * @param password 密码
+     * @param validateCode 短信验证码
+     */
+    public static void registerByPhoneStep_1(String phone, String password, String validateCode, String token, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForPost(url, EnumAction.REGISTER);
+
+        Map<String, String> params = new HashMap<>();
+        params.put(EnumParameter.VALIDATECODE.getDesc(), validateCode);
+        params.put(EnumParameter.PHONE.getDesc(), phone);
+        params.put(EnumParameter.PWD.getDesc(), password);
+        params.put(EnumParameter.TOKEN.getDesc(), token);
+
+        httpPost(url.toString(), params, responseListener, errorListener);
+    }
+
+    /**
+     * 注册第二步，此操作完成才算注册成功
+     * @param nickName
+     * @param headImgUrl
+     * @param gender
+     * @param address
+     * @param token
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void registerByPhoneStep_2(String nickName, String headImgUrl, String gender, String address, String token, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForGet(url, EnumAction.REGISTER2);
+
+        URLUtils.addParameter(url, EnumParameter.NICKNAME, nickName);
+        URLUtils.addParameter(url, EnumParameter.HEADIMG, headImgUrl);
+        URLUtils.addParameter(url, EnumParameter.SEX, gender);
+        URLUtils.addParameter(url, EnumParameter.AREA, address);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, token);
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+    /***
+     * 用户修改密码
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     */
+    public static void modifyPassword(String oldPassword, String newPassword,  Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForGet(url, EnumAction.UPDATEPWD);
+        URLUtils.addParameter(url, EnumParameter.OLDPWD, oldPassword);
+        URLUtils.addParameter(url, EnumParameter.PWD, newPassword);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+
+    /***
+     * 获取用户信息
+     */
+    public static void getUserInfo( Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForGet(url, EnumAction.GETINFO);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 首页获取信息列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getNewInfos(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForGet(url, EnumAction.GETNEWINFOS);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取原创基地列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getMyOriginal(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.RECORD);
+        URLUtils.addActionForGet(url, EnumAction.GETMYORIGINAL);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取比赛中心列表，搜索
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getGameCenters(String gameName, int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.GAMECENTER);
+        URLUtils.addActionForGet(url, EnumAction.GETGAMECENTERS);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        if(!StringUtils.isEmpty(gameName)){
+            URLUtils.addParameter(url, EnumParameter.NNAME, gameName);
+        }
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取包房列表
+     * @param roomName
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getKtvRoomList(String roomName, int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.HOUSE);
+        URLUtils.addActionForGet(url, EnumAction.GETHOUSELIST);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        if(!StringUtils.isEmpty(roomName)){
+            URLUtils.addParameter(url, EnumParameter.NNAME, roomName);
+        }
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+
+    /**
+     * 获取用户私信列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getPrivateMessageList(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.PRIVATEMSG);
+        URLUtils.addActionForGet(url, EnumAction.GETMSGS);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取系统消息列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getSystemMessageList(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.PRIVATEMSG);
+        URLUtils.addActionForGet(url, EnumAction.GETSYSMSGS);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+
+    /**
+     * 获取我关注的人列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getAttentions(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.ATTENTION);
+        URLUtils.addActionForGet(url, EnumAction.GETATTENTIONS);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /***
+     * 获取看过我的用户列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getLookmeList(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.ATTENTION);
+        URLUtils.addActionForGet(url, EnumAction.LOOKLIST);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+
+    /**
+     * 我的赞过新鲜列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getNewInfosByUserNice(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForGet(url, EnumAction.GETNEWINFOSBYUSERNICE);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取我的收藏列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getMyCollection(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.RECORD);
+        URLUtils.addActionForGet(url, EnumAction.GETMYCOLLECTION);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取我的作品列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getMyWorks(int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.RECORD);
+        URLUtils.addActionForGet(url, EnumAction.GETMYWORKS);
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取新鲜事的转发列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getNewInfoForwards(int newsInfoId, int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForGet(url, EnumAction.GETNEWINFOFORWARDS);
+        URLUtils.addParameter(url, EnumParameter.NEWINFOID, newsInfoId + "");
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+    /**
+     * 获取新鲜事的评论列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getNewInfoComments(int newsInfoId, int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForGet(url, EnumAction.GETNEWINFOCOMMENTS);
+        URLUtils.addParameter(url, EnumParameter.NEWINFOID, newsInfoId + "");
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+    /**
+     * 获取新鲜事的点赞列表
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getNewInfoNices(int newsInfoId, int page, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForGet(url, EnumAction.GENEWINFONICES);
+        URLUtils.addParameter(url, EnumParameter.NEWINFOID, newsInfoId + "");
+        URLUtils.addParameter(url, EnumParameter.page, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取新鲜事的图片列表
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getNewInfoImg(int newsInfoId, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForGet(url, EnumAction.GETNEWINFOIMG);
+        URLUtils.addParameter(url, EnumParameter.NEWINFOID, newsInfoId + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取mv详情
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getMvDetail(int recordId, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.RECORD);
+        URLUtils.addActionForGet(url, EnumAction.GETMVDETAIL);
+        URLUtils.addParameter(url, EnumParameter.RECORDID, recordId + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取音频详情
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getRecordDetail(int recordId, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.RECORD);
+        URLUtils.addActionForGet(url, EnumAction.GETRECORDDETAIL);
+        URLUtils.addParameter(url, EnumParameter.RECORDID, recordId + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+    /**
+     * 6.根据验证码获取用户接口
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void findPwdMember(String phone,String validateCode,String token, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForPost(url, EnumAction.FINDPWDMEMBER);
+//        URLUtils.addParameter(url, EnumParameter.VALIDATECODE, validateCode);
+
+        Map<String, String> params = new HashMap<>();
+        params.put(EnumParameter.PHONE.getDesc(), phone);
+        params.put(EnumParameter.VALIDATECODE.getDesc(), validateCode);
+        params.put(EnumParameter.TOKEN.getDesc(), token);
+        httpPost(url.toString(), params, responseListener, errorListener);
+    }
+
+    public static void setNewPassword(String token, String password, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForGet(url, EnumAction.RESETPWD);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, token);
+        URLUtils.addParameter(url, EnumParameter.PWD, password);
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+    public static void updateNickName(String token, String nickName, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForGet(url, EnumAction.UPDATENICKNAME);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, token);
+        URLUtils.addParameter(url, EnumParameter.NICKNAME, nickName);
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+    public static void updatePhone(String phone, String newPhone,String validateCode, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.MEMBER);
+        URLUtils.addActionForPost(url, EnumAction.UPDATENICKNAME);
+//        URLUtils.addParameter(url, EnumParameter.NEWPHONE, newPhone);
+//        URLUtils.addParameter(url, EnumParameter.PHONE, phone);
+
+        Map<String, String> params = new HashMap<>();
+        params.put(EnumParameter.NEWPHONE.getDesc(), newPhone);
+        params.put(EnumParameter.PHONE.getDesc(), phone);
+
+        httpPost(url.toString(), params, responseListener, errorListener);
+    }
+
+    /**
+     * 上传图片
+     * @param mContext
+     * @param mFile
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void imgUpLoad(final Context mContext, final File mFile ,Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
+
+        RequestQueue mSingleQueue = Volley.newRequestQueue(mContext, new MultiPartStack());
+        final String url = "http://182.92.170.38:18080/Weitie/client/fileController/imgUpload";
+
+        MultiPartStringRequest multiPartRequest = new MultiPartStringRequest(
+                Request.Method.POST, url, responseListener, errorListener) {
+
+            @Override
+            public Map<String, File> getFileUploads() {
+
+                Map<String,File>file = new HashMap<>();
+                file.put("file",mFile);
+                return file;
+            }
+
+            @Override
+            public Map<String, String> getStringUploads() {
+
+                return new HashMap<>();
+            }
+
+        };
+        mSingleQueue.add(multiPartRequest);
+
+
+    }
+	
+    public static String post(String actionUrl, Map<String, String> params,
+                              Map<String, File> files) throws IOException {
+
+        String BOUNDARY = java.util.UUID.randomUUID().toString();
+        String PREFIX = "--", LINEND = "\r\n";
+        String MULTIPART_FROM_DATA = "multipart/form-data";
+        String CHARSET = "UTF-8";
+        URL uri = new URL(actionUrl);
+        HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
+        conn.setReadTimeout(5 * 1000);
+        conn.setDoInput(true);// 允许输入
+        conn.setDoOutput(true);// 允许输出
+        conn.setUseCaches(false);
+        conn.setRequestMethod("POST"); // Post方式
+        conn.setRequestProperty("connection", "keep-alive");
+        conn.setRequestProperty("Charsert", "UTF-8");
+        conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA
+                + ";boundary=" + BOUNDARY);
+
+        // 首先组拼文本类型的参数
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            sb.append(PREFIX);
+            sb.append(BOUNDARY);
+            sb.append(LINEND);
+            sb.append("Content-Disposition: form-data; name=\""
+                    + entry.getKey() + "\"" + LINEND);
+            sb.append("Content-Type: text/plain; charset=" + CHARSET + LINEND);
+            sb.append("Content-Transfer-Encoding: 8bit" + LINEND);
+            sb.append(LINEND);
+            sb.append(entry.getValue());
+            sb.append(LINEND);
+        }
+
+        DataOutputStream outStream = new DataOutputStream(conn
+                .getOutputStream());
+        outStream.write(sb.toString().getBytes());
+
+        // 发送文件数据
+        if (files != null)
+            for (Map.Entry<String, File> file : files.entrySet()) {
+                StringBuilder sb1 = new StringBuilder();
+                sb1.append(PREFIX);
+                sb1.append(BOUNDARY);
+                sb1.append(LINEND);
+                sb1.append("Content-Disposition: form-data; name=\"file\"; filename=\""
+                                + file.getKey() + "\"" + LINEND);
+                sb1.append("Content-Type: application/octet-stream; charset="
+                        + CHARSET + LINEND);
+                sb1.append(LINEND);
+                outStream.write(sb1.toString().getBytes());
+                InputStream is = new FileInputStream(file.getValue());
+                byte[] buffer = new byte[1024];
+                int len = 0;
+                while ((len = is.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, len);
+                }
+
+                is.close();
+                outStream.write(LINEND.getBytes());
+            }
+
+        // 请求结束标志
+        byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
+        outStream.write(end_data);
+        outStream.flush();
+
+        // 得到响应码
+        int res = conn.getResponseCode();
+        InputStream in = conn.getInputStream();
+        InputStreamReader isReader = new InputStreamReader(in);
+        BufferedReader bufReader = new BufferedReader(isReader);
+        String line = null;
+        String data = "OK";
+
+        while ((line = bufReader.readLine()) == null)
+            data += line;
+        if (res == 200) {
+            int ch;
+            StringBuilder sb2 = new StringBuilder();
+            while ((ch = in.read()) != -1) {
+                sb2.append((char) ch);
+            }
+        }
+        outStream.close();
+        conn.disconnect();
+        return line;
+    }
+
+    /**
+     * 新鲜事点赞
+     * @param newsInfoId
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void doNewsInfoLike(int newsInfoId, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForGet(url, EnumAction.NEWINFONICE);
+        URLUtils.addParameter(url, EnumParameter.NEWINFOID, newsInfoId + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 新鲜事发送评论
+     * @param newsInfoId
+     * @param comment
+     * @param userId
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void sendNewsInfoComment(int newsInfoId, String comment, String userId, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForPost(url, EnumAction.NEWINFOCOMMENT);
+
+        Map<String, String> params = new HashMap<>();
+        params.put(EnumParameter.FORWARDTEXT.getDesc(), comment);
+        params.put(EnumParameter.FORWARDUSERID.getDesc(), userId);
+        params.put(EnumParameter.NEWINFOID.getDesc(), newsInfoId + "");
+        params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpPost(url.toString(), params, responseListener, errorListener);
+    }
+    /**
+     * 新鲜事转发
+     * @param newsInfoId
+     * @param comment
+     * @param userId
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void sendNewsInfoForward(int newsInfoId, String comment, String userId, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForPost(url, EnumAction.NEWINFOFORWARD);
+
+        Map<String, String> params = new HashMap<>();
+        params.put(EnumParameter.FORWARDTEXT.getDesc(), comment);
+        params.put(EnumParameter.FORWARDUSERIDS.getDesc(), userId);
+        params.put(EnumParameter.NEWINFOID .getDesc(), newsInfoId + "");
+        params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpPost(url.toString(), params, responseListener, errorListener);
+    }
+
+
+
+    private static void httpGet(String url, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener){
+        LogUtil.logd("httpGet", url);
+//        http.send(HttpRequest.HttpMethod.GET, url, requestCallBack);
+
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET ,url, null, responseListener, errorListener);
+
+        YinApplication.getInstance().getRequestQueue().add(jsonObjReq);
+    }
+
+    private static void httpPost(String url,final Map<String, String> params, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener){
+        LogUtil.logd("httpPost", url);
+//        http.send(HttpRequest.HttpMethod.GET, url, requestCallBack);
+
+
+        JsonPostRequest jsonObjReq = new JsonPostRequest(url, params, responseListener, errorListener);
+
+        YinApplication.getInstance().getRequestQueue().add(jsonObjReq);
+    }
+
+
+}

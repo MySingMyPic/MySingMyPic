@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    android:background="@drawable/bg_white_zone"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginLeft="15dp"
+    android:paddingTop="15dp">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_toRightOf="@+id/img_user_avatar">
+
+        <LinearLayout
+            android:id="@+id/layout_message_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_title"
+                android:layout_weight="1"
+                android:text="通知"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:id="@+id/text_cTime"
+                android:text="5分钟前"
+                android:textColor="@color/text_item_grey" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_small"
+            android:layout_below="@+id/layout_message_title"
+            android:layout_marginTop="8dp"
+            android:text="春节来临，我拍我唱大回馈，登录有好礼。"
+            android:textColor="@color/text_item_grey" />
+    </RelativeLayout>
+
+</RelativeLayout>

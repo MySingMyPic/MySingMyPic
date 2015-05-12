@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_me_bg"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_me_zong"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/game_img"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/s"
+                    android:scaleType="centerCrop"
+                    android:layout_height="175dp" />
+
+                <LinearLayout
+                    android:padding="15dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textColor="@color/text_hint_grey"
+                    android:text="比赛方式以录音方式进行，填写报名信息后，即可进入录音界面，完成后自动存至后台，由评委评比得出结果展示在比赛界面上"
+                    android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:textColor="@color/text_radio_normal"
+                            android:text="比赛时间: "
+                            android:textSize="@dimen/font_large"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/text_game_time"
+                            android:textColor="@color/red"
+                            android:text="2.14-2.28"
+                            android:textSize="@dimen/font_large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:text="比赛结果"
+                android:paddingLeft="15dp"
+                android:textColor="@color/text_hint_grey"
+                android:gravity="center_vertical"
+                android:layout_height="33dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/bg_me_zong"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp">
+
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:gravity="center_horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="38.5dp"
+                            android:layout_height="42dp"
+                            android:src="@drawable/img_cup_1" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:layout_width="38.5dp"
+                            android:layout_height="42dp"
+                            android:src="@drawable/img_user_avatar_default" />
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_marginLeft="15dp"
+                            android:text="释放青春"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/line_radio" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:gravity="center_horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="38.5dp"
+                            android:layout_height="42dp"
+                            android:src="@drawable/img_cup_2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:layout_width="38.5dp"
+                        android:layout_height="42dp"
+                        android:src="@drawable/img_user_avatar_default" />
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_marginLeft="15dp"
+                        android:text="释放青春"
+                        android:textColor="@color/black" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/line_radio" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:gravity="center_horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="38.5dp"
+                            android:layout_height="42dp"
+                            android:src="@drawable/img_cup_3" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:layout_width="38.5dp"
+                            android:layout_height="42dp"
+                            android:src="@drawable/img_user_avatar_default" />
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:layout_marginLeft="15dp"
+                            android:text="释放青春"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+            <Button
+                android:layout_marginTop="20dp"
+                android:id="@+id/btn_register_next"
+                style="@style/Yin.login.button.red"
+                android:text="参加比赛"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingBottom="15dp"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_content"
+        android:layout_toLeftOf="@+id/img_user_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:background="@drawable/bg_chat_me"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:gravity="top"
+            android:lineSpacingExtra="8dp"
+            android:text="不可否认刘德华的歌确实很赞，但是我还是比较喜欢张学友的歌，特别是《吻别》"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/img_user_avatar"
+        android:src="@drawable/user"
+        android:layout_width="46dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_height="46dp" />
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp">
+
+
+    <ImageView
+        android:id="@+id/img_headImg"
+        android:layout_width="46dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="fitXY"
+        android:layout_height="46dp"
+        android:src="@drawable/img_user_avatar_default" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_headImg">
+
+        <LinearLayout
+            android:id="@+id/layout_message_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_nickName"
+                android:layout_width="0dp"
+                android:textSize="@dimen/font_small"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="荒岛余生"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/text_cTime"
+                android:textSize="@dimen/font_small"
+                android:layout_height="wrap_content"
+                android:text="5分钟前"
+                android:textColor="@color/text_item_grey" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_message_title"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/font_small"
+            android:text="天呐~我刚录制了忘情水的视频，感觉自己萌萌哒。点击收看视频"
+            android:textColor="@color/text_item_grey" />
+
+    </RelativeLayout>
+</RelativeLayout>

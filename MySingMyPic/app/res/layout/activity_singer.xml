@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ylsg365.pai.activity.singsong.SongCategoryActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back_notext" />
+
+    <include
+        android:id="@+id/search"
+        android:layout_marginBottom="0dp"
+        layout="@layout/layout_search_common"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar" />
+
+    <com.ylsg365.pai.activity.view.SlidingTabLayout
+        android:id="@+id/tab"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search"
+        android:background="@color/purple"
+        app:normalItemLineColor="@color/purple"
+        app:selectedItemLineColor="@color/tab_line_red"
+        app:tabTextColorNormal="@color/white"
+        app:tabTextColorChecked="@color/white"
+        app:tabCount="2" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_singer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tab" />
+</RelativeLayout>

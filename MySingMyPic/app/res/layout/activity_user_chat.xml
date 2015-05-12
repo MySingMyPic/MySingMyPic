@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_list_common"
+    tools:context="com.ylsg365.pai.activity.singsong.SongActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/transparent"
+        android:clipToPadding="false"
+        android:paddingBottom="65dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_zong_chat_top"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:baselineAlignedChildIndex="0"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+
+        <EditText
+            android:id="@+id/edit_chat_message"
+            android:layout_width="0dp"
+            android:layout_marginTop="9dp"
+            android:minHeight="22dp"
+            android:gravity="top"
+            android:layout_marginBottom="9dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingRight="4dp"
+            android:paddingLeft="4dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_big"
+            android:textColor="@color/text_radio_normal"
+            android:layout_weight="1"
+            android:background="@drawable/selector_edit_chat_input" />
+
+        <Button
+            android:layout_width="52dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_common_zone"
+            android:text="发送"
+            android:textColor="@color/text_radio_normal" />
+    </LinearLayout>
+</RelativeLayout>

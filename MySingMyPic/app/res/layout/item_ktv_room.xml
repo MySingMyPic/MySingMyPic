@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    android:id="@+id/layout_item"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp">
+
+
+    <ImageView
+        android:id="@+id/img_roomImg"
+        android:layout_width="80dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="fitXY"
+        android:layout_height="80dp"
+        android:src="@drawable/img_ktv_room_default" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_roomImg">
+
+        <LinearLayout
+            android:id="@+id/layout_message_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_room_name"
+                android:layout_width="wrap_content"
+                android:textSize="15dp"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="我的音乐我做主"
+                android:textColor="@color/purple" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:includeFontPadding="false"
+                android:textSize="@dimen/font_small"
+                android:layout_height="wrap_content"
+                android:text="房主昵称："
+                android:textColor="@color/text_radio_normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:includeFontPadding="false"
+                android:textSize="@dimen/font_small"
+                android:id="@+id/text_room_author"
+                android:layout_height="wrap_content"
+                android:text="音帝"
+                android:textColor="@color/text_radio_normal" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:includeFontPadding="false"
+                android:layout_height="wrap_content"
+                android:text="活  跃  度："
+                android:textColor="@color/text_radio_normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_room_hot"
+                android:includeFontPadding="false"
+                android:text="30"
+                android:textColor="@color/text_radio_normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:layout_height="wrap_content"
+                android:text="房间人数："
+                android:includeFontPadding="false"
+                android:textColor="@color/text_radio_normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_room_user_count"
+                android:includeFontPadding="false"
+                android:text="30个"
+                android:textColor="@color/text_radio_normal" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

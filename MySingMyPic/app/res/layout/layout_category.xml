@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_me_zong"
+    android:paddingBottom="15dp"
+    android:layout_marginBottom="7.5dp"
+    android:paddingTop="15dp">
+
+    <LinearLayout
+        android:id="@+id/layout_category_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_category_1"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_send_fresh" />
+
+            <TextView
+                android:id="@+id/text_category_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_category_1"
+                android:gravity="center"
+                android:text="发新鲜事"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_category_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_category_2"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_original_base" />
+
+            <TextView
+                android:id="@+id/text_category_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_category_2"
+                android:gravity="center"
+                android:text="原创基地"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_category_3"
+            android:layout_width="0dp"
+            android:descendantFocusability="beforeDescendants"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_category_3"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_karaoke" />
+
+            <TextView
+                android:id="@+id/text_category_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_category_3"
+                android:gravity="center"
+                android:text="包房K歌"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:id="@+id/layout_category_4"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_category_4"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_play_video" />
+
+            <TextView
+                android:id="@+id/text_category_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_category_4"
+                android:gravity="center"
+                android:text="拍视频"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_category_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_category_1"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_category_5"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_record_cappella" />
+
+            <TextView
+                android:id="@+id/text_category_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_category_5"
+                android:gravity="center"
+                android:text="录制清唱"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:id="@+id/layout_category_6"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_category_6"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_singer_song" />
+
+            <TextView
+                android:id="@+id/text_category_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_category_6"
+                android:gravity="center"
+                android:text="歌星点歌"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:id="@+id/layout_category_7"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_category_7"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_category_song" />
+
+            <TextView
+                android:id="@+id/text_category_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_category_7"
+                android:gravity="center"
+                android:text="分类点歌"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_category_8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_category_8"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_game_center" />
+
+            <TextView
+                android:id="@+id/text_category_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_category_8"
+                android:gravity="center"
+                android:text="比赛中心"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

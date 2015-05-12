@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.ylsg365.pai.activity.newsinfo.NewsInfoDetalActivity">
+    <include layout="@layout/toolbar_back" android:id="@+id/toolbar"/>
+    <include android:id="@+id/layout_fresh" android:layout_below="@+id/toolbar" layout="@layout/layout_fresh" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+
+    <com.ylsg365.pai.activity.view.SlidingTabLayout
+        android:id="@+id/demo_tab"
+        android:layout_marginTop="8dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:tabCount="3"
+        android:background="@drawable/bg_zong_top"
+        android:layout_below="@+id/layout_fresh" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_fresh"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/demo_tab" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_zong_gray_top"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:padding="15dp"
+            android:layout_width="0dp"
+            android:id="@+id/layout_forward"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="3dp"
+                    android:layout_width="15dp"
+                    android:background="@drawable/img_share_n"
+                    android:layout_height="14dp" />
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_normal"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    android:text="转发"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:padding="15dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:id="@+id/layout_comment"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="3dp"
+                    android:layout_width="16dp"
+                    android:background="@drawable/img_comment_n"
+                    android:layout_height="15dp" />
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_normal"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    android:text="评论"
+                    />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:padding="15dp"
+            android:layout_width="0dp"
+            android:id="@+id/layout_like"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginRight="3dp"
+                    android:layout_width="11dp"
+                    android:background="@drawable/selector_btn_room_gift"
+                    android:layout_height="15.5dp" />
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_normal"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    android:text="礼物"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

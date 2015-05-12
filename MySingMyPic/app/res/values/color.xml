@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple">#862ec3</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="cyan">#84ccc9</color>
+    <color name="blue">#3d95d5</color>
+    <color name="red">#ea3434</color>
+    <color name="transparent">#00000000</color>
+    <color name="font1">#232C40</color>
+    <color name="background_layout">#EBEBEB</color>
+
+    <color name="bg_main">#eeeeee</color>
+    <color name="bg_main_common">#f7f7f7</color>
+    <color name="bg_list_common">#ffffff</color>
+    <color name="bg_main_bottom_bar">#d7d2c5</color>
+
+    <color name="bottom_bar_text_normal">#9f9f9f</color>
+    <color name="bottom_bar_text_highlight">@color/purple</color>
+
+    <color name="text_hint_grey">#8e8e8e</color>
+    <color name="search_text_hint">#c894ec</color>
+    <color name="line_radio">#d9d9d9</color>
+    <color name="btn_stroke">#e9e9e9</color>
+    <color name="text_radio_normal">#585858</color>
+    <color name="text_item_grey">#9f9f9f</color>
+    <color name="text_item_grey_2">#b4b4b4</color>
+    <color name="tab_line_red">#ea3434</color>
+    <color name="editbac">#e6e6e6</color>
+
+</resources>

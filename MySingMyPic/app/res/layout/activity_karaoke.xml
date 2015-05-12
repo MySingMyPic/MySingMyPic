@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main_common"
+    tools:context="com.ylsg365.pai.activity.room.KaraokeActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back" />
+
+    <include
+        android:id="@+id/search"
+        layout="@layout/layout_search_common"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar" />
+
+    <TextView
+        android:background="@color/bg_main_common"
+        android:paddingTop="10dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="15dp"
+        android:textColor="@color/text_radio_normal"
+        android:id="@+id/text_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search"
+        android:text="热门标签"
+        android:textSize="@dimen/font_normal"/>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/recycler_room"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/text_list_title"
+        android:background="@drawable/bg_zong_white_top"
+        android:clipToPadding="false" />
+
+</RelativeLayout>

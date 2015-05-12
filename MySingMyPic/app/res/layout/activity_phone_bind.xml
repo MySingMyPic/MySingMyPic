@@ -1,0 +1,111 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ylsg365.pai.activity.login.LoginActivity"
+    tools:ignore="MergeRootFrame">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_common" />
+
+    <RelativeLayout android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_main"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/layout_edit_password_old"
+                style="@style/Yin.login.edit.container">
+
+                <EditText
+                    android:id="@+id/edit_password_old"
+                    style="@style/Yin.login.edit"
+                    android:hint="请输入原绑定手机号"
+                    android:inputType="phone"
+                    android:maxLength="11" />
+
+
+            </RelativeLayout>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@id/edit_password_old"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/black"
+                android:text="若无原绑定手机,可以不填写此项"/>
+
+            <RelativeLayout
+                android:id="@+id/layout_edit_password_new"
+                style="@style/Yin.login.edit.container"
+                android:layout_below="@+id/layout_edit_login_phone"
+                android:layout_marginTop="33dp">
+
+                <EditText
+                    android:id="@+id/edit_password_new"
+                    style="@style/Yin.login.edit"
+                    android:hint="请输入新手机号"
+                    android:inputType="textPassword" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/layout_edit_verify_code"
+                style="@style/Yin.login.edit.container"
+                android:layout_marginTop="12dp">
+
+                <EditText
+                    android:id="@+id/edit_register_verify_code"
+                    style="@style/Yin.login.edit"
+                    android:layout_width="150dp"
+                    android:layout_centerVertical="true"
+                    android:maxLength="6"
+                    android:hint="请输入验证码"
+                    android:inputType="number" />
+
+                <TextView
+                    android:clickable="true"
+                    android:id="@+id/text_validate_code"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_btn_purple_radius_n"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="12dp"
+                    android:minWidth="100dp"
+                    android:paddingRight="12dp"
+                    android:layout_centerVertical="true"
+                    android:singleLine="true"
+                    android:paddingTop="6dp"
+                    android:text="获取验证码"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+
+
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:id="@+id/btn_password_modify"
+                style="@style/Yin.login.button.red"
+                android:layout_below="@+id/btn_login_password_forget"
+                android:text="提交"
+                />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

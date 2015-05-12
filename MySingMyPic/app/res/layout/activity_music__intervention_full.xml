@@ -1,0 +1,156 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_default"
+    tools:context="com.ylsg365.pai.activity.Music_InterventionActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_common" />
+
+
+        <com.ylsg365.pai.activity.view.lrcView.LrcView
+            android:id="@+id/lrcView"
+            android:layout_above="@+id/seekbarLayout"
+            android:layout_below="@id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
+
+        <RelativeLayout
+            android:id="@+id/seekbarLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#30000000"
+            android:layout_above="@+id/bottom"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/play"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:background="@null"
+                android:tag="play"
+                android:src="@drawable/selector_btn_play" />
+
+            <SeekBar xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/seekBar"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:maxHeight="1.5dp"
+                android:minHeight="1.5dp"
+                android:layout_marginLeft="-10dp"
+                android:layout_toRightOf="@id/play"
+                android:progressDrawable="@drawable/layer_list_progrssbar_play_bottom"
+                android:thumb="@drawable/selector_progress_bar_playing"
+                android:thumbOffset="0dp" />
+
+            <TextView
+                android:id="@+id/currentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="00:09"
+                android:layout_toRightOf="@id/play"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/totleTime"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:text="03:09"
+                android:textSize="18dp"
+                android:gravity="center"/>
+
+        </RelativeLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/give_up"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/selector_bg_btn_recording" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="-15dp"
+                android:gravity="center"
+                android:text="放弃录制"
+                android:textColor="@color/text_hint_grey"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/restart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/selector_bg_btn_recording1" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="-15dp"
+                android:gravity="center"
+                android:text="重新演唱"
+                android:textColor="@color/text_hint_grey"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/selector_bg_btn_recording2" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="-15dp"
+                android:gravity="center"
+                android:text="保存录音"
+                android:textColor="@color/text_hint_grey"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

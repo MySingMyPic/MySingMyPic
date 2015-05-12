@@ -1,0 +1,93 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="WindowTitleBackground">
+        <item name="android:background">#84ccc9</item>
+    </style>
+
+    <style name="Yin" parent="Theme.AppCompat.NoActionBar">
+        <!-- Status Bar -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/bg_main</item>
+        <item name="android:windowTitleSize">48dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+    </style>
+
+
+    <style name="Yin.login" parent="Yin" />
+
+    <style name="Yin.login.edit.container" parent="Yin.login">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/selector_zone_container</item>
+    </style>
+
+    <style name="Yin.login.edit" parent="Yin.login">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColorHint">@color/text_hint_grey</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Yin.login.button" parent="Yin.login">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_height">51dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="Yin.login.button.red" parent="Yin.login.button">
+        <item name="android:background">@drawable/selector_btn_red</item>
+    </style>
+
+    <style name="Yin.login.button.purple" parent="Yin.login.button">
+        <item name="android:background">@drawable/selector_btn_purple</item>
+    </style>
+
+    <style name="Yin.main"></style>
+
+    <style name="Yin.main.bottombar"></style>
+
+    <style name="Yin.main.bottombar.btn">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">#9f9f9f</item>
+    </style>
+
+    <style name="Yin.main.bottombar.btn.Highlight">
+        <item name="android:textColor">@color/bottom_bar_text_highlight</item>
+    </style>
+
+    <style name="Yin.SwitchCompat">
+        <item name="thumbTextPadding">12dip</item>
+        <item name="android:thumb">@drawable/icon_switch_thumb</item>
+        <item name="track">@drawable/shape_btn_purple_radius_n</item>
+        <item name="showText">true</item>
+    </style>
+    
+
+    <style name="DialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground"> @android:color/transparent </item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+</resources>

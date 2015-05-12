@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:paddingBottom="12dp"
+              >
+
+
+    <ImageView
+        android:id="@+id/img_headImg"
+        android:layout_width="46dp"
+        android:scaleType="fitXY"
+        android:layout_centerHorizontal="true"
+        android:layout_height="46dp"
+        android:src="@drawable/img_user_avatar_default"/>
+
+
+    <TextView
+        android:layout_below="@+id/img_headImg"
+        android:id="@+id/text_nickName"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/font_small"
+        android:layout_height="wrap_content"
+        android:text="荒岛余生"
+        android:textColor="@color/black"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/frame_main_center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_main_bottom_bar"></FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_main_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottombar_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_zong_top">
+
+        <RelativeLayout
+            android:id="@+id/layout_main_bottom_bar_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            >
+
+            <ImageView
+                android:id="@+id/img_bottom_bar_home"
+                android:layout_width="28dp"
+                android:layout_height="25dp"
+                android:layout_above="@+id/text_bottom_bar_home"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/btn_main_home_n" />
+
+            <TextView
+                android:id="@+id/text_bottom_bar_home"
+                style="@style/Yin.main.bottombar.btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/main_bottom_bar_home" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_main_bottom_bar_message"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+           >
+
+            <ImageView
+                android:id="@+id/img_bottom_bar_message"
+                android:layout_width="26.5dp"
+                android:layout_height="25dp"
+                android:layout_above="@+id/text_bottom_bar_message"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/btn_main_message_n" />
+
+            <TextView
+                android:id="@+id/text_bottom_bar_message"
+                style="@style/Yin.main.bottombar.btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/main_bottom_bar_message" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_main_bottom_bar_sing"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+           >
+
+            <ImageView
+                android:id="@+id/img_bottom_bar_sing"
+                android:layout_width="17.5dp"
+                android:layout_height="25.5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/text_bottom_bar_sing"
+                android:src="@drawable/btn_main_sing_n" />
+
+            <TextView
+                android:id="@+id/text_bottom_bar_sing"
+                style="@style/Yin.main.bottombar.btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/main_bottom_bar_sing" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_main_bottom_bar_me"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="7dp"
+            >
+
+            <ImageView
+                android:id="@+id/img_bottom_bar_me"
+                android:layout_width="22dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/text_bottom_bar_me"
+                android:src="@drawable/btn_main_me_n" />
+
+            <TextView
+                android:id="@+id/text_bottom_bar_me"
+                style="@style/Yin.main.bottombar.btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/main_bottom_bar_me" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

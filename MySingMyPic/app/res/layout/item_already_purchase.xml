@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@color/transparent"
+    android:paddingBottom="20dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="20dp">
+
+    <TextView
+        android:id="@+id/song_name"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="这就是爱"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/song_time"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_below="@+id/song_name"
+        android:layout_marginTop="4dp"
+        android:text="11-08 11:45"
+        android:textColor="@color/text_hint_grey" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/song_time"
+        android:layout_toRightOf="@id/song_time"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/song_length_img"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/shijiandanhui"
+            android:text="00:46" />
+
+        <TextView
+            android:id="@+id/song_length"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@id/song_length_img"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/song_length_img"
+            android:text="00:46"
+            android:textColor="@color/text_hint_grey" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/song_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/xiazai"
+        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp"/>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/downloading"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="下载中"/>
+</RelativeLayout>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_me_zong"
+    android:paddingBottom="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp">
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_headImg"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:scaleType="fitXY"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/img_user_avatar_default" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_toRightOf="@+id/img_headImg"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:id="@+id/text_nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="@dimen/font_small"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="荒岛余生"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/text_cTime"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/font_small"
+                android:text="5分钟前"
+                android:textColor="@color/text_item_grey" />
+        </LinearLayout>
+
+        <TextView
+            android:text="关注"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:clickable="true"
+            android:id="@+id/text_attention"
+            android:paddingBottom="3dp"
+            android:textColor="@color/text_radio_normal"
+            android:textSize="@dimen/font_small"
+            android:paddingTop="3dp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:background="@drawable/selector_btn_sing"
+            android:layout_height="30dp"
+           />
+    </RelativeLayout>
+
+
+    <TextView
+
+        android:id="@+id/text_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_top"
+        android:textSize="@dimen/font_small"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="天呐~我刚录制了忘情水的视频，感觉自己萌萌哒。点击收看视频"
+        android:textColor="@color/text_item_grey" />
+
+
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        android:id="@+id/recycler_imgs"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@color/transparent"
+        android:layout_below="@+id/text_content"
+        android:clipToPadding="false" />
+
+</RelativeLayout>

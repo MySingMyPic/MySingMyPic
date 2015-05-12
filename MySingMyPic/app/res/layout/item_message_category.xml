@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:background="@color/transparent"
+    android:layout_height="match_parent" android:paddingTop="15dp" android:paddingLeft="15dp" android:paddingRight="15dp" android:paddingBottom="15dp">
+
+    <ImageView
+        android:layout_width="46dp"
+        android:id="@+id/img_icon"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/icon_notice_big"
+        android:layout_height="46dp" />
+    <TextView
+        android:layout_toRightOf="@+id/img_icon"
+        android:id="@+id/message_name"
+        android:textSize="15dp"
+        android:text="通知"
+        android:layout_centerVertical="true"
+        android:textColor="@color/text_radio_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:background="@drawable/icon_arrow_right"
+        android:layout_alignParentRight="true"
+        android:layout_width="9.5dp"
+        android:layout_height="18dp" />
+</RelativeLayout>

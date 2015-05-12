@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ylsg365.pai" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 录音权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-sdk android:minSdkVersion="8"/>
+
+    <application
+        android:name=".app.YinApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Yin" >
+        <activity
+            android:name=".activity.main.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.DemoActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.login.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".activity.login.PasswordModifyActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".activity.login.RegisterActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".activity.login.AccountSettingActivity"
+            android:label="@string/title_activity_login" />
+        <activity android:name=".activity.login.PasswordForgetActivity" />
+        <activity android:name=".activity.login.PhoneBindActivity" />
+        <activity android:name=".activity.login.PassWordResetActivity" />
+        <activity
+            android:name=".activity.setting.SettingActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".activity.room.RoomCreateActivity"
+            android:label="@string/title_activity_room_create"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.room.MyRoomActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.room.MyGameActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.singsong.SongActivity"
+            android:label="@string/title_activity_song" />
+        <activity
+            android:name=".activity.singsong.SongCategoryActivity"
+            android:label="@string/title_activity_song_category" />
+        <activity
+            android:name=".activity.singsong.SingerActivity"
+            android:label="@string/title_activity_song_category" />
+        <activity
+            android:name=".activity.main.HomeActivity"
+            android:label="@string/title_activity_home" />
+        <activity
+            android:name=".activity.main.GiftListActivity"
+            android:label="@string/title_activity_home" />
+        <activity
+            android:name=".activity.video.VideoDetalActivity"
+            android:label="@string/title_activity_home" />
+        <activity
+            android:name=".activity.main.OriginalBaseActivity"
+            android:label="@string/title_activity_home" />
+        <activity
+            android:name=".activity.newsinfo.NewsInfoDetalActivity"
+            android:label="@string/title_activity_fresh_news" />
+        <activity
+            android:name=".activity.message.NewsInfoSendActivity"
+            android:label="@string/title_activity_fresh_news" />
+        <activity android:name=".activity.user.UserHomeActivity" />
+        <activity android:name=".activity.user.UserInfoActivity" />
+        <activity
+            android:name=".activity.user.UserChatActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".activity.user.AccountFindSuccessActivity" />
+        <activity android:name=".activity.user.LookMeActivity" />
+        <activity android:name=".activity.user.PrivateMessageUserListActivity" />
+        <activity
+            android:name=".activity.user.MoneyManagerActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activity.user.WithdrawActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".activity.user.NewsInfoListActivity" />
+        <activity android:name=".activity.user.MyCollectionListActivity" />
+        <activity android:name=".activity.user.WorksListActivity" />
+        <activity android:name=".activity.user.AttentionListActivity" />
+        <activity
+            android:name=".activity.room.KaraokeActivity"
+            android:label="@string/title_activity_karaoke" />
+        <activity android:name=".activity.room.GameCenterActivity" />
+        <activity android:name=".activity.room.RoomMainActivity" >
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.room.GiftInfoActivity" />
+        <activity
+            android:name=".activity.room.RoomInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".activity.room.SingerPriorityActivity" />
+        <activity android:name=".activity.room.FriendInviteActivity" />
+        <activity android:name=".activity.room.GameInfoActivity" />
+        <activity android:name=".activity.DemoDialodActivity" />
+        <activity android:name=".activity.video.VideoActivity" />
+        <activity android:name=".activity.PicCutActivity" />
+        <activity android:name=".activity.video.CappellaRecordActivity" />
+        <activity
+            android:name=".activity.FFmpeg4AndroidActivity"
+            android:label="@string/title_activity_ffmpeg4_android" />
+        <activity
+            android:name=".activity.message.SystemMessageActivity"
+            android:label="@string/title_activity_ffmpeg4_android" />
+        <activity
+            android:name=".activity.message.CommentActivity"
+            android:label="@string/title_activity_ffmpeg4_android" />
+        <activity
+            android:name=".activity.message.CommentSendActivity"
+            android:label="@string/title_activity_ffmpeg4_android" />
+        <activity
+            android:name=".activity.message.ForwardSendActivity"
+            android:label="@string/title_activity_ffmpeg4_android" />
+        <activity
+            android:name=".activity.user.FansListActivity"
+            android:label="@string/title_activity_ffmpeg4_android" />
+        <activity
+            android:name=".activity.room.MyAttentionActivity"
+            android:label="@string/title_activity_my_attention" />
+
+        <!-- 微信 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- 微博 -->
+        <activity
+            android:name=".sina.WBAuthActivity"
+            android:label="@string/title_activity_wbauth" />
+
+        <!-- 必须注册在微博授权，分享微博时候用到 -->
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name=".activity.main.DepositActivity"
+            android:label="@string/title_activity_deposit" >
+        </activity>
+        <activity
+            android:name=".OpenVipSelectActivity"
+            android:label="@string/title_activity_open_vip_select" >
+        </activity>
+        <activity
+            android:name=".activity.RechargeActivity"
+            android:label="@string/title_activity_recharge" >
+        </activity>
+        <activity
+            android:name=".activity.user.MyAttentionsActivity"
+            android:label="@string/title_activity_my_attentions" >
+        </activity>
+        <activity
+            android:name=".activity.user.AlreadyPurchaseActivity"
+            android:label="@string/title_activity_already_purchase" >
+        </activity>
+        <activity
+            android:name=".activity.TestActivity"
+            android:label="@string/title_activity_test" >
+        </activity>
+        <activity
+            android:name=".activity.Music_InterventionActivity"
+            android:label="@string/title_activity_music__intervention" >
+        </activity>
+        <activity
+            android:name=".activity.Music_Intervention_fullActivity"
+            android:label="@string/title_activity_music__intervention" >
+        </activity>
+        <activity
+            android:name=".activity.FilterActivity"
+            android:label="@string/title_activity_filter" >
+        </activity>
+        <activity android:name=".activity.user.BuyTheCopyrightActivity" >
+        </activity>
+        <activity
+            android:name=".imagedisplay.ImageDisplayActivity"
+            android:label="@string/title_activity_image_display" >
+        </activity>
+    </application>
+
+</manifest>

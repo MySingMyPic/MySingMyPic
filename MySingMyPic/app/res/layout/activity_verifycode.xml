@@ -1,0 +1,5 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:labelFor="@string/verify_title"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="com.yieqi.app.activity.login.VerifyCodeActivity" tools:ignore="MergeRootFrame" />

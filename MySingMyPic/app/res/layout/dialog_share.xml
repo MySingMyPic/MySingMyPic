@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    android:padding="20dp"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:text="邀请好友"
+            android:layout_centerInParent="true"
+            android:textSize="20dp"
+            android:textColor="@color/purple"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:clickable="true"
+            android:id="@+id/exit"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_btn_n"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:minWidth="15dp"
+            android:paddingRight="15dp"
+            android:layout_alignParentTop="true"
+            android:singleLine="true"
+            android:paddingTop="5dp"
+            android:text="关闭"
+            android:textColor="@color/black"
+            android:textSize="10dp" />
+        </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/myfrends"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_launcher"
+            android:layout_width="55dp"
+            android:layout_marginRight="15dp"
+            android:layout_height="55dp"/>
+        <ImageView
+            android:id="@+id/sina"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_logo_sina"
+            android:layout_width="55dp"
+            android:layout_marginRight="15dp"
+            android:layout_height="55dp"/>
+        <ImageView
+            android:id="@+id/wechat"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_logo_wechat"
+            android:layout_width="55dp"
+            android:layout_height="55dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+       android:layout_marginTop="15dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="55dp"
+            android:layout_marginRight="15dp"
+            android:text="我的好友"
+            android:textSize="13dp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="55dp"
+            android:layout_marginRight="15dp"
+            android:text="微博"
+            android:textSize="13dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="55dp"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="13dp"
+            android:textColor="@android:color/black"
+            android:text="微信"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+</LinearLayout>

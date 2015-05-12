@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:background="@color/transparent"
+
+    app:contentInsetStart="0dp"  app:contentInsetEnd="0dp"
+   >
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="wrap_content"
+        android:drawablePadding="0dp"
+        android:text="返回"
+        android:drawableLeft="@drawable/img_toobar_back"
+        android:id="@+id/text_toolbar_left"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:background="@drawable/selector_bg_title"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:text="请先登录"
+        android:textColor="@color/white"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:textSize="@dimen/font_huge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:paddingRight="15dp"
+        android:layout_width="wrap_content"
+        android:text="拍视频"
+        android:visibility="visible"
+        android:id="@+id/text_right"
+        android:textSize="@dimen/font_big"
+        android:layout_gravity="right"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:background="@drawable/selector_bg_title"
+        android:layout_height="match_parent" />
+</android.support.v7.widget.Toolbar>
