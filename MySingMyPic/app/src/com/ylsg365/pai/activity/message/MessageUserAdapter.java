@@ -1,5 +1,6 @@
-package com.ylsg365.pai.activity.user;
+package com.ylsg365.pai.activity.message;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +19,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttentionUserAdapter extends RecyclerView.Adapter<AttentionUserAdapter.ViewHolder> {
+/**
+ * Created by ann on 2015-05-12.
+ */
+public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.ViewHolder> {
     private List<JSONObject> infoList;
     private int layoutResId;
     private OnItemClickListener onItemClickListener;
-    public AttentionUserAdapter(int layoutResId, List<JSONObject> list) {
+    Context context;
+    private int selectPos=-1;
+    public MessageUserAdapter(Context context,int layoutResId, List<JSONObject> list) {
         infoList = new ArrayList<JSONObject>(list);
+        this.context=context;
         this.layoutResId = layoutResId;
     }
 
@@ -41,6 +48,9 @@ public class AttentionUserAdapter extends RecyclerView.Adapter<AttentionUserAdap
         holder.userNicknameTextView.setText(JsonUtil.getString(infoJsonObject, "nickName"));
 
         ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "headImg"), holder.userHeadImageview);
+        if(selectPos==position)
+            holder.selectImage.setImageDrawable(context.getResources().getDrawable(R.drawable.duoxuanxuanzhong));
+        else holder.selectImage.setImageDrawable(context.getResources().getDrawable(R.drawable.duoxuan));
     }
 
     @Override
@@ -60,15 +70,14 @@ public class AttentionUserAdapter extends RecyclerView.Adapter<AttentionUserAdap
         public View itemView;
 
         public ImageView userHeadImageview;
-
         public TextView userNicknameTextView;
-
+        public ImageView selectImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             userHeadImageview = (ImageView)itemView.findViewById(R.id.img_headImg);
-
+            selectImage=(ImageView)itemView.findViewById(R.id.user_select);
             userNicknameTextView = (TextView)itemView.findViewById(R.id.text_nickName);
 
             itemView.setOnClickListener(this);
@@ -89,5 +98,10 @@ public class AttentionUserAdapter extends RecyclerView.Adapter<AttentionUserAdap
 
     public void addData(List<JSONObject> tempInfoList){
         infoList.addAll(tempInfoList);
+    }
+
+    public void setSelectPso(int pos)
+    {
+        selectPos=pos;
     }
 }

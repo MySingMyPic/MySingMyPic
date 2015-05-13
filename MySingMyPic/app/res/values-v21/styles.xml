@@ -83,6 +83,7 @@
         <item name="track">@drawable/shape_btn_purple_radius_n</item>
         <item name="showText">true</item>
     </style>
+    -
 
     <style name="DialogStyle" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground"> @android:color/transparent </item>

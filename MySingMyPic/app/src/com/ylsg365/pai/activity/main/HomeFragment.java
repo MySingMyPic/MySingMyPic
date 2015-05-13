@@ -42,6 +42,7 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener, O
     private final int rows = 10;
     private NewInfoAdapter newInfoAdapter;
     private boolean isRefresh = false;
+    private boolean isLoad=true;
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -99,14 +100,22 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener, O
         recyclerView.setupMoreListener(new OnMoreListener() {
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                if(isLoad){
                 isRefresh = false;
                     getNewInfos(currentPage++, rows);
+                }
+                else
+                {
+                    recyclerView.setLoadingMore(false);
+                    recyclerView.hideMoreProgress();
+                }
             }
         }, 3);
 
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                isLoad=true;
                 currentPage = 0;
                 recyclerView.setLoadingMore(true);
                 isRefresh = true;
@@ -138,6 +147,7 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener, O
                     }
                     newInfoAdapter.addData(infoList);
                     if (infoList.size() < rows) {
+                        isLoad=false;
                         recyclerView.setLoadingMore(false);
 //                      /**/  Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }

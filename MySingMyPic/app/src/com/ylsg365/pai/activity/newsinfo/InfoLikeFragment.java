@@ -34,6 +34,7 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
     private int forwardCount;
     ArrayList<JSONObject> infoList = new ArrayList<JSONObject>();
     private boolean isRefresh = false;
+    private boolean isLoad=true;
 
     public static InfoLikeFragment newInstance(int newsInfoId, int likeCount) {
         InfoLikeFragment fragment = new InfoLikeFragment();
@@ -69,14 +70,22 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
         recyclerView.setupMoreListener(new OnMoreListener() {
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                if(isLoad){
                 isRefresh = false;
                 getNewInfoNices(newsInfoId,currentPage++,rows);
+                }
+                else
+                {
+                    recyclerView.setLoadingMore(false);
+                    recyclerView.hideMoreProgress();
+                }
             }
         },1);
 
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                isLoad=true;
                 currentPage = 0;
                 recyclerView.setLoadingMore(true);
                 isRefresh = true;
@@ -158,6 +167,7 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
 
                     infoLikeAdapter.addData(infoList);
                     if(infoList.size() < rows){
+                        isLoad=false;
                         recyclerView.setLoadingMore(false);
 //                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }

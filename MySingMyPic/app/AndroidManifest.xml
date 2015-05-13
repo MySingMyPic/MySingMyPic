@@ -208,6 +208,10 @@
             android:name=".activity.message.PrivateMessageSendActivity"
             android:label="@string/title_activity_private_message_send" >
         </activity>
+        <activity
+            android:name=".activity.message.PrivateMessageSelectUserActivity"
+            android:label="@string/title_activity_private_message_select_user" >
+        </activity>
     </application>
 
 </manifest>

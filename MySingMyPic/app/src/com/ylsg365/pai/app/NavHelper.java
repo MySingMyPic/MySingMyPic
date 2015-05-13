@@ -24,6 +24,8 @@ import com.ylsg365.pai.activity.message.CommentActivity;
 import com.ylsg365.pai.activity.message.CommentSendActivity;
 import com.ylsg365.pai.activity.message.ForwardSendActivity;
 import com.ylsg365.pai.activity.message.NewsInfoSendActivity;
+import com.ylsg365.pai.activity.message.PrivateMessageSelectUserActivity;
+import com.ylsg365.pai.activity.message.PrivateMessageSendActivity;
 import com.ylsg365.pai.activity.message.SystemMessageActivity;
 import com.ylsg365.pai.activity.newsinfo.NewsInfoDetalActivity;
 import com.ylsg365.pai.activity.room.GameCenterActivity;
@@ -287,6 +289,32 @@ public class NavHelper {
         forwardAnim((Activity) context);
     }
 
+    /**
+     * 转去发送私信页面
+     *
+     * @param context
+     */
+    public static void toPrivateMessageSendActivity(Context context,int toUserId,String name)
+    {
+        Intent intent = new Intent(context, PrivateMessageSendActivity.class);
+        intent.putExtra("userId", toUserId);
+        intent.putExtra("userName",name);
+        context.startActivity(intent);
+        forwardAnim((Activity) context);
+    }
+
+    /**
+     * 转去选择联系人页面
+     *
+     * @param context
+     */
+    public static void toPrivateMessageSelectUserActivity(Context context)
+    {
+        Intent intent = new Intent(context, PrivateMessageSelectUserActivity.class);
+
+        context.startActivity(intent);
+        forwardAnim((Activity) context);
+    }
 
     /**
      * 转去我的收藏列表页面

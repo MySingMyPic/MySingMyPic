@@ -139,6 +139,10 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
         return infoList.size();
     }
 
+    public Object getItem(int position)
+    {
+        return infoList.get(position);
+    }
     public void clearData() {
         infoList.clear();
     }
@@ -166,8 +170,8 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
         this.onRoomItemClickListener = onRoomItemClickListener;
     }
 
-    interface onRoomItemClickListener {
-        void onRoomItemClick();
+    public interface onRoomItemClickListener {
+        void onRoomItemClick(int position);
     }
 
     public void addData(List<JSONObject> tempInfoList){

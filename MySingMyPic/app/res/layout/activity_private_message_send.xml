@@ -1,9 +1,78 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ylsg365.pai.face.KeyboardListenRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/top_root"
+    android:background="@color/bg_main"
     tools:context="com.ylsg365.pai.activity.message.PrivateMessageSendActivity">
     <include android:id="@+id/toolbar" layout="@layout/toolbar_back"/>
 
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/recycler"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/input_layout"
+        android:clipToPadding="false"/>
 
+    <RelativeLayout
+        android:layout_above="@+id/face_layout"
+        android:id="@+id/input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/at"
+            android:src="@drawable/atxuanzhong"
+            android:layout_width="37dp"
+            android:padding="3dp"
+            android:layout_height="37dp" />
 
-</RelativeLayout>
+        <ImageView
+            android:padding="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/at"
+            android:id="@+id/biaoqing"
+            android:src="@drawable/biaoqingxuanzhong"
+            android:layout_width="37dp"
+            android:layout_height="37dp" />
+
+        <EditText
+            android:layout_toRightOf="@+id/biaoqing"
+            android:layout_toLeftOf="@+id/send"
+            android:id="@+id/input"
+            android:textColor="@color/text_item_grey"
+            android:textColorHint="@color/text_hint_grey"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:textSize="18dp"
+            android:background="@drawable/liaotianshurukuang"
+            ></EditText>
+
+        <TextView
+            android:id="@+id/send"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/liaotianshurukuang"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:textColor="@color/text_item_grey"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:text="发送"/>
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/face_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></RelativeLayout>
+
+</com.ylsg365.pai.face.KeyboardListenRelativeLayout>

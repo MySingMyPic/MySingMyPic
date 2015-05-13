@@ -36,7 +36,7 @@ public class InfoCommentFragment extends TabFragment implements OnItemClickListe
     private int forwardCount;
     ArrayList<JSONObject> infoList = new ArrayList<JSONObject>();
     private boolean isRefresh = false;
-
+    private boolean isLoad=true;
     public static InfoCommentFragment newInstance(int newsInfoId, int commentCount) {
         InfoCommentFragment fragment = new InfoCommentFragment();
         Bundle args = new Bundle();
@@ -67,8 +67,15 @@ public class InfoCommentFragment extends TabFragment implements OnItemClickListe
         recyclerView.setupMoreListener(new OnMoreListener() {
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                if(isLoad){
                 isRefresh = false;
                 getNewInfoComments(newsInfoId, currentPage++, rows);
+                }
+                else
+                {
+                    recyclerView.setLoadingMore(false);
+                    recyclerView.hideMoreProgress();
+                }
             }
         },1);
 
@@ -76,6 +83,7 @@ public class InfoCommentFragment extends TabFragment implements OnItemClickListe
             @Override
             public void onRefresh() {
                 currentPage = 0;
+                isLoad=true;
                 recyclerView.setLoadingMore(true);
                 isRefresh = true;
                 getNewInfoComments(newsInfoId, currentPage, rows);
@@ -155,6 +163,7 @@ public class InfoCommentFragment extends TabFragment implements OnItemClickListe
                     }
                     commentAdapter.addData(infoList);
                     if(infoList.size() < rows){
+                        isLoad=false;
                         recyclerView.setLoadingMore(false);
 //                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }

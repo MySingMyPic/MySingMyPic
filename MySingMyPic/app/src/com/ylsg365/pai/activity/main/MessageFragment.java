@@ -19,6 +19,7 @@ import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.message.PrivateMessageAdapter;
+import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.util.JsonUtil;
 import com.ylsg365.pai.util.LogUtil;
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MessageFragment extends Fragment {
+public class MessageFragment extends Fragment implements PrivateMessageAdapter.onRoomItemClickListener {
     private int currentPage = 0;
     private final int rows = 10;
     private SuperRecyclerView recyclerView;
@@ -36,8 +37,8 @@ public class MessageFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     ArrayList<JSONObject> infoList = new ArrayList<JSONObject>();
     PrivateMessageAdapter messageAdapter;
-    private boolean isRefresh = false;
-
+    private boolean isRefresh = true;
+    private boolean isLoad=true;
 
     private String mParam1;
     private String mParam2;
@@ -80,7 +81,7 @@ public class MessageFragment extends Fragment {
         rightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                NavHelper.toPrivateMessageSelectUserActivity(getActivity());
             }
         });
 
@@ -112,6 +113,7 @@ public class MessageFragment extends Fragment {
 //        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         messageAdapter = new PrivateMessageAdapter(getActivity(), R.layout.item_message_normal, infoList);
+        messageAdapter.setOnRoomItemClickListener(this);
         recyclerView.setAdapter(messageAdapter);
 
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -120,20 +122,23 @@ public class MessageFragment extends Fragment {
         recyclerView.setupMoreListener(new OnMoreListener() {
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                if(infoList.size() < rows){
+                if(isLoad==false){
                     isRefresh = false;
                     recyclerView.setLoadingMore(false);
                     recyclerView.hideMoreProgress();
-                    return;
+
                 }
+                else{
                 isRefresh = false;
                 getPrivateMessageList(currentPage++, rows);
+                }
             }
         }, 3);
 
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                isLoad=true;
                 currentPage = 0;
                 recyclerView.setLoadingMore(true);
                 isRefresh = true;
@@ -153,30 +158,34 @@ public class MessageFragment extends Fragment {
                 LogUtil.logd("getPrivateMessageList", response.toString());
 
                 if (JsonUtil.getBoolean(response, "status")) {
+                    infoList.clear();
                     if (isRefresh) {
                         messageAdapter.clearData();
+
+                        if (infoList.size() == 0) {
+                            infoList.add(new JSONObject());
+                            infoList.add(new JSONObject());
+                            infoList.add(new JSONObject());
+                        }
                     }
                     JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "msgs");
-                    infoList.clear();
-                    if (infoList.size() == 0) {
-                        infoList.add(new JSONObject());
-                        infoList.add(new JSONObject());
-                        infoList.add(new JSONObject());
-                    }
+
+
 
                     for (int i = 0; i < infoJsonArray.length(); i++) {
                         infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
                     }
                     messageAdapter.addData(infoList);
 
-                    if(infoList.size() == 3){
+                    if(isRefresh&&infoList.size() == 3){
 
                     }else if (infoList.size() < rows) {
+                        isLoad=false;
                         recyclerView.setLoadingMore(false);
+
 //                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }
                     messageAdapter.notifyDataSetChanged();
-
                 }
                 recyclerView.hideMoreProgress();
 
@@ -187,5 +196,15 @@ public class MessageFragment extends Fragment {
                 recyclerView.hideMoreProgress();
             }
         });
+    }
+
+
+    @Override
+    public void onRoomItemClick(int position) {
+        JSONObject item=(JSONObject)messageAdapter.getItem(position);
+        if(position>2)
+        {
+            NavHelper.toPrivateMessageSendActivity(getActivity(),JsonUtil.getInt(item,"userId"),JsonUtil.getString(item,"nickName"));
+        }
     }
 }

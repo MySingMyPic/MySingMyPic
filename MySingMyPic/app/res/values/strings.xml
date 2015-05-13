@@ -105,5 +105,6 @@
     <string name="title_activity_filter">FilterActivity</string>
     <string name="title_activity_image_display">ImageDisplayActivity</string>
     <string name="title_activity_private_message_send">PrivateMessageSendActivity</string>
+    <string name="title_activity_private_message_select_user">PrivateMessageSelectUserActivity</string>
 
 </resources>

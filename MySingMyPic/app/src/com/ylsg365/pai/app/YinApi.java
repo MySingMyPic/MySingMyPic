@@ -256,6 +256,25 @@ public class YinApi {
     }
 
     /**
+     * 获取我的联系人
+     * @param PAGE
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getMyContact(int PAGE, int rows, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.ATTENTION);
+        URLUtils.addActionForGet(url, EnumAction.GETCONTACT);
+        URLUtils.addParameter(url, EnumParameter.PAGE, PAGE + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+
+    /**
      * 获取我关注的用户
      * @param PAGE
      * @param rows
