@@ -32,8 +32,6 @@ import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.util.FileUtils;
 import com.ylsg365.pai.util.JsonUtil;
 import com.ylsg365.pai.util.StringUtil;
-import com.ylsg365.pai.web.dic.EnumAction;
-import com.ylsg365.pai.web.dic.EnumController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -95,6 +93,7 @@ public class RoomInfoActivity extends BaseActivity implements View.OnClickListen
     private RelativeLayout listLayout;
     String[] data = new String[]{"任何人", "仅关注", "密码"};
     String[] data2 = new String[]{"任何人", "仅关注"};
+    @SuppressWarnings("rawtypes")
     ArrayAdapter adapter;
     private JSONObject json;
 
@@ -152,6 +151,9 @@ public class RoomInfoActivity extends BaseActivity implements View.OnClickListen
      *
      * @param type
      */
+    @SuppressWarnings({
+            "unchecked", "rawtypes"
+    })
     private void initList(final int type) {
 
         if (type == 0) {
@@ -222,12 +224,17 @@ public class RoomInfoActivity extends BaseActivity implements View.OnClickListen
 
 
                     roomImgStr_Old = JsonUtil.getString(json, "imgUrl");
-                    roomImgStr = JsonUtil.getString(json, "imgUrl");
+                    roomImgStr = roomImgStr_Old;
                     roomNameStr_Old = JsonUtil.getString(json, "nname");
+                    roomNameStr = roomNameStr_Old;
                     roomNoticeStr_Old = JsonUtil.getString(json, "notice");
+                    roomNoticeStr = roomNoticeStr_Old;
                     isAuto_Switch_Old = JsonUtil.getString(json, "autoQiemai");
-                    SingStr_Old = "1".equals(JsonUtil.getString(json, "singAuth")) ? "仅关注" : "所有人";
+                    isAuto_Switch = isAuto_Switch_Old;
+                    SingStr_Old = "1".equals(JsonUtil.getString(json, "singAuth")) ? "仅关注" : "任何人";
+                    SingStr = SingStr_Old;
                     inRoomStr_Old = getInRoomStr(JsonUtil.getString(json, "accessAuth"));
+                    inRoomStr = inRoomStr_Old;
                     room_ownerStr = JsonUtil.getString(json, "headImg");
 
                     ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN +roomImgStr_Old, roomImg);
@@ -406,56 +413,13 @@ public class RoomInfoActivity extends BaseActivity implements View.OnClickListen
      * 调用更新房间
      */
     private void houseUpdate() {
-        if(StringUtil.isNull(roomNameStr_Old)){
-            roomNameStr_Old="";
-        }
-        if(StringUtil.isNull(roomImgStr_Old)){
-            roomImgStr_Old="";
-        }
-        if(StringUtil.isNull(roomNoticeStr_Old)){
-            roomNoticeStr_Old="";
-        }
-        if(StringUtil.isNull(isAuto_Switch_Old)){
-            isAuto_Switch_Old="";
-        }
-        if(StringUtil.isNull(inRoomStr_Old)){
-            inRoomStr_Old="";
-        }
-        if(StringUtil.isNull(SingStr_Old)){
-            SingStr_Old="";
-        }
-
-        if ((StringUtil.isNull(roomNameStr_Old) && !StringUtil.isNull(roomNameStr))
-                || (StringUtil.isNull(roomImgStr_Old) && !StringUtil.isNull(roomImgStr))
-                || (StringUtil.isNull(roomNoticeStr_Old) && !StringUtil.isNull(roomNoticeStr))
-                || (StringUtil.isNull(isAuto_Switch_Old) && !StringUtil.isNull(isAuto_Switch))
-                || (StringUtil.isNull(inRoomStr_Old) && !StringUtil.isNull(inRoomStr))
-                || (StringUtil.isNull(SingStr_Old) && !StringUtil.isNull(SingStr))
-                || !roomNameStr_Old.equals(roomNameStr)
+        if (!roomNameStr_Old.equals(roomNameStr)
                 || !roomImgStr_Old.equals(roomImgStr)
                 || !roomNoticeStr_Old.equals(roomNoticeStr)
                 || !isAuto_Switch_Old.equals(isAuto_Switch)
                 || !inRoomStr_Old.equals(inRoomStr)
                 || !SingStr_Old.equals(SingStr)
                 ) {    //(old 为空  new 不为空 ) ||  (old  !eq new )  执行更新房间信息
-            if (StringUtil.isNull(roomNameStr)) {
-                SingStr = SingStr_Old;
-            }
-            if (StringUtil.isNull(roomImgStr)) {
-                roomImgStr = roomImgStr_Old;
-            }
-            if (StringUtil.isNull(roomNoticeStr)) {
-                roomNoticeStr = roomNoticeStr_Old;
-            }
-            if (StringUtil.isNull(isAuto_Switch)) {
-                isAuto_Switch = isAuto_Switch_Old;
-            }
-            if (StringUtil.isNull(inRoomStr)) {
-                inRoomStr = inRoomStr_Old;
-            }
-            if (StringUtil.isNull(SingStr)) {
-                SingStr = SingStr_Old;
-            }
             StringBuffer tempZB = new StringBuffer();
             StringBuffer tempGL = new StringBuffer();
             String zbIds = "",glIds= "";

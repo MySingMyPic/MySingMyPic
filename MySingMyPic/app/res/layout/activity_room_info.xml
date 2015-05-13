@@ -1,10 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ylsg365.pai.activity.login.LoginActivity"
-    tools:ignore="MergeRootFrame">
+    tools:ignore="MergeRootFrame" >
 
     <include
         android:id="@+id/toolbar"
@@ -13,31 +12,30 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
-
+        android:layout_below="@+id/toolbar" >
 
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_height="match_parent" >
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/listLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#50000000"
-            android:visibility="gone">
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="200dp"
-            android:layout_centerInParent="true"
-            android:divider="@drawable/list_diver_0dp"
-            android:dividerHeight="0.5dp"
-            android:background="@android:color/white"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" >
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/white"
+                android:divider="@drawable/list_diver_0dp"
+                android:dividerHeight="0.5dp" />
         </RelativeLayout>
-
     </RelativeLayout>
-
 
 </RelativeLayout>

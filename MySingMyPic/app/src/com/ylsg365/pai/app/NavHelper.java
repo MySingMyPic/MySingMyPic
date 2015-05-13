@@ -3,6 +3,7 @@ package com.ylsg365.pai.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.ylsg365.pai.OpenVipSelectActivity;
@@ -458,6 +459,14 @@ public class NavHelper {
         forwardAnim((Activity) context);
 
     }
+    
+    public static void toRoomMainPage(Context context, Bundle data) {
+        Intent intent = new Intent(context, RoomMainActivity.class);
+        intent.putExtras(data);
+        ((Activity) context).startActivityForResult(intent, REQUEST_GO_TO_PHONE_BIND);
+        forwardAnim((Activity) context);
+
+    }
 
     public static void toPassWordForgetActivity(Context mContext) {
         mContext.startActivity(new Intent(mContext, PasswordForgetActivity.class));
@@ -497,9 +506,10 @@ public class NavHelper {
 
     public static void toMyRoomActivity(Activity context) {
         Intent i = new Intent(context, MyRoomActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(i);
         forwardAnim((Activity) context);
-        finish(context);
+//        finish(context);
     }
 
     public static void toRoomInfoActivity(Activity context, boolean IsOwner,String nid) {

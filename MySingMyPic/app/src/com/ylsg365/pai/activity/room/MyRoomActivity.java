@@ -1,5 +1,6 @@
 package com.ylsg365.pai.activity.room;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,10 +37,14 @@ import java.util.ArrayList;
  */
 public class MyRoomActivity extends BaseActivity {
     private PullToRefreshListView recyclerView;
+    @SuppressWarnings("rawtypes")
     private CommonAdapter adapter ;
     private ArrayList<JSONObject> infoList = new ArrayList<JSONObject>();
     private boolean isRefresh = false;
 
+    @SuppressWarnings({
+            "unchecked", "rawtypes"
+    })
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +65,7 @@ public class MyRoomActivity extends BaseActivity {
                 if (StringUtil.isNull(keyword)) {
                     Toast.makeText(MyRoomActivity.this, "请输入包房名进行搜索.", Toast.LENGTH_LONG).show();
                 } else {
-                    getMyHouse(keyword.trim(), 1, rows);
+                    getMyHouse(keyword.trim(), 0, rows);
                 }
             }
         });
@@ -92,6 +97,8 @@ public class MyRoomActivity extends BaseActivity {
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
                 isRefresh = true;
                 currentPage = 0;
+                infoList.clear();
+                adapter.notifyDataSetChanged();
                 recyclerView.setIsLoadMore(true);
                 getMyHouse(null, currentPage, rows);
             }
@@ -154,11 +161,11 @@ public class MyRoomActivity extends BaseActivity {
                         adapter.clearData();
                     }
                     JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "houses");
-                    infoList.clear();
+//                    infoList.clear();
                     for (int i = 0; i < infoJsonArray.length(); i++) {
                         infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
                     }
-                    adapter.addData(infoList);
+//                    adapter.addData(infoList);
                     if (infoList.size() < rows) {
                         recyclerView.setIsLoadMore(false);
 //                        Toast.makeText(MyRoomActivity.this,"没有更多数据", Toast.LENGTH_LONG).show();
@@ -180,6 +187,14 @@ public class MyRoomActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        getMyHouse(null, currentPage, rows);
+    }
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        currentPage = 0;
+        infoList.clear();
+        adapter.notifyDataSetChanged();
         getMyHouse(null, currentPage, rows);
     }
 }

@@ -68,12 +68,12 @@ public class RoomCreateActivity extends BaseActivity implements View.OnClickList
         group.setOnCheckedChangeListener(this);
         mic_group.setOnCheckedChangeListener(this);
 
-        createEdit.addTextChangedListener(new TextWatcherAdapter() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                createEdit.setText(s);
-            }
-        });
+//        createEdit.addTextChangedListener(new TextWatcherAdapter() {
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                createEdit.setText(s);
+//            }
+//        });
     }
 
     @Override
@@ -95,6 +95,7 @@ public class RoomCreateActivity extends BaseActivity implements View.OnClickList
                             if (JsonUtil.getBoolean(response, "status")) {
                                 Toast.makeText(RoomCreateActivity.this, "包房创建成功!", Toast.LENGTH_LONG).show();
                                 NavHelper.toMyRoomActivity(RoomCreateActivity.this);
+                                finish();
                             } else {
                                 Toast.makeText(RoomCreateActivity.this, "包房创建失败,请稍后重试!", Toast.LENGTH_LONG).show();
                             }

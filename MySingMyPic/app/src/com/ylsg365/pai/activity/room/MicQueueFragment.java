@@ -1,5 +1,11 @@
 package com.ylsg365.pai.activity.room;
 
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -13,12 +19,18 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.HomeAdapter;
 import com.ylsg365.pai.activity.base.TabFragment;
+import com.ylsg365.pai.app.YinApi;
+import com.ylsg365.pai.util.JsonUtil;
+import com.ylsg365.pai.util.LogUtil;
 
 public class MicQueueFragment extends TabFragment implements AbsListView.OnItemClickListener{
-
+    private MicQueueAdapter mAdapter;
+    private String nid;
     // TODO: Rename and change types of parameters
     public static MicQueueFragment newInstance(String param1, String param2) {
         MicQueueFragment fragment = new MicQueueFragment();
@@ -34,6 +46,9 @@ public class MicQueueFragment extends TabFragment implements AbsListView.OnItemC
      * fragment (e.g. upon screen orientation changes).
      */
     public MicQueueFragment() {
+    }
+    public MicQueueFragment(String nid) {
+        this.nid = nid;
     }
 
     @Override
@@ -76,9 +91,40 @@ public class MicQueueFragment extends TabFragment implements AbsListView.OnItemC
                 super.getItemOffsets(outRect, view, parent, state);
             }
         });
-        recyclerView.setAdapter(new HomeAdapter(R.layout.item_user_attention, 30));
+        
+        mAdapter = new MicQueueAdapter();
+        recyclerView.setAdapter(mAdapter);
+        
+        getMicQueueList();
 
         return rootView;
+    }
+    
+    private void getMicQueueList() {
+        YinApi.getHouseSing(nid, 0, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String res) {
+                LogUtil.logd("getHouseSing", res);
+                JSONObject response = null;
+                try {
+                    response = new JSONObject(res);
+                } catch (JSONException e) {
+                }
+                if (response != null && JsonUtil.getBoolean(response, "status")) {
+                    List<JSONObject> infoList = mAdapter.getList();
+                    JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "houses");
+                    int length = infoJsonArray.length();
+                    for (int i = 0; i < length; i++) {
+                        infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
     }
 
     @Override
@@ -98,6 +144,6 @@ public class MicQueueFragment extends TabFragment implements AbsListView.OnItemC
 
     @Override
     public String getTitle() {
-        return "排麦(22)";
+        return "排麦";
     }
 }

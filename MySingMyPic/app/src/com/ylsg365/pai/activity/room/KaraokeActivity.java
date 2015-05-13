@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -134,7 +135,11 @@ public class KaraokeActivity extends BaseActivity implements View.OnClickListene
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                NavHelper.toRoomMainPage(KaraokeActivity.this);
+                JSONObject obj = (JSONObject)adapter.getItem(position);
+                String nid = JsonUtil.getString(obj,"nid");
+                Bundle data = new Bundle();
+                data.putString("nid", nid);
+                NavHelper.toRoomMainPage(KaraokeActivity.this, data);
             }
         });
         getKtvRoomList(null, currentPage, rows);

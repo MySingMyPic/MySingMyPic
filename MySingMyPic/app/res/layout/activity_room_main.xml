@@ -11,6 +11,7 @@
         android:layout_height="260dp">
 
         <ImageView
+            android:id="@+id/iv_house_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/s" />
@@ -49,6 +50,7 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/tv_user_id"
                     android:includeFontPadding="false"
                     android:layout_width="wrap_content"
                     android:gravity="center_vertical"
@@ -73,12 +75,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="44秒"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        />
                     </LinearLayout>
 
                 </LinearLayout>
 
             <Button
+                android:id="@+id/bt_attention"
                 android:layout_centerVertical="true"
                 android:background="@drawable/selector_btn_round_red"
                 android:layout_alignParentRight="true"

@@ -337,7 +337,6 @@ public class YinApi {
         httpGet(url.toString(), responseListener, errorListener);
     }
 
-
     /**
      * 获取用户私信列表
      *
@@ -1118,6 +1117,67 @@ public class YinApi {
 
         YinApplication.getInstance().getRequestQueue().add(jsonObjReq);
     }
+    /**
+     * 获取包房聊天列表
+     * @param houseId
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getHouseChat(String houseId, Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.HOUSE);
+        URLUtils.addActionForGet(url, EnumAction.GETHOUSECHATS);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+        URLUtils.addParameter(url, EnumParameter.HOUSEID, houseId);
+
+
+        StringRequest jsonObjReq = new StringRequest(Request.Method.GET, url.toString(), responseListener, errorListener);
+
+        YinApplication.getInstance().getRequestQueue().add(jsonObjReq);
+    }
+    /**
+     * 获取包房观众列表
+     * @param houseId
+     * @param page
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getHouseViewers(String houseId, int page, Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.HOUSE);
+        URLUtils.addActionForGet(url, EnumAction.GETHOUSEVIEWS);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+        URLUtils.addParameter(url, EnumParameter.HOUSEID, houseId);
+        URLUtils.addParameter(url, EnumParameter.PAGE, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, 100000 + "");
+
+
+        StringRequest jsonObjReq = new StringRequest(Request.Method.GET, url.toString(), responseListener, errorListener);
+
+        YinApplication.getInstance().getRequestQueue().add(jsonObjReq);
+    }
+    /**
+     * 获取包房排麦列表
+     * @param houseId
+     * @param page
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getHouseSing(String houseId, int page, Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.HOUSE);
+        URLUtils.addActionForGet(url, EnumAction.GETHOUSESING);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+        URLUtils.addParameter(url, EnumParameter.HOUSEID, houseId);
+        URLUtils.addParameter(url, EnumParameter.PAGE, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, 100000 + "");
+
+
+        StringRequest jsonObjReq = new StringRequest(Request.Method.GET, url.toString(), responseListener, errorListener);
+
+        YinApplication.getInstance().getRequestQueue().add(jsonObjReq);
+    }
+    
 
     /**
      * 获取歌曲类别
