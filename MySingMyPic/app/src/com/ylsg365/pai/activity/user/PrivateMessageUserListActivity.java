@@ -42,7 +42,7 @@ public class PrivateMessageUserListActivity extends BaseActivity implements OnIt
 
         setupToolbar();
 
-        setTitle("选择关注的人");
+        setTitle("选择@的人");
 
         recyclerView = (SuperRecyclerView) findViewById(R.id.recycler);
 //        recyclerView.setHasFixedSize(true);

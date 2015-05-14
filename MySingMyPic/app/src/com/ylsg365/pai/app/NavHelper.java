@@ -57,6 +57,7 @@ import com.ylsg365.pai.activity.user.UserInfoActivity;
 import com.ylsg365.pai.activity.user.WorksListActivity;
 import com.ylsg365.pai.activity.video.CappellaRecordActivity;
 import com.ylsg365.pai.activity.video.VideoDetalActivity;
+import com.ylsg365.pai.imagedisplay.ImageSelectActivity;
 import com.ylsg365.pai.model.UserService;
 
 public class NavHelper {
@@ -658,6 +659,18 @@ public class NavHelper {
         forwardAnim((Activity) mContext);
     }
 
+    /**
+     * 转到新鲜事选择图片
+     *
+     * @param context
+     */
+    public static void toImageSelectList(Context context,int requestCode) {
+            Intent intent = new Intent(context, ImageSelectActivity.class);
+            ((Activity) context).startActivityForResult(intent, requestCode);
+            forwardAnim((Activity) context);
+    }
+
+
     public static void forwardAnim(Activity activity, int animInId, int animOutId) {
         activity.overridePendingTransition(animInId, animOutId);
     }
@@ -743,6 +756,6 @@ public class NavHelper {
 
     public static final int REQUEST_FROM_LOGIN = 10001;
 
-
+    public static final int RESULT_SELECT_IMAGE_SUCCESS = 22;
 
 }

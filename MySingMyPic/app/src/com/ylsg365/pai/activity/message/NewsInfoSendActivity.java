@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -14,12 +15,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.ylsg365.pai.R;
+import com.ylsg365.pai.activity.Listener.OnItemClickListener;
 import com.ylsg365.pai.activity.base.BaseActivity;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.UIHelper;
@@ -28,10 +32,16 @@ import com.ylsg365.pai.face.FaceImage;
 import com.ylsg365.pai.face.FaceListener;
 import com.ylsg365.pai.face.FaceView;
 import com.ylsg365.pai.face.KeyboardListenRelativeLayout;
+import com.ylsg365.pai.imagedisplay.ImageDisplayActivity;
 import com.ylsg365.pai.util.JsonUtil;
 import com.ylsg365.pai.util.LogUtil;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NewsInfoSendActivity extends BaseActivity implements View.OnClickListener,FaceListener {
     private TextView titleRightTextView;
@@ -41,6 +51,19 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
     private RelativeLayout faceLayout;
     View faceView;
     boolean faceFlag=false;
+
+    //操作
+    ImageView atOp,faceOp,ImgOp;
+
+    //插入图片
+    private SuperRecyclerView infoImageRecyclerView;
+    private NewsInfoSendImgAdapter newsInfoImgAdapter;
+    private List<JSONObject> images=new ArrayList<JSONObject>();
+    String filepath="";
+    Bitmap mBitmap;
+
+    //@某人
+    List<JSONObject> userList=new ArrayList<JSONObject>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +83,25 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
         contentEditText = (EditText)findViewById(R.id.edit_content);
         faceLayout=(RelativeLayout)findViewById(R.id.face_layout);
         topRoot=(KeyboardListenRelativeLayout)findViewById(R.id.top_root);
+
+        atOp=(ImageView)findViewById(R.id.at);
+        faceOp=(ImageView)findViewById(R.id.face);
+        ImgOp =(ImageView)findViewById(R.id.pic);
+
         FaceView face=new FaceView();
         faceView=face.faceView(this, this);
 
         faceLayout.addView(faceView);
+
+        //新鲜事图片
+        infoImageRecyclerView = (SuperRecyclerView) findViewById(R.id.recycler_imgs);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(NewsInfoSendActivity.this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        infoImageRecyclerView.setLayoutManager(layoutManager);
+        infoImageRecyclerView.setLoadingMore(false);
+
+//        infoImageRecyclerView.hideProgress();
+        infoImageRecyclerView.hideMoreProgress();
     }
 
     @Override
@@ -86,6 +124,23 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
                     default:
                         break;
                 }
+            }
+        });
+
+        showFace();
+        ImgOp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                NavHelper.toImageSelectList(NewsInfoSendActivity.this, NavHelper.RESULT_SELECT_IMAGE_SUCCESS);
+
+            }
+        });
+
+        atOp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHelper.toPrivateMessageUserListPage(NewsInfoSendActivity.this);
             }
         });
     }
@@ -132,7 +187,18 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
     private void sendNewsInfo(){
         String content = contentEditText.getText().toString().trim();
         LogUtil.logd("sendComment conent", content);
-        YinApi.sendNewsInfo(content, "", "", new Response.Listener<JSONObject>() {
+        String images="";
+        if(newsInfoImgAdapter!=null)
+        {
+            List<String> list=newsInfoImgAdapter.getData();
+            for(String item:list)
+            {
+                images+=item+";";
+            }
+            if(images.length()>0)
+                images=images.substring(0,images.length()-1);
+        }
+        YinApi.sendNewsInfo(content, images, getUsers(content), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 LogUtil.logd("sendComment", response.toString());
@@ -154,21 +220,6 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == NavHelper.RESULT_SELECT_USER_SUCCESS){
-            JSONObject userJsonObj = JsonUtil.getJSONObject(data.getStringExtra("selectedUser"));
-            UIHelper.showToast(JsonUtil.getString(userJsonObj, "nickName"));
-            if(contentEditText != null){
-                contentEditText.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(contentEditText, InputMethodManager.SHOW_IMPLICIT);
-
-                appendContent(JsonUtil.getString(userJsonObj, "nickName"));
-            }
-
-        }
-    }
 
     private void appendContent(String userNickName){
         SpannableString spanString = new SpannableString(String.format("@%s", userNickName));
@@ -203,9 +254,74 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
         return resizeBmp;
     }
 
-    String zhengze = "#[1-9]#|#1[0-9]#|#2[0-5]#";
+    private final Pattern AT_PATTERN = Pattern.compile("@[\\u4e00-\\u9fa5\\w\\-]+");
+
+    private String getUsers(String content)
+    {
+        String result="";
+        Matcher m = AT_PATTERN.matcher(content);
+        while (m.find()) {
+            String atUserName = m.group();
+            for(int i=0;i<userList.size();i++)
+            {
+                JSONObject json=userList.get(i);
+                String name=JsonUtil.getString(json,"nickName");
+                if(name.trim().equals(atUserName))
+                {
+                    result+=JsonUtil.getInt(json,"userId")+";";
+                }
+            }
+        }
+        if(result.length()>0)
+            result=result.substring(0,result.length()-1);
+        return result;
+    }
+
     public void removeFace()
     {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == NavHelper.RESULT_SELECT_USER_SUCCESS){
+            JSONObject userJsonObj = JsonUtil.getJSONObject(data.getStringExtra("selectedUser"));
+            userList.add(userJsonObj);
+            UIHelper.showToast(JsonUtil.getString(userJsonObj, "nickName"));
+            if(contentEditText != null){
+                contentEditText.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(contentEditText, InputMethodManager.SHOW_IMPLICIT);
+
+                appendContent(JsonUtil.getString(userJsonObj, "nickName"));
+            }
+        }
+        else if (requestCode == NavHelper.RESULT_SELECT_IMAGE_SUCCESS) {   //获取图片
+            ArrayList<String> imageList = data.getStringArrayListExtra("imageList");
+
+            if(imageList!=null&&imageList.size()>0){
+            Log.e("getimageList",imageList.get(0));
+
+            if(newsInfoImgAdapter==null){
+            newsInfoImgAdapter = new NewsInfoSendImgAdapter(R.layout.item_info_img, imageList);
+            infoImageRecyclerView.setAdapter(newsInfoImgAdapter);
+            newsInfoImgAdapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int postion) {
+                    String item=(String) newsInfoImgAdapter.getItem(postion);
+                    Intent it=new Intent(NewsInfoSendActivity.this, ImageDisplayActivity.class);
+                    it.putExtra(ImageDisplayActivity.PATH,item);
+                    startActivity(it);
+                }
+            });
+            }
+            else
+            {
+                newsInfoImgAdapter.setData(imageList);
+                newsInfoImgAdapter.notifyDataSetChanged();
+            }
+            }
+        }
 
     }
 }

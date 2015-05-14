@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    tools:context="com.ylsg365.pai.imagedisplay.ImageSelectActivity">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back" />
+
+    <GridView
+        android:layout_below="@+id/toolbar"
+        android:numColumns="3"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/select_user"
+        android:id="@+id/gridview"></GridView>
+
+    <TextView
+        android:id="@+id/select_user"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/purple"
+        android:layout_alignParentBottom="true"
+        android:textSize="18dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+</RelativeLayout>
