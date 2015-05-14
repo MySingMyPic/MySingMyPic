@@ -377,6 +377,21 @@ public class YinApi {
     /**
      * 获取用户私信列表
      *
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getPrivateContantList( Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.PRIVATEMSG);
+        URLUtils.addActionForGet(url, EnumAction.GETCONTACTS);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取用户私信列表
+     *
      * @param PAGE
      * @param rows
      * @param responseListener
@@ -1021,11 +1036,12 @@ public class YinApi {
 
         Map<String, String> params = new HashMap<String,String>();
         params.put(EnumParameter.TEXT.getDesc(), content);
-        params.put(EnumParameter.IMAGES.getDesc(), imgIds);
-
-//        if(!StringUtils.isEmpty(forwardUserIds)){
+        if(!StringUtils.isEmpty(imgIds)) {
+            params.put(EnumParameter.IMAGES.getDesc(), imgIds);
+        }
+        if(!StringUtils.isEmpty(forwardUserIds)){
             params.put(EnumParameter.FORWARDUSERIDS.getDesc(), forwardUserIds);
-//        }
+        }
         params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
 
         httpPost(url.toString(), params, responseListener, errorListener);

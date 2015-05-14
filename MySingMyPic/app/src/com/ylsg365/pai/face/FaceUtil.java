@@ -6,8 +6,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
+
+import com.ylsg365.pai.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,11 +36,35 @@ public class FaceUtil {
         Pattern sinaPatten = Pattern.compile(zhengze, Pattern.CASE_INSENSITIVE);		//通过传入的正则表达式来生成一个pattern
         try {
             dealExpression(context,spannableString, sinaPatten, 0);
+            setUserText(context,spannableString, AT_PATTERN, 0);
         } catch (Exception e) {
             Log.e("dealExpression", e.getMessage());
         }
         return spannableString;
     }
+
+    private static final Pattern AT_PATTERN = Pattern.compile("@[\\u4e00-\\u9fa5\\w\\-]+");
+
+    private static void setUserText(Context context,SpannableString spannableString, Pattern patten, int start)
+    {
+        Matcher matcher = patten.matcher(spannableString);
+        while (matcher.find()) {
+            String key = matcher.group();
+            if (matcher.start() < start) {
+                continue;
+            }
+            ForegroundColorSpan span = new ForegroundColorSpan(context.getResources().getColor(R.color.purple));
+                int end = matcher.start() + key.length();					//计算该图片名字的长度，也就是要替换的字符串的长度
+                spannableString.setSpan(span, matcher.start(), end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);	//将该图片替换字符串中规定的位置中
+                if (end < spannableString.length()) {						//如果整个字符串还未验证完，则继续。。
+                    setUserText(context,spannableString,  patten, end);
+                }
+                break;
+
+        }
+
+    }
+
 
     /**
      * 对spanableString进行正则判断，如果符合要求，则以表情图片代替

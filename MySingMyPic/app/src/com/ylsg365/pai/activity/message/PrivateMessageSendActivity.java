@@ -3,15 +3,9 @@ package com.ylsg365.pai.activity.message;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -20,14 +14,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.malinskiy.superrecyclerview.OnMoreListener;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
@@ -47,7 +40,7 @@ public class PrivateMessageSendActivity extends ActionBarActivity implements Fac
     private int currentPage = 0;
     private final int rows = 10;
     PrivateMessageRoomAdapter adapter;
-    private SuperRecyclerView recyclerView;
+    private ListView recyclerView;
     private ImageView faceIcon,atIcon;
     private EditText input;
     private TextView send;
@@ -68,7 +61,7 @@ public class PrivateMessageSendActivity extends ActionBarActivity implements Fac
         setContentView(R.layout.activity_private_message_send);
         setupToolbar();
 
-        recyclerView = (SuperRecyclerView) findViewById(R.id.recycler);
+        recyclerView = (ListView) findViewById(R.id.recycler);
         atIcon=(ImageView)findViewById(R.id.at);
         faceIcon =(ImageView)findViewById(R.id.biaoqing);
         input=(EditText)findViewById(R.id.input);
@@ -127,71 +120,21 @@ public class PrivateMessageSendActivity extends ActionBarActivity implements Fac
                 sendMessage(input.getText().toString());
             }
         });
+        atIcon.setVisibility(View.GONE);
         userId=getIntent().getIntExtra("userId",0);
         userName=getIntent().getStringExtra("userName");
         toolbarTitle.setText(userName+"");
 
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
 
-            Paint paint = new Paint();
-
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                super.onDraw(c, parent, state);
-            }
-
-            @Override
-            public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                super.onDrawOver(c, parent, state);
-                paint.setColor(getResources().getColor(R.color.line_radio));
-                for (int i = 0, size = parent.getChildCount(); i < size; i++) {
-                    View child = parent.getChildAt(i);
-                    c.drawLine(child.getLeft() + 20, child.getBottom(), child.getRight(), child.getBottom(), paint);
-                }
-            }
-
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-            }
-        });
-//        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PrivateMessageRoomAdapter(this, userId,infoList);
         adapter.setOnRoomItemClickListener(this);
         recyclerView.setAdapter(adapter);
-
-        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        recyclerView.setupMoreListener(new OnMoreListener() {
-            @Override
-            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                isLoad=true;
-                currentPage = 0;
-                recyclerView.setLoadingMore(true);
-                isRefresh = true;
-                getPrivateMessageList(currentPage, rows);
-            }
-        }, 3);
-
-        recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if(isLoad==false){
-                    isRefresh = false;
-                    recyclerView.setLoadingMore(false);
-                    recyclerView.hideMoreProgress();
-
-                }
-                else{
-                    isRefresh = false;
-                    getPrivateMessageList(currentPage++, rows);
-                }
-            }
-        });
-
         getPrivateMessageList(currentPage, rows);
+    }
+
+    public void collapseSoftInputMethod(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(input.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     private void getPrivateMessageList(int currentPage, int row) {
@@ -201,11 +144,12 @@ public class PrivateMessageSendActivity extends ActionBarActivity implements Fac
                 LogUtil.logd("getPrivateMessageListOfUser", response.toString());
 
                 if (JsonUtil.getBoolean(response, "status")) {
+                    input.setText("");
+                    collapseSoftInputMethod();
                     infoList.clear();
-                    if (isRefresh) {
-                        adapter.clearData();
 
-                    }
+                    adapter.clearData();
+
                     JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "msgs");
 
 
@@ -216,19 +160,19 @@ public class PrivateMessageSendActivity extends ActionBarActivity implements Fac
 
                     if (infoList.size() < rows) {
                         isLoad = false;
-                        recyclerView.setLoadingMore(false);
 
 //                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }
+
                     adapter.notifyDataSetChanged();
                 }
-                recyclerView.hideMoreProgress();
+                recyclerView.setSelection(adapter.getCount()-1);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                recyclerView.hideMoreProgress();
+
             }
         });
     }
@@ -315,10 +259,7 @@ public class PrivateMessageSendActivity extends ActionBarActivity implements Fac
 
                 if (JsonUtil.getBoolean(response, "status"))
                 {
-                    isLoad=true;
-                    currentPage = 0;
-                    recyclerView.setLoadingMore(true);
-                    isRefresh = true;
+
                     getPrivateMessageList(currentPage, rows);
                 }
                 else

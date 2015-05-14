@@ -6,7 +6,10 @@
     tools:context="com.ylsg365.pai.activity.message.PrivateMessageSendActivity">
     <include android:id="@+id/toolbar" layout="@layout/toolbar_back"/>
 
-    <com.malinskiy.superrecyclerview.SuperRecyclerView
+    <ListView
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        android:listSelector="@color/transparent"
         android:layout_below="@+id/toolbar"
         android:id="@+id/recycler"
         android:background="@color/white"
@@ -31,6 +34,7 @@
             android:layout_height="37dp" />
 
         <ImageView
+
             android:padding="3dp"
             android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"

@@ -45,6 +45,11 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
                     break;
                 case 1:
                     NavHelper.toMyCommentPage(mContext);
+                    break;
+                case 2:
+                    break;
+                default:
+                   break;
             }
         }
     };
@@ -76,6 +81,7 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
         View view = null;
         ImageView imageView = null;
         TextView nameTextView = null;
+        ViewHolder holder=null;
         switch (viewType) {
             case ITEM_VIEW_TYPE_0:
                 layoutResId = R.layout.item_message_category;
@@ -86,6 +92,8 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
                 imageView.setBackgroundResource(R.drawable.icon_notice_big);
                 nameTextView = (TextView)view.findViewById(R.id.message_name);
                 nameTextView.setText("通知");
+                holder=new ViewHolder(view);
+                holder.setOnRoomItemClickListener(onRoomItemClickListener);
                 break;
             case ITEM_VIEW_TYPE_1:
                 layoutResId = R.layout.item_message_category;
@@ -96,25 +104,33 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
                 imageView.setBackgroundResource(R.drawable.icon_comment_big);
                 nameTextView = (TextView)view.findViewById(R.id.message_name);
                 nameTextView.setText("评论");
+                holder=new ViewHolder(view);
+                holder.setOnRoomItemClickListener(onRoomItemClickListener);
                 break;
             case ITEM_VIEW_TYPE_2:
                 layoutResId = R.layout.item_message_category;
                 view = LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
-                view.setTag(3);
+                view.setTag(2);
                 view.setOnClickListener(onNacClickListener);
                 imageView = (ImageView)view.findViewById(R.id.img_icon);
                 imageView.setBackgroundResource(R.drawable.icon_share_big);
                 nameTextView = (TextView)view.findViewById(R.id.message_name);
                 nameTextView.setText("转发");
+                holder=new ViewHolder(view);
+                holder.setOnRoomItemClickListener(onRoomItemClickListener);
                 break;
 
 
             default:
                 layoutResId = R.layout.item_message_normal;
                 view = LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
+                view.setTag(ITEM_VIEW_TYPE_DEFAULT);
+                holder=new ViewHolder(view);
+                holder.setOnRoomItemClickListener(onRoomItemClickListener);
+
         }
 
-        return new ViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -124,11 +140,12 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
             JSONObject infoJsonObject = infoList.get(position);
 
 
-        holder.userNickNamTextView.setText(JsonUtil.getString(infoJsonObject, "sendNickName"));
+            holder.userNickNamTextView.setText(JsonUtil.getString(infoJsonObject, "sendNickName"));
             holder.messageContentTextView.setText(String.format("%s", JsonUtil.getString(infoJsonObject, "ntext")));
             holder.messageCTimeTextView.setText(String.format("%s", DateUtil.getFriendlyDate(JsonUtil.getString(infoJsonObject, "cTime"))));
 
             ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "sendHeadImg"), holder.userHeadImageview);
+
         }
 
 
@@ -149,12 +166,14 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public View itemView;
-
+        private onRoomItemClickListener onRoomItemClickListener;
         public ImageView userHeadImageview;
         public TextView userNickNamTextView;
         public TextView messageContentTextView;
         public TextView messageCTimeTextView;
-
+        public void setOnRoomItemClickListener(PrivateMessageAdapter.onRoomItemClickListener onRoomItemClickListener) {
+            this.onRoomItemClickListener = onRoomItemClickListener;
+        }
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -163,6 +182,12 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
             userNickNamTextView = (TextView)itemView.findViewById(R.id.text_user_nickName);
             messageContentTextView = (TextView)itemView.findViewById(R.id.text_content);
             messageCTimeTextView = (TextView)itemView.findViewById(R.id.text_cTime);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onRoomItemClickListener.onRoomItemClick(getPosition());
+                }
+            });
         }
     }
 

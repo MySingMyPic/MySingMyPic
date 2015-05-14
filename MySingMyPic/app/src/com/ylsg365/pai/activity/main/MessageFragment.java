@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,7 +153,7 @@ public class MessageFragment extends Fragment implements PrivateMessageAdapter.o
 
 
     private void getPrivateMessageList(int currentPage, int row) {
-        YinApi.getPrivateMessageList(currentPage, row, new Response.Listener<JSONObject>() {
+        YinApi.getPrivateContantList(new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 LogUtil.logd("getPrivateMessageList", response.toString());
@@ -171,16 +172,15 @@ public class MessageFragment extends Fragment implements PrivateMessageAdapter.o
                     JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "msgs");
 
 
-
                     for (int i = 0; i < infoJsonArray.length(); i++) {
                         infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
                     }
                     messageAdapter.addData(infoList);
 
-                    if(isRefresh&&infoList.size() == 3){
+                    if (isRefresh && infoList.size() == 3) {
 
-                    }else if (infoList.size() < rows) {
-                        isLoad=false;
+                    } else if (infoList.size() < rows) {
+                        isLoad = false;
                         recyclerView.setLoadingMore(false);
 
 //                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
@@ -201,10 +201,16 @@ public class MessageFragment extends Fragment implements PrivateMessageAdapter.o
 
     @Override
     public void onRoomItemClick(int position) {
+        Log.e("","点击");
         JSONObject item=(JSONObject)messageAdapter.getItem(position);
-        if(position>2)
+        if(position==0)
+            NavHelper.toSystemMessagePage(getActivity());
+        else if(position==1)
+            NavHelper.toMyCommentPage(getActivity());
+        else if(position==2){}
+        else if(position>2)
         {
-            NavHelper.toPrivateMessageSendActivity(getActivity(),JsonUtil.getInt(item,"userId"),JsonUtil.getString(item,"nickName"));
+            NavHelper.toPrivateMessageSendActivity(getActivity(),JsonUtil.getInt(item,"receiveUserId"),JsonUtil.getString(item,"receiveNickName"));
         }
     }
 }

@@ -134,6 +134,7 @@ public enum EnumAction {
     GETRECHARGELIST("getRechargeList"),
     SENDINDEXGIFT("sendIndexGift"),
     GETCONTACT("getContact"),
+    GETCONTACTS("getContacts"),
 
     ;
 
