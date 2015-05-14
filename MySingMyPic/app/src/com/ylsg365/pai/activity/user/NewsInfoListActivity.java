@@ -31,7 +31,7 @@ public class NewsInfoListActivity extends BaseActivity{
     private NewInfoAdapter adapter;
     ArrayList<JSONObject> infoList = new ArrayList<JSONObject>();
     private boolean isRefresh = false;
-
+    private boolean isLoad=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,22 +52,29 @@ public class NewsInfoListActivity extends BaseActivity{
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
 
-                pageType = getIntent().getIntExtra(NavHelper.REQUEST_CODE, 0);
-                if(pageType == NavHelper.REQUEST_MY_NEWSINFO){
-                    getMyNewsInfos(currentPage++, rows);
-                }else if(pageType == NavHelper.REQUEST_OTHER_NEWSINFO){
-                    userId = getIntent().getIntExtra("userId", 0);
-                    getOtherNewsInfos(userId, currentPage++, rows);
-                }else if(pageType == NavHelper.REQUEST_NICE_NEWSINFO) {
-                    getNiceNewsInfos(currentPage++, rows);
+                if(isLoad) {
+                    pageType = getIntent().getIntExtra(NavHelper.REQUEST_CODE, 0);
+                    if (pageType == NavHelper.REQUEST_MY_NEWSINFO) {
+                        getMyNewsInfos(currentPage++, rows);
+                    } else if (pageType == NavHelper.REQUEST_OTHER_NEWSINFO) {
+                        userId = getIntent().getIntExtra("userId", 0);
+                        getOtherNewsInfos(userId, currentPage++, rows);
+                    } else if (pageType == NavHelper.REQUEST_NICE_NEWSINFO) {
+                        getNiceNewsInfos(currentPage++, rows);
+                    }
                 }
-
+                else
+                {
+                    recyclerView.setLoadingMore(false);
+                    recyclerView.hideMoreProgress();
+                }
             }
         },3);
 
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                isLoad=true;
                 currentPage = 0;
                 recyclerView.setLoadingMore(true);
                 isRefresh = true;
@@ -120,6 +127,7 @@ public class NewsInfoListActivity extends BaseActivity{
                     adapter.addData(infoList);
                     checkAdapterIsEmpty(adapter);
                     if(infoList.size() < rows){
+                        isLoad=false;
                         recyclerView.setLoadingMore(false);
 //                        Toast.makeText(NewsInfoListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
                     }

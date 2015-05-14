@@ -45,6 +45,7 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
     public ImageView userHeadImageview;
     public TextView infoContentTextView;
     public TextView attentionTextView;
+    boolean isAttention=false;
 
     private int forwardCount;
     private int commentCount;
@@ -62,47 +63,63 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
         setContentView(R.layout.activity_fresh_news);
 
         newsInfoObj = JsonUtil.getJSONObject(getIntent().getStringExtra("newsInfo"));
-        userId = JsonUtil.getInt(newsInfoObj, "userId");
-
         newsInfoId = JsonUtil.getInt(newsInfoObj, "nid");
-        forwardCount = JsonUtil.getInt(newsInfoObj, "forwardCount");
-        commentCount = JsonUtil.getInt(newsInfoObj, "commentCount");
-        likeCount = JsonUtil.getInt(newsInfoObj, "niceCount");
-
-        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.demo_tab);
-        viewPager = (ViewPager) findViewById(R.id.pager_fresh);
-
-
-        // 设置ViewPager
-        fragments = new ArrayList<TabFragment>();
-        fragments.add(NewsInfoForwardFragment.newInstance(newsInfoId, forwardCount));
-        fragments.add(InfoCommentFragment.newInstance(newsInfoId, commentCount));
-        fragments.add(InfoLikeFragment.newInstance(newsInfoId, likeCount));
-        viewPager_Adapter = new ViewPager_Adapter(getSupportFragmentManager(),
-                fragments);
-        viewPager.setOffscreenPageLimit(fragments.size());
-        viewPager.setAdapter(viewPager_Adapter);
-
-        // 设置SlidingTab
-        slidingTabLayout.setViewPager(viewPager);
-
-
-        //新鲜事图片
-        infoImageRecyclerView = (SuperRecyclerView) findViewById(R.id.recycler_imgs);
-//        infoImageRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        infoImageRecyclerView.setLayoutManager(layoutManager);
-
-        setupToolbar();
-        setTitle("新鲜事");
-
-        init();
-
-        getNewInfoImg(newsInfoId);
+        getNewInfo(newsInfoId);
 
     }
 
+    public void getNewInfo(final int newsInfoId)
+    {
+        YinApi.getNewInfo(newsInfoId,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                newsInfoObj=response;
+                userId = JsonUtil.getInt(newsInfoObj, "userId");
+
+
+                forwardCount = JsonUtil.getInt(newsInfoObj, "forwardCount");
+                commentCount = JsonUtil.getInt(newsInfoObj, "commentCount");
+                likeCount = JsonUtil.getInt(newsInfoObj, "niceCount");
+                isAttention=JsonUtil.getBoolean(newsInfoObj,"attention");
+                slidingTabLayout = (SlidingTabLayout) findViewById(R.id.demo_tab);
+                viewPager = (ViewPager) findViewById(R.id.pager_fresh);
+
+
+                // 设置ViewPager
+                fragments = new ArrayList<TabFragment>();
+                fragments.add(NewsInfoForwardFragment.newInstance(newsInfoId, forwardCount));
+                fragments.add(InfoCommentFragment.newInstance(newsInfoId, commentCount));
+                fragments.add(InfoLikeFragment.newInstance(newsInfoId, likeCount));
+                viewPager_Adapter = new ViewPager_Adapter(getSupportFragmentManager(),
+                        fragments);
+                viewPager.setOffscreenPageLimit(fragments.size());
+                viewPager.setAdapter(viewPager_Adapter);
+
+                // 设置SlidingTab
+                slidingTabLayout.setViewPager(viewPager);
+
+
+                //新鲜事图片
+                infoImageRecyclerView = (SuperRecyclerView) findViewById(R.id.recycler_imgs);
+//        infoImageRecyclerView.setHasFixedSize(true);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(NewsInfoDetalActivity.this);
+                layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                infoImageRecyclerView.setLayoutManager(layoutManager);
+
+                setupToolbar();
+                setTitle("新鲜事");
+
+                init();
+
+                getNewInfoImg(newsInfoId);
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
 
     public void getNewInfoImg(int newsInfoId) {
         YinApi.getNewInfoImg(newsInfoId, new Response.Listener<JSONObject>() {
@@ -145,7 +162,9 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
         nickNameTextView.setText(JsonUtil.getString(newsInfoObj, "nickName"));
         cTimeTextView.setText(DateUtil.getFriendlyDate(JsonUtil.getString(newsInfoObj, "cTime")));
         infoContentTextView.setText(FaceUtil.setText(this,JsonUtil.getString(newsInfoObj, "ntext")));
-
+        if(isAttention)
+            attentionTextView.setText("取消关注");
+        else attentionTextView.setText("关注");
         ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(newsInfoObj, "headImg"), userHeadImageview);
     }
 
@@ -179,7 +198,12 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
                 toForwardSendPage();
                 break;
             case R.id.text_attention:
-                attentionToUser();
+                if(isAttention)
+                {
+                    unAttentionToUser();
+                }
+                else
+                    attentionToUser();
         }
     }
 
@@ -192,6 +216,7 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
                 if (JsonUtil.getBoolean(response, "status")) {
                     UIHelper.showToast("关注成功");
 
+                    isAttention=true;
                     attentionTextView.setText("取消关注");
                 }else {
                     UIHelper.showToast("操作失败");
@@ -216,6 +241,7 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
                 if (JsonUtil.getBoolean(response, "status")) {
                     UIHelper.showToast("取消关注成功");
 
+                    isAttention=false;
                     attentionTextView.setText("关注");
                 } else {
                     UIHelper.showToast("操作失败");

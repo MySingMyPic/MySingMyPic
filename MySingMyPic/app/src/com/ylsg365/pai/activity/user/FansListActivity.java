@@ -33,7 +33,7 @@ public class FansListActivity extends BaseActivity implements OnViewClickListene
     private FansAdapter fansAdapter;
     ArrayList<JSONObject> infoList = new ArrayList<JSONObject>();
     private boolean isRefresh = false;
-
+    private boolean isLoad=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,13 +75,21 @@ public class FansListActivity extends BaseActivity implements OnViewClickListene
         recyclerView.setupMoreListener(new OnMoreListener() {
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                if(isLoad){
                 isRefresh=false;
                 getMyFans(currentPage++, rows);
+                }
+                else
+                {
+                    recyclerView.setLoadingMore(false);
+                    recyclerView.hideMoreProgress();
+                }
             }
         },1);
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                isLoad=true;
                 currentPage = 0;
                 recyclerView.setLoadingMore(true);
                 isRefresh = true;
@@ -117,6 +125,7 @@ public class FansListActivity extends BaseActivity implements OnViewClickListene
 
                     fansAdapter.addData(infoList);
                     if(infoList.size() < rows ){
+                        isLoad=false;
                         recyclerView.setLoadingMore(false);
 //                        Toast.makeText(FansListActivity.this, "没有更多数据", Toast.LENGTH_LONG).show();
                     }

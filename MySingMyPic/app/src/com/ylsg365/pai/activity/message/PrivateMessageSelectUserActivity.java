@@ -110,6 +110,7 @@ public class PrivateMessageSelectUserActivity extends BaseActivity implements On
                 if(selectObject!=null)
                 {
                     NavHelper.toPrivateMessageSendActivity(PrivateMessageSelectUserActivity.this,JsonUtil.getInt(selectObject,"userId"),JsonUtil.getString(selectObject,"nickName"));
+                    NavHelper.finish(PrivateMessageSelectUserActivity.this);
                 }
             }
         });

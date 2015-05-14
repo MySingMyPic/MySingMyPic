@@ -2,17 +2,8 @@ package com.ylsg365.pai.activity.user;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,16 +12,9 @@ import com.android.volley.VolleyError;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.ylsg365.pai.activity.NewInfoAdapter;
-import com.ylsg365.pai.activity.base.TabFragment;
-
-
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.base.BaseActivity;
-import com.ylsg365.pai.activity.newsinfo.NewsInfoForwardFragment;
 import com.ylsg365.pai.activity.view.CheckableImageView;
-import com.ylsg365.pai.activity.view.SlidingTabLayout;
-import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.UIHelper;
 import com.ylsg365.pai.app.YinApi;
@@ -41,10 +25,7 @@ import com.ylsg365.pai.util.JsonUtil;
 import com.ylsg365.pai.util.LogUtil;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class UserHomeActivity extends BaseActivity implements View.OnClickListener{
     private int userId;
@@ -104,7 +85,8 @@ public class UserHomeActivity extends BaseActivity implements View.OnClickListen
         userFansNumTextView.setText(String.format("粉丝（%d）", user.getFansNum()));
         userAttentionNumTextView.setText(String.format("关注（%d）", user.getAttentionNUm()));
         userAreaTextView.setText(user.getArea());
-
+        userFansNumTextView.setOnClickListener(this);
+        userAttentionNumTextView.setOnClickListener(this);
         if(user.isAttention()){
             attentionTextView.setText("取消关注");
             attentionImageView.setChecked(true);
@@ -199,6 +181,10 @@ public class UserHomeActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.layout_attention:
                 attention(userId);
+                break;
+            case R.id.text_user_fansNum:
+                break;
+            case R.id.text_user_attentionNum:
                 break;
         }
     }

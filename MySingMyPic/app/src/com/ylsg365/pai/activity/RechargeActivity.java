@@ -1,5 +1,9 @@
 package com.ylsg365.pai.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,11 +20,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.model.User;
 import com.ylsg365.pai.model.UserService;
+import com.ylsg365.pai.pay.Pay;
+import com.ylsg365.pai.pay.PayTag;
 import com.ylsg365.pai.util.CommonAdapter;
 import com.ylsg365.pai.util.ViewHolder;
 
@@ -51,12 +58,15 @@ public class RechargeActivity extends FragmentActivity implements RechargeFragme
     private int select = -1;
     private View lastView;
 
-
+    //支付
+    Pay payOperation=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge);
+
+        payOperation =new Pay(this);
 
         RBCz = (RadioButton) findViewById(R.id.tab_1);
         RBTx = (RadioButton) findViewById(R.id.tab_2);
@@ -69,6 +79,7 @@ public class RechargeActivity extends FragmentActivity implements RechargeFragme
                     NavHelper.showToast(RechargeActivity.this,"请选择充值数额!");
                 }else{
                     //跳到支付宝
+                    payOperation.check();
                 }
             }
         });
@@ -99,38 +110,47 @@ public class RechargeActivity extends FragmentActivity implements RechargeFragme
             Map map = new HashMap<String, String>();
             map.put("num", 5+ "");
             map.put("money", 5 + "元");
+            map.put("price",5+"");
             datas.add(map);
          map = new HashMap<String, String>();
         map.put("num", 10 + "");
         map.put("money", 10 + "元");
+        map.put("price",10+"");
         datas.add(map);
         map = new HashMap<String, String>();
         map.put("num", 20 + "");
         map.put("money", 20 + "元");
+        map.put("price",20+"");
         datas.add(map);
          map = new HashMap<String, String>();
         map.put("num", 50 + "");
         map.put("money", 50 + "元(返50元)");
+        map.put("price",50+"");
         datas.add(map);
          map = new HashMap<String, String>();
         map.put("num", 80 + "");
         map.put("money", 80 + "元(返80元)");
+        map.put("price",80+"");
         datas.add(map);
          map = new HashMap<String, String>();
         map.put("num", 150 + "");
         map.put("money", 150 + "元(返150元)");
+        map.put("price",150+"");
         datas.add(map);
          map = new HashMap<String, String>();
         map.put("num",300 + "");
         map.put("money",300 + "元(返300元)");
+        map.put("price",300+"");
         datas.add(map);
          map = new HashMap<String, String>();
         map.put("num", 500 + "");
         map.put("money", 500 + "元(返500元)");
+        map.put("price",500+"");
         datas.add(map);
          map = new HashMap<String, String>();
         map.put("num", 1000 + "");
         map.put("money", 1000 + "元(返1000元)");
+        map.put("price",1000+"");
         datas.add(map);
 
         mGridView.setAdapter(new CommonAdapter(RechargeActivity.this, datas, R.layout.recharge_grid_item) {
@@ -190,7 +210,68 @@ public class RechargeActivity extends FragmentActivity implements RechargeFragme
                 }
             }
         });
+
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(PayTag.PAY);
+        try{ registerReceiver(receiver,filter);} catch(IllegalArgumentException e) {}
     }
+
+    /**
+     * 获取广播数据
+     *
+     * @author
+     *
+     */
+    public BroadcastReceiver receiver =new  BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Log.e("","paysend");
+            if(intent.getAction().equals(PayTag.PAY))
+            {
+                int step=intent.getIntExtra(PayTag.STEP, 1);
+                if(step==1)
+                {
+
+                    int result=intent.getIntExtra(PayTag.RESULT, 0);
+                    switch(result)
+                    {
+                        case 0:
+                            Toast.makeText(RechargeActivity.this, "付款失败", Toast.LENGTH_LONG).show();
+
+                            break;
+                        case 1:
+                            Toast.makeText(RechargeActivity.this, "付款成功", Toast.LENGTH_LONG).show();
+
+                            break;
+                        case 2:
+                            Toast.makeText(RechargeActivity.this, "付款进行中", Toast.LENGTH_LONG).show();
+
+                            break;
+                        default:
+                            Toast.makeText(RechargeActivity.this, "付款失败", Toast.LENGTH_LONG).show();
+
+                            break;
+                    }
+                }
+                else
+                {
+                    int check=intent.getIntExtra(PayTag.CHECK, 0);
+                    if(check==1)
+                    {
+                        Map  item=datas.get(select);
+                        String subject=(String)item.get("num");
+                        String price=(String)item.get("price");
+                        payOperation.pay(subject+"个音乐币",subject+"个音乐币","0.01");
+                    }
+                    else
+                    {
+                        Toast.makeText(RechargeActivity.this, "支付宝没有授权", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+        }
+    };
 
     public void SetChecked(int position) {
 
@@ -243,4 +324,5 @@ public class RechargeActivity extends FragmentActivity implements RechargeFragme
         }
     }
 
+    
 }

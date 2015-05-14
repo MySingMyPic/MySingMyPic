@@ -6,6 +6,7 @@ package com.ylsg365.pai.app;
 public class Constants {
     public static final String SITE_DOMAIN = "182.92.170.38:18080"; //测试ip
     public static final String WEB_HOST = "" + SITE_DOMAIN; //前缀暂时为空
+    public static final String WEB_PAY="http://"+SITE_DOMAIN+"/myxxPay/notify_url.jsp";
     public static final String WEB_SERVER_DOMAIN = "http://" + WEB_HOST + "/Weitie/client/";
     public static final String WEB_IMG_DOMIN = "http://" + WEB_HOST;
 

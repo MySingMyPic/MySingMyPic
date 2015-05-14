@@ -1,11 +1,7 @@
 package com.ylsg365.pai.activity.main;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -16,7 +12,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.base.BaseActivity;
 import com.ylsg365.pai.app.Constants;
-import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.util.CommonAdapter;
 import com.ylsg365.pai.util.JsonUtil;
@@ -134,7 +129,7 @@ public class MyGiftListActivity extends BaseActivity implements PullToRefreshBas
 
                     if (giftList.size() < rows) {
                         gridView.setIsLoadMore(false);
-                        Toast.makeText(MyGiftListActivity.this, getString(R.string.no_more_toast), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(MyGiftListActivity.this, getString(R.string.no_more_toast), Toast.LENGTH_LONG).show();
                     }
 
                 }

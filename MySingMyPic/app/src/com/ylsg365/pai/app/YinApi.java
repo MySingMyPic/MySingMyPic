@@ -182,6 +182,24 @@ public class YinApi {
     }
 
     /**
+     * 获取新鲜事详情
+     *
+     * @param newInfoId
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getNewInfo(int newInfoId , Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.NEWINFO);
+        URLUtils.addActionForGet(url, EnumAction.GETNEWINFO);
+        URLUtils.addParameter(url, EnumParameter.NEWINFOID, newInfoId + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+
+    /**
      * 获取所有原创基地列表
      *
      * @param PAGE
@@ -354,6 +372,47 @@ public class YinApi {
         URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
 
         httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取用户私信列表
+     *
+     * @param PAGE
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getPrivateMessageListOfUser(int PAGE, int rows,int userId, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.PRIVATEMSG);
+        URLUtils.addActionForGet(url, EnumAction.GETMSGS);
+        URLUtils.addParameter(url, EnumParameter.PAGE, PAGE + "");
+        URLUtils.addParameter(url, EnumParameter.RECEIVEUSERID, userId + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
+    /**
+     * 获取用户私信列表
+     *
+     * @param msg
+     * @param userId
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void sendPrivateMessageOfUser(String msg,int userId, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.PRIVATEMSG);
+        URLUtils.addActionForPost(url, EnumAction.SENDMSG);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(EnumParameter.RECEIVEUSERID.getDesc(), userId + "");
+        params.put( EnumParameter.NTEXT.getDesc(), msg+"");
+        params.put( EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpPost(url.toString(),params, responseListener, errorListener);
     }
 
     /**
@@ -964,9 +1023,9 @@ public class YinApi {
         params.put(EnumParameter.TEXT.getDesc(), content);
         params.put(EnumParameter.IMAGES.getDesc(), imgIds);
 
-        if(!StringUtils.isEmpty(forwardUserIds)){
+//        if(!StringUtils.isEmpty(forwardUserIds)){
             params.put(EnumParameter.FORWARDUSERIDS.getDesc(), forwardUserIds);
-        }
+//        }
         params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
 
         httpPost(url.toString(), params, responseListener, errorListener);

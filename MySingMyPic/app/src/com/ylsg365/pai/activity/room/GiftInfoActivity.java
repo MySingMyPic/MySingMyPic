@@ -48,6 +48,7 @@ public class GiftInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //充值
+
             }
         });
 

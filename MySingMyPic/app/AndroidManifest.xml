@@ -212,6 +212,16 @@
             android:name=".activity.message.PrivateMessageSelectUserActivity"
             android:label="@string/title_activity_private_message_select_user" >
         </activity>
+
+        <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <!-- alipay sdk end -->
     </application>
 
 </manifest>

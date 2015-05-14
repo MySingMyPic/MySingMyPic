@@ -11,11 +11,13 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.app.Constants;
+import com.ylsg365.pai.face.FaceUtil;
 import com.ylsg365.pai.util.JsonUtil;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,14 +29,15 @@ public class PrivateMessageRoomAdapter extends RecyclerView.Adapter<PrivateMessa
     private final int ITEM_VIEW_TYPE_1 = 1;
 
     private List<JSONObject> infoList;
+    private List<JSONObject> reverseList;
     private int layoutResId;
     private onRoomItemClickListener onRoomItemClickListener;
     private Context mContext;
     private int userId=-1;
-    public PrivateMessageRoomAdapter(Context context,int userId, int layoutResId, List<JSONObject> list) {
+    public PrivateMessageRoomAdapter(Context context,int userId, List<JSONObject> list) {
         mContext = context;
         infoList = new ArrayList<JSONObject>(list);
-        this.layoutResId = layoutResId;
+        reverseList=new ArrayList<JSONObject>();
     }
 
 
@@ -42,6 +45,11 @@ public class PrivateMessageRoomAdapter extends RecyclerView.Adapter<PrivateMessa
     @Override
     public int getItemViewType(int position) {
         int type = 0;
+        JSONObject item=reverseList.get(position);
+        int id=JsonUtil.getInt(item,"sendUserId");
+        if(id==userId)
+            type=0;
+        else type=1;
         switch (position) {
             case 0:
                 type = ITEM_VIEW_TYPE_0;
@@ -79,28 +87,28 @@ public class PrivateMessageRoomAdapter extends RecyclerView.Adapter<PrivateMessa
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        if(position > 2) {
-            JSONObject infoJsonObject = infoList.get(position);
 
-            holder.message.setText("");
+            JSONObject infoJsonObject = reverseList.get(position);
+
+            holder.message.setText(FaceUtil.setText(mContext,JsonUtil.getString(infoJsonObject,"ntext")));
 
             ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "sendHeadImg"), holder.userHead);
-        }
+
 
 
     }
 
     @Override
     public int getItemCount() {
-        return infoList.size();
+        return reverseList.size();
     }
 
     public Object getItem(int position)
     {
-        return infoList.get(position);
+        return reverseList.get(position);
     }
     public void clearData() {
-        infoList.clear();
+        reverseList.clear();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -128,5 +136,10 @@ public class PrivateMessageRoomAdapter extends RecyclerView.Adapter<PrivateMessa
 
     public void addData(List<JSONObject> tempInfoList){
         infoList.addAll(tempInfoList);
+        reverseList.clear();
+        reverseList.addAll(infoList);
+        Collections.reverse(reverseList);
     }
+
+
 }

@@ -641,6 +641,7 @@ public class NavHelper {
 
     }
 
+
     public static void toAlreadyPurchaseActivity(Context mContext) {
         Intent i = new Intent(mContext,AlreadyPurchaseActivity.class);
         mContext.startActivity(i);

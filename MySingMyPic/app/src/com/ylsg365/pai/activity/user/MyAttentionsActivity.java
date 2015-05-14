@@ -41,6 +41,7 @@ public class MyAttentionsActivity extends BaseActivity implements PullToRefreshB
     private PullToRefreshListView listView;
     private CommonAdapter adapter;
     private boolean isRefresh = false;
+    private boolean isLoad=true;
     private int type = 0;  //0 悄悄关注      1 关注
 
     @Override
@@ -68,9 +69,15 @@ public class MyAttentionsActivity extends BaseActivity implements PullToRefreshB
         listView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
             @Override
             public void onLastItemVisible() {
+                if(isLoad){
                 isRefresh = false;
                 page++;
                 initData(page, rows);
+                }
+                else
+                {
+                    listView.setIsLoadMore(false);
+                }
             }
         });
 
@@ -158,6 +165,7 @@ public class MyAttentionsActivity extends BaseActivity implements PullToRefreshB
                                 adapter.addData(songs);
                             }
                         } else {
+                            isLoad=false;
                             listView.setIsLoadMore(false);
                             Toast.makeText(MyAttentionsActivity.this, getString(R.string.no_more_toast), Toast.LENGTH_LONG).show();
                         }
