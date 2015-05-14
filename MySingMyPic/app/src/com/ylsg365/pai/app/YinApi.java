@@ -1155,6 +1155,27 @@ public class YinApi {
         URLUtils.addParameter(url, EnumParameter.AUTOQIEMAI, autoQiemai);
 
         httpGet(url.toString(), responseListener, errorListener);
+        
+//        StringBuilder url = new StringBuilder();
+//      URLUtils.addController(url, EnumController.HOUSE);
+//      URLUtils.addActionForPost(url, EnumAction.HOUSEUPDATE);
+//
+//      Map<String, String> params = new HashMap<String, String>();
+//      params.put(EnumParameter.NID.getDesc(), nid);
+//      params.put(EnumParameter.NNAME.getDesc(), nname);
+//      params.put(EnumParameter.ACCESSAUTH.getDesc(), accessAuth);
+//      params.put(EnumParameter.PWD.getDesc(), pwd);
+//      params.put(EnumParameter.SINGAUTH.getDesc(), singAuth);
+//      params.put(EnumParameter.IMGURL.getDesc(), imgUrl);
+//      params.put(EnumParameter.HOUSENO.getDesc(), houseNo);
+//      params.put(EnumParameter.NOTICE.getDesc(), notice);
+//      params.put(EnumParameter.ZHUBOID.getDesc(), zhuboId);
+//      params.put(EnumParameter.MANAGEIDS.getDesc(), manageIds);
+//      params.put(EnumParameter.AUTOQIEMAI.getDesc(), autoQiemai);
+//      
+//      params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+//
+//      httpPost(url.toString(), params, responseListener, errorListener);
     }
 
     /**
@@ -1194,6 +1215,60 @@ public class YinApi {
 
         YinApplication.getInstance().getRequestQueue().add(jsonObjReq);
     }
+    /**
+     * 进如|退出包房
+     * @param houseId
+     * @param type 0：进入，1：退出
+     * @param pwd 密码
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void inoutHouse(String houseId, int type, String pwd, Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.HOUSE);
+        URLUtils.addActionForGet(url, EnumAction.INOUTTHOUSEUSER);
+        URLUtils.addParameter(url, EnumParameter.TOKEN, ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+        URLUtils.addParameter(url, EnumParameter.HOUSEID, houseId);
+        URLUtils.addParameter(url, EnumParameter.TYPE, type + "");
+        URLUtils.addParameter(url, EnumParameter.PWD, pwd);
+
+
+        StringRequest jsonObjReq = new StringRequest(Request.Method.GET, url.toString(), responseListener, errorListener);
+
+        YinApplication.getInstance().getRequestQueue().add(jsonObjReq);
+        
+//        StringBuilder url = new StringBuilder();
+//        URLUtils.addController(url, EnumController.HOUSE);
+//        URLUtils.addActionForPost(url, EnumAction.INOUTTHOUSEUSER);
+//
+//        Map<String, String> params = new HashMap<String, String>();
+//        params.put(EnumParameter.TYPE.getDesc(), type + "");
+//        params.put(EnumParameter.HOUSEID.getDesc(), houseId);
+//        params.put(EnumParameter.PWD.getDesc(), pwd);
+//        params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+//
+//        httpPost(url.toString(), params, responseListener, errorListener);
+    }
+    /**
+     * 发送包房聊天
+     * @param houseId
+     * @param content
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void sendHouseChat(String houseId, String content, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.HOUSE);
+        URLUtils.addActionForPost(url, EnumAction.HOUSECHAT);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(EnumParameter.NTEXT.getDesc(), content);
+        params.put(EnumParameter.HOUSEID.getDesc(), houseId);
+        params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
+
+        httpPost(url.toString(), params, responseListener, errorListener);
+    }
+    
     /**
      * 获取包房观众列表
      * @param houseId

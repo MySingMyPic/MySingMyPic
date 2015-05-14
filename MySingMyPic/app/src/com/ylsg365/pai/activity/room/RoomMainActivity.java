@@ -14,6 +14,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ import com.ylsg365.pai.activity.base.TabFragment;
 import com.ylsg365.pai.activity.dialog.ShareDialog;
 import com.ylsg365.pai.activity.view.SlidingTabLayout;
 import com.ylsg365.pai.app.Constants;
+import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.event.UserAttentionEvent;
 import com.ylsg365.pai.util.JsonUtil;
@@ -42,11 +45,12 @@ import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
 
+import org.apache.http.util.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RoomMainActivity extends BaseActivity implements
-        IWeiboHandler.Response {
+        IWeiboHandler.Response, OnClickListener {
     private SlidingTabLayout slidingTabLayout;
     private ViewPager viewPager;
     private ArrayList<TabFragment> fragments;
@@ -59,8 +63,20 @@ public class RoomMainActivity extends BaseActivity implements
     private ImageView mHouseImgIV, mUserImgIV;
     private TextView mUserIdTV;
     private Button mAttentionBT;
+    
+    /**
+     * 聊天
+     */
+    private FrameLayout mChatFLayout;
+    private EditText mChatET;
+    private Button mChatBT;
+    
+    private LinearLayout mChatLL, mPaiLL;
 
-    private String nid;
+    private String mHouseId;
+    private int mUserId;
+    
+    private RoomChatFragment mChatFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +93,28 @@ public class RoomMainActivity extends BaseActivity implements
         mUserImgIV = (ImageView)findViewById(R.id.img_user_avatar);
         mUserIdTV = (TextView)findViewById(R.id.tv_user_id);
         mAttentionBT = (Button)findViewById(R.id.bt_attention);
+        
+        mChatFLayout = (FrameLayout)findViewById(R.id.fl_chat);
+        mChatFLayout.setOnClickListener(this);
+        mChatET = (EditText)findViewById(R.id.et_content);
+        mChatBT = (Button)findViewById(R.id.bt_commit);
+        mChatBT.setOnClickListener(this);
 
         slidingTabLayout = (SlidingTabLayout) findViewById(R.id.demo_tab);
         viewPager = (ViewPager) findViewById(R.id.pager_fresh);
 
         shard_btn = (LinearLayout) findViewById(R.id.shard_btn);
         gift = (LinearLayout) findViewById(R.id.gift);
+        gift.setOnClickListener(this);
+        mChatLL = (LinearLayout)findViewById(R.id.ll_chat_);
+        mChatLL.setOnClickListener(this);
+        mPaiLL = (LinearLayout)findViewById(R.id.ll_pai);
+        mPaiLL.setOnClickListener(this);
         bmp = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_launcher);
         shard_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 ShareDialog dialog = new ShareDialog(RoomMainActivity.this);
                 dialog.setOnShareClickListener(new ShareDialog.OnShareClickListener() {
                     @Override
@@ -112,19 +138,20 @@ public class RoomMainActivity extends BaseActivity implements
                 });
             }
         });
-        gift.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // NavHelper.toGiftListActivity(RoomMainActivity.this,"");
-            }
-        });
+//        gift.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                 NavHelper.toGiftListActivity(RoomMainActivity.this,"");
+//            }
+//        });
 
-        nid = getIntent().getExtras().getString("nid");
+        mHouseId = getIntent().getExtras().getString("nid");
         // 设置ViewPager
         fragments = new ArrayList<TabFragment>();
-        fragments.add(new RoomChatFragment(nid));
-        fragments.add(new UserAttentionFragment(nid));
-        fragments.add(new MicQueueFragment(nid));
+        mChatFragment = new RoomChatFragment(mHouseId);
+        fragments.add(mChatFragment);
+        fragments.add(new UserAttentionFragment(mHouseId));
+        fragments.add(new MicQueueFragment(mHouseId));
         viewPager_Adapter = new ViewPager_Adapter(getSupportFragmentManager(),
                 fragments);
         viewPager.setOffscreenPageLimit(fragments.size());
@@ -135,9 +162,6 @@ public class RoomMainActivity extends BaseActivity implements
 
         setupToolbar();
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
         getHouseDetail();
     }
 
@@ -145,10 +169,10 @@ public class RoomMainActivity extends BaseActivity implements
         /**
          * 获取房屋详情
          */
-        YinApi.getHouseDetail(nid, new Response.Listener<String>() {
+        YinApi.getHouseDetail(mHouseId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                LogUtil.loge("getHouseDetail", response);
+                LogUtil.logd("getHouseDetail", response);
                 JSONObject json = null;
                 try {
                     json = new JSONObject(response);
@@ -159,7 +183,7 @@ public class RoomMainActivity extends BaseActivity implements
                     ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN +JsonUtil.getString(json, "headImg"), mUserImgIV);
                     setTitle(JsonUtil.getString(json, "nname"));
                     mUserIdTV.setText(JsonUtil.getString(json, "nickName"));
-                    final int userId = JsonUtil.getInt(json, "userId");
+                    mUserId = JsonUtil.getInt(json, "userId");
                     final boolean attention = JsonUtil.getBoolean(json, "attention");
                     if(attention) {
                         mAttentionBT.setPressed(true);
@@ -169,7 +193,7 @@ public class RoomMainActivity extends BaseActivity implements
                     mAttentionBT.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            EventBus.getDefault().post(new UserAttentionEvent(userId, attention, mAttentionBT));
+                            EventBus.getDefault().post(new UserAttentionEvent(mUserId, attention, mAttentionBT));
                         }
                     });
                 }
@@ -268,7 +292,30 @@ public class RoomMainActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        exitHouse(mHouseId);
         EventBus.getDefault().unregister(this);
+    }
+    
+    private void exitHouse(final String houseId) {
+        YinApi.inoutHouse(houseId, 0, "", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                LogUtil.logd("inoutHouse", response.toString());
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(response);
+                } catch (JSONException e) {
+                }
+                if (obj == null || !JsonUtil.getBoolean(obj, "status")) {
+                    LogUtil.logd("inoutHouse", "退出包房失败");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                LogUtil.logd("inoutHouse", "退出包房失败");
+            }
+        });
     }
 
     public void onEvent(UserAttentionEvent event) {
@@ -323,5 +370,72 @@ public class RoomMainActivity extends BaseActivity implements
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    
+    private void showChatLayout(boolean flag) {
+        if(flag) {
+            mChatFLayout.setVisibility(View.VISIBLE);
+            mChatET.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mChatET, InputMethodManager.HIDE_NOT_ALWAYS);
+        } else {
+            mChatFLayout.setVisibility(View.GONE);
+        }
+    }
+    
+    private void commitChat() {
+        String content = mChatET.getText().toString().trim();
+        if(TextUtils.isEmpty(content)) {
+            Toast.makeText(getBaseContext(), "请输入内容", Toast.LENGTH_SHORT).show();
+            mChatET.requestFocus();
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mChatET.getWindowToken(), 0);
+        showChatLayout(false);
+        
+        YinApi.sendHouseChat(mHouseId, content, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                LogUtil.logd("sendHouseChat", response.toString());
+                if (response != null && JsonUtil.getBoolean(response, "status")) {
+                    Toast.makeText(getBaseContext(), "发送成功", Toast.LENGTH_SHORT).show();
+                    mChatET.setText("");
+                    mChatFragment.refresh();
+                } else {
+                    Toast.makeText(getBaseContext(), "发送失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getBaseContext(), "发送失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+        case R.id.bt_commit:
+            //发送聊天
+            commitChat();
+            break;
+        case R.id.ll_chat_:
+            //打开聊天页面
+            showChatLayout(true);
+            break;
+        case R.id.gift:
+            //送礼物
+            NavHelper.toGiftListActivity(RoomMainActivity.this, mHouseId, mUserId + "");
+            break;
+        case R.id.ll_pai:
+            //点歌排麦
+            break;
+        case R.id.fl_chat:
+            //关闭聊天页面
+            showChatLayout(false);
+            break;
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.ylsg365.pai.activity.room;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -19,23 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ylsg365.pai.R;
-import com.ylsg365.pai.activity.HomeAdapter;
 import com.ylsg365.pai.activity.base.TabFragment;
-import com.ylsg365.pai.app.Constants;
-import com.ylsg365.pai.app.UIHelper;
 import com.ylsg365.pai.app.YinApi;
-import com.ylsg365.pai.util.CommonAdapter;
 import com.ylsg365.pai.util.JsonUtil;
 import com.ylsg365.pai.util.LogUtil;
-import com.ylsg365.pai.util.ViewHolder;
 
 public class RoomChatFragment extends TabFragment implements
         AbsListView.OnItemClickListener {
@@ -116,6 +107,10 @@ public class RoomChatFragment extends TabFragment implements
 
         return rootView;
     }
+    
+    public void refresh() {
+        getChatList();
+    }
 
     private void getChatList() {
         YinApi.getHouseChat(nid, new Response.Listener<String>() {
@@ -129,6 +124,7 @@ public class RoomChatFragment extends TabFragment implements
                 }
                 if (response != null && JsonUtil.getBoolean(response, "status")) {
                     List<JSONObject> infoList = mAdapter.getList();
+                    infoList.clear();
                     JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "chats");
                     int length = infoJsonArray.length();
                     for (int i = 0; i < length; i++) {

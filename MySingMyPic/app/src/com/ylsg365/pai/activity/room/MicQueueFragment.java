@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,6 +32,7 @@ import com.ylsg365.pai.util.LogUtil;
 public class MicQueueFragment extends TabFragment implements AbsListView.OnItemClickListener{
     private MicQueueAdapter mAdapter;
     private String nid;
+    private TextView mModelTV;
     // TODO: Rename and change types of parameters
     public static MicQueueFragment newInstance(String param1, String param2) {
         MicQueueFragment fragment = new MicQueueFragment();
@@ -61,7 +63,8 @@ public class MicQueueFragment extends TabFragment implements AbsListView.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mic_queue, container, false);
-
+        
+        mModelTV = (TextView)rootView.findViewById(R.id.tv_model);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_user);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

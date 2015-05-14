@@ -38,6 +38,7 @@ import com.ylsg365.pai.util.StringUtil;
 import com.ylsg365.pai.util.ViewHolder;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -137,13 +138,37 @@ public class KaraokeActivity extends BaseActivity implements View.OnClickListene
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 JSONObject obj = (JSONObject)adapter.getItem(position);
                 String nid = JsonUtil.getString(obj,"nid");
-                Bundle data = new Bundle();
-                data.putString("nid", nid);
-                NavHelper.toRoomMainPage(KaraokeActivity.this, data);
+                enterHouse(nid);
             }
         });
         getKtvRoomList(null, currentPage, rows);
         getMyHouse("","1","1");
+    }
+    
+    private void enterHouse(final String houseId) {
+        YinApi.inoutHouse(houseId, 0, "", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                LogUtil.logd("inoutHouse", response.toString());
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(response);
+                } catch (JSONException e) {
+                }
+//                if (obj != null && JsonUtil.getBoolean(obj, "status")) {
+                    Bundle data = new Bundle();
+                    data.putString("nid", houseId);
+                    NavHelper.toRoomMainPage(KaraokeActivity.this, data);
+//                }else {
+//                    Toast.makeText(getBaseContext(), "进入包房失败", Toast.LENGTH_SHORT).show();
+//                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getBaseContext(), "进入包房失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

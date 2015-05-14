@@ -563,7 +563,7 @@ public class NavHelper {
     public static void toGiftInfoActivity(Context mContext, String[] giftInfo,String houseId,String receiveUserId,String count) {  //houseId,receiveUserId ,count
         Intent i = new Intent(mContext,GiftInfoActivity.class);
         i.putExtra("giftInfo",giftInfo);
-        i.putExtra("houseId",giftInfo);
+        i.putExtra("houseId",houseId);
         i.putExtra("receiveUserId",receiveUserId);
         i.putExtra("count",count);
         mContext.startActivity(i);

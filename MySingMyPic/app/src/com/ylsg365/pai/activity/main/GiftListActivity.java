@@ -33,17 +33,22 @@ import java.util.Map;
 /**
  * 礼物列表
  */
-public class GiftListActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener {
+@SuppressWarnings("rawtypes")
+public class GiftListActivity extends BaseActivity implements
+        PullToRefreshBase.OnRefreshListener {
     private PullToRefreshGridView gridView;
     private CommonAdapter adapter;
     private List<Map<String, String>> giftList = new ArrayList<Map<String, String>>();
     private int page = 0;
     private final int rows = 10;
     private boolean isRefresh = false;
-    private String houseId  ;
-    private  String receiveUserId ;
-    private int type=0;
+    private String houseId;
+    private String receiveUserId;
+    private int type = 0;
 
+    @SuppressWarnings({
+        "unchecked"
+    })
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,16 +67,19 @@ public class GiftListActivity extends BaseActivity implements PullToRefreshBase.
 
         gridView = (PullToRefreshGridView) findViewById(R.id.grid);
 
-        type=getIntent().getIntExtra("type",0);
+        type = getIntent().getIntExtra("type", 0);
         houseId = getIntent().getStringExtra("houseId");
         receiveUserId = getIntent().getStringExtra("receiveUserId");
 
-        adapter = new CommonAdapter(GiftListActivity.this, giftList, R.layout.item_gift) {
+        adapter = new CommonAdapter(GiftListActivity.this, giftList,
+                R.layout.item_gift) {
             @Override
             public void convert(ViewHolder holder, Object item) {
 
                 Map<String, String> data = ((Map<String, String>) item);
-                ImageLoader.getInstance().displayImage( Constants.WEB_IMG_DOMIN+data.get("img").toString(), (ImageView) holder.getView(R.id.img_user_avatar));
+                ImageLoader.getInstance().displayImage(
+                        Constants.WEB_IMG_DOMIN + data.get("img").toString(),
+                        (ImageView) holder.getView(R.id.img_user_avatar));
                 holder.setText(R.id.song_name, data.get("name"));
                 holder.setText(R.id.money, data.get("money"));
             }
@@ -82,7 +90,8 @@ public class GiftListActivity extends BaseActivity implements PullToRefreshBase.
         gridView.setOnRefreshListener(this);
         // set mode to BOTH
         gridView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        ILoadingLayout startLabels = gridView.getLoadingLayoutProxy(true, false);
+        ILoadingLayout startLabels = gridView
+                .getLoadingLayoutProxy(true, false);
         startLabels.setPullLabel("下拉刷新");
         startLabels.setRefreshingLabel("加载中...");
         startLabels.setReleaseLabel("释放刷新");
@@ -100,14 +109,22 @@ public class GiftListActivity extends BaseActivity implements PullToRefreshBase.
          */
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String count = "1" ;
-                String[] datas = new String[]{giftList.get(position).get("name"), giftList.get(position).get("img"), giftList.get(position).get("money"),giftList.get(position).get("nid")};
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                String count = "1";
+                String[] datas = new String[] {
+                        giftList.get(position).get("name"),
+                        giftList.get(position).get("img"),
+                        giftList.get(position).get("money"),
+                        giftList.get(position).get("nid")
+                };
 
-                if(type==0)
-                    NavHelper.toGiftInfoActivity(GiftListActivity.this, datas,houseId,receiveUserId ,count);
-                else if(type==1)
-                    NavHelper.toGiftInfoActivityForNewsInfo(GiftListActivity.this, datas,type,houseId ,count);
+                if (type == 0)
+                    NavHelper.toGiftInfoActivity(GiftListActivity.this, datas,
+                            houseId, receiveUserId, count);
+                else if (type == 1)
+                    NavHelper.toGiftInfoActivityForNewsInfo(
+                            GiftListActivity.this, datas, type, houseId, count);
             }
         });
         getGiftList();
@@ -122,46 +139,55 @@ public class GiftListActivity extends BaseActivity implements PullToRefreshBase.
     }
 
     /**
-     *  获取礼物数据
+     * 获取礼物数据
      */
     private void getGiftList() {
-        YinApi.getGiftList(page + "", rows + "", new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (JsonUtil.getBoolean(response, "status")) {
-                    if (isRefresh) {
-                        adapter.clearData();
+        YinApi.getGiftList(page + "", rows + "",
+                new Response.Listener<JSONObject>() {
+                    @SuppressWarnings("unchecked")
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if (JsonUtil.getBoolean(response, "status")) {
+                            if (isRefresh) {
+                                adapter.clearData();
+                            }
+                            JSONArray array = JsonUtil.getJSONArray(response,
+                                    "gifts");
+                            giftList.clear();
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject json = JsonUtil.getJSONObject(array,
+                                        i);
+                                Map<String, String> map = new HashMap<String, String>();
+                                map.put("img",
+                                        JsonUtil.getString(json, "imgUrl"));
+                                map.put("name",
+                                        JsonUtil.getString(json, "nname"));
+                                map.put("money",
+                                        JsonUtil.getString(json, "money"));
+                                map.put("nid", JsonUtil.getString(json, "nid"));
+                                giftList.add(map);
+                            }
+
+                            adapter.addData(giftList);
+
+                            if (giftList.size() <= 0) {
+                                gridView.setIsLoadMore(false);
+                                Toast.makeText(GiftListActivity.this,
+                                        getString(R.string.no_more_toast),
+                                        Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+
+                        adapter.notifyDataSetChanged();
+                        gridView.onRefreshComplete();
                     }
-                    JSONArray array = JsonUtil.getJSONArray(response, "gifts");
-                    giftList.clear();
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject json = JsonUtil.getJSONObject(array, i);
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("img",JsonUtil.getString(json, "imgUrl"));
-                        map.put("name", JsonUtil.getString(json, "nname"));
-                        map.put("money", JsonUtil.getString(json, "money"));
-                        map.put("nid", JsonUtil.getString(json, "nid"));
-                        giftList.add(map);
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        adapter.notifyDataSetChanged();
+                        gridView.onRefreshComplete();
                     }
-
-                    adapter.addData(giftList);
-
-                    if (giftList.size() <= 0 ) {
-                        gridView.setIsLoadMore(false);
-                        Toast.makeText(GiftListActivity.this, getString(R.string.no_more_toast), Toast.LENGTH_LONG).show();
-                    }
-
-                }
-
-                adapter.notifyDataSetChanged();
-                gridView.onRefreshComplete();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                adapter.notifyDataSetChanged();
-                gridView.onRefreshComplete();
-            }
-        });
+                });
     }
 }

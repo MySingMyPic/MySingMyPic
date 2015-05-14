@@ -85,7 +85,6 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
             public void convert(ViewHolder holder, Object item) {
                 holder.setText(R.id.song_name, ((HashMap) item).get("name").toString());
                 holder.setText(R.id.song_time, ((HashMap) item).get("sing").toString());
-
             }
         };
         listView.setAdapter(adapter);
@@ -117,11 +116,11 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
                                 map.put("name", JsonUtil.getString(json, "songName"));
                                 songs.add(map);
                             }
-                            if (page == 1) {
-                                adapter.setDatas(songs);
-                            } else {
-                                adapter.addData(songs);
-                            }
+//                            if (page == 1) {
+//                                adapter.setDatas(songs);
+//                            } else {
+//                                adapter.addData(songs);
+//                            }
                         }else{
                             listView.setIsLoadMore(false);
                             Toast.makeText(SongActivity.this, getString(R.string.no_more_toast), Toast.LENGTH_LONG).show();
