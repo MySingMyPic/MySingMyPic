@@ -1,5 +1,7 @@
 package com.ylsg365.pai.app;
 
+import android.text.TextUtils;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -739,7 +741,7 @@ public class YinApi {
         URLUtils.addController(url, EnumController.GIFT);
         URLUtils.addActionForGet(url, EnumAction.INDEXGIFTLIST);
         URLUtils.addParameter(url, EnumParameter.ntype,type+"");
-        URLUtils.addParameter(url, EnumParameter.NEWINFOID, newsInfoId + "");
+        URLUtils.addParameter(url, EnumParameter.NID, newsInfoId + "");
         URLUtils.addParameter(url, EnumParameter.PAGE, PAGE + "");
         URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
 
@@ -991,7 +993,8 @@ public class YinApi {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(EnumParameter.FORWARDTEXT.getDesc(), comment);
-        params.put(EnumParameter.FORWARDUSERID.getDesc(), userId);
+        if(!TextUtils.isEmpty(userId))
+            params.put(EnumParameter.FORWARDUSERID.getDesc(), userId);
         params.put(EnumParameter.NEWINFOID.getDesc(), newsInfoId + "");
         params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
 
@@ -1014,7 +1017,8 @@ public class YinApi {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(EnumParameter.FORWARDTEXT.getDesc(), comment);
-        params.put(EnumParameter.FORWARDUSERID.getDesc(), userId);
+        if(!TextUtils.isEmpty(userId))
+            params.put(EnumParameter.FORWARDUSERID.getDesc(), userId);
         params.put(EnumParameter.NEWINFOID.getDesc(), newsInfoId + "");
         params.put(EnumParameter.TOKEN.getDesc(), ConfigUtil.getStringValue(ConfigUtil.CONFIG_TOKEN));
 
@@ -1421,6 +1425,22 @@ public class YinApi {
         httpGet(url.toString(), responseListener, errorListener);
     }
 
+    /**
+     * 获取比赛详情
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getGameUsers(String nid,int page, int rows,Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.GAMECENTER);
+        URLUtils.addActionForGet(url, EnumAction.GETGAMEUSERS);
+        URLUtils.addParameter(url, EnumParameter.GAMECENTERID, nid);
+        URLUtils.addParameter(url, EnumParameter.PAGE, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
 
 
     /**
@@ -1579,11 +1599,10 @@ public class YinApi {
      * @param responseListener
      * @param errorListener
      */
-    public static void getBankBist( String id ,Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener){
+    public static void getBankBist(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener){
         StringBuilder url = new StringBuilder();
         URLUtils.addController(url, EnumController.CASH);
         URLUtils.addActionForGet(url, EnumAction.GETBANKLIST);
-        URLUtils.addParameter(url, EnumParameter.BANKID , id );
 
         httpGet(url.toString(), responseListener, errorListener);
     }

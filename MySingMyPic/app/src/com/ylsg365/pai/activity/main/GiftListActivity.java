@@ -1,6 +1,7 @@
 package com.ylsg365.pai.activity.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ public class GiftListActivity extends BaseActivity implements
     private int page = 0;
     private final int rows = 10;
     private boolean isRefresh = false;
+    private boolean isLoad=true;
     private String houseId;
     private String receiveUserId;
     private int type = 0;
@@ -99,9 +101,11 @@ public class GiftListActivity extends BaseActivity implements
         gridView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
             @Override
             public void onLastItemVisible() {
+                if(isLoad){
                 isRefresh = false;
                 page++;
                 getGiftList();
+                }
             }
         });
         /**
@@ -133,6 +137,7 @@ public class GiftListActivity extends BaseActivity implements
     @Override
     public void onRefresh(PullToRefreshBase refreshView) {
         isRefresh = true;
+        isLoad=true;
         page = 0;
         gridView.setIsLoadMore(true);
         getGiftList();
@@ -147,6 +152,7 @@ public class GiftListActivity extends BaseActivity implements
                     @SuppressWarnings("unchecked")
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.e("giftListD",response.toString());
                         if (JsonUtil.getBoolean(response, "status")) {
                             if (isRefresh) {
                                 adapter.clearData();
@@ -171,6 +177,7 @@ public class GiftListActivity extends BaseActivity implements
                             adapter.addData(giftList);
 
                             if (giftList.size() <= 0) {
+                                isLoad=false;
                                 gridView.setIsLoadMore(false);
                                 Toast.makeText(GiftListActivity.this,
                                         getString(R.string.no_more_toast),

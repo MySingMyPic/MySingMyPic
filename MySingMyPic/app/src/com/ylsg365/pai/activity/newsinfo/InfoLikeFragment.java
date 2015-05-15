@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -82,16 +81,18 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
             }
         },1);
 
-        recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                isLoad=true;
-                currentPage = 0;
-                recyclerView.setLoadingMore(true);
-                isRefresh = true;
-                getNewInfoNices(newsInfoId, currentPage, rows);
-            }
-        });
+//        recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                Log.e("", "refresh");
+//                isLoad=true;
+//                prePage=-1;
+//                currentPage = 0;
+//                recyclerView.setLoadingMore(true);
+//                isRefresh = true;
+//                getNewInfoNices(newsInfoId, currentPage, rows);
+//            }
+//        });
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
 
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -108,13 +109,21 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
                         View child = parent.getChildAt(i);
                         c.drawLine(child.getLeft(), child.getBottom(), parent.getRight(), child.getBottom(), paint);
                     }
-
                 }
             }
 
             @Override
             public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                getNewInfoNices(newsInfoId, currentPage++, rows);
+                if(isLoad){
+                    isRefresh = false;
+                    getNewInfoNices(newsInfoId,currentPage++,rows);
+                }
+                else
+                {
+                    recyclerView.setLoadingMore(false);
+                    recyclerView.hideMoreProgress();
+                }
+
             }
 
             @Override
@@ -148,31 +157,45 @@ public class InfoLikeFragment extends TabFragment implements OnItemClickListener
     private int currentPage = 0;
     private static final int rows = 10;
     private InfoLikeAdapter infoLikeAdapter;
-
+    private int prePage=-1;
     private void getNewInfoNices(int newsInfoId, int currentPage, final int rows){
         YinApi.getNewInfoGifts(1,newsInfoId, currentPage, rows, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 LogUtil.logd("getNewInfoGifts", response.toString());
 
+                int page=JsonUtil.getInt(response,"page");
+
                 if (JsonUtil.getBoolean(response, "status")) {
-                    if(isRefresh){
-                        infoLikeAdapter.clear();
-                    }
+
+                    if(page!=prePage){
                     JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "gifts");
                     infoList.clear();
                     for (int i = 0; i < infoJsonArray.length(); i++) {
                         infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
                     }
 
-                    infoLikeAdapter.addData(infoList);
+                    if(isRefresh)
+                    {
+                        recyclerView.removeAllViews();
+                        infoLikeAdapter = new InfoLikeAdapter(R.layout.item_info_like, infoList);
+                        infoLikeAdapter.setOnItemClickListener(InfoLikeFragment.this);
+                        recyclerView.setAdapter(infoLikeAdapter);
+                        isRefresh=false;
+                    }
+                    else{
+                        infoLikeAdapter.addData(infoList);
+                        infoLikeAdapter.notifyDataSetChanged();
+                    }
                     if(infoList.size() < rows){
                         isLoad=false;
                         recyclerView.setLoadingMore(false);
 //                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
                     }
+                    prePage=page;
+                    }
                 }
-                infoLikeAdapter.notifyDataSetChanged();
+
                 recyclerView.hideMoreProgress();
 
             }

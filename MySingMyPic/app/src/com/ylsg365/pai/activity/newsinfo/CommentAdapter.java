@@ -13,6 +13,7 @@ import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.Listener.OnItemClickListener;
 import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.face.FaceUtil;
+import com.ylsg365.pai.util.DateUtil;
 import com.ylsg365.pai.util.JsonUtil;
 
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         holder.userNickNameTextView.setText(JsonUtil.getString(infoJsonObject, "nickName"));
         holder.infoContentTextView.setText(FaceUtil.setText(context,JsonUtil.getString(infoJsonObject, "ntext")));
-
+        holder.cTimeTextView.setText(DateUtil.getFriendlyDate(JsonUtil.getString(infoJsonObject, "cTime")));
         ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "headImg"), holder.userHeadImageview);
     }
 

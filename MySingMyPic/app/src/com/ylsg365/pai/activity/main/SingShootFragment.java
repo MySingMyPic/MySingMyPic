@@ -9,11 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.event.NavEvent;
+import com.ylsg365.pai.util.StringUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -28,6 +32,10 @@ public class SingShootFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    //搜索
+    private EditText searchInput;
+    private ImageView searchIcon;
 
     /**
      * Use this factory method to create a new instance of
@@ -81,6 +89,20 @@ public class SingShootFragment extends Fragment {
 
         recyclerView.setAdapter(singShootAdapter);
 
+        searchInput=(EditText)rootView.findViewById(R.id.edit_search);
+        searchInput.setHint("输入歌曲名");
+        searchIcon=(ImageView)rootView.findViewById(R.id.img_search);
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String keyword = searchInput.getText().toString();
+                if (StringUtil.isNull(keyword)) {
+                    Toast.makeText(getActivity(), "请输入歌曲名进行搜索.", Toast.LENGTH_LONG).show();
+                } else {
+                    NavHelper.toSongActivity(getActivity(),keyword);
+                }
+            }
+        });
         return rootView;
     }
 

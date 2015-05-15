@@ -82,7 +82,7 @@ public class NewInfoAdapter extends RecyclerView.Adapter<NewInfoAdapter.ViewHold
         String str= JsonUtil.getString(infoJsonObject, "ntext");
         if(str!=null&&!str.isEmpty())
             holder.infoContentTextView.setText(FaceUtil.setText(context,str));
-        holder.niceCountTextView.setText(JsonUtil.getString(infoJsonObject, "niceCount"));
+        holder.niceCountTextView.setText(JsonUtil.getString(infoJsonObject, "giftCount"));
         holder.commentCountTextView.setText(JsonUtil.getString(infoJsonObject, "commentCount"));
         holder.forwardCountTextView.setText(JsonUtil.getString(infoJsonObject, "forwardCount"));
 

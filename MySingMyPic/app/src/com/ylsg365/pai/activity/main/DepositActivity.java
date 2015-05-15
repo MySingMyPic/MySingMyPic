@@ -1,10 +1,7 @@
 package com.ylsg365.pai.activity.main;
 
-import android.os.CountDownTimer;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.base.BaseActivity;
-import com.ylsg365.pai.activity.login.RegisterActivity;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.util.CommonAdapter;
@@ -76,6 +72,7 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
         money = (EditText) findViewById(R.id.edit_register_money);
         banknum = (EditText) findViewById(R.id.edit_banknum);
         name = (EditText) findViewById(R.id.edit_name);
+
         bank = (EditText) findViewById(R.id.edit_bank);
         bankname = (EditText) findViewById(R.id.edit_register_bankname);
         phone = (EditText) findViewById(R.id.edit_phone);
@@ -98,7 +95,7 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
                     if(StringUtil.isNull(id)){
                         Toast.makeText(DepositActivity.this,"请输入正确的银行卡号!", Toast.LENGTH_LONG).show();
                     }else{
-                        YinApi.getBankBist(id,new Response.Listener<JSONObject>() {
+                        YinApi.getBankBist(new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
 
@@ -242,7 +239,7 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
      */
     private void getBankList(){
         String banknumStr = banknum.getText().toString().trim();
-        YinApi.getBankBist(banknumStr,new Response.Listener<JSONObject>() {
+        YinApi.getBankBist(new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(JsonUtil.getBoolean(response,"status")){

@@ -79,7 +79,7 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
 
                 forwardCount = JsonUtil.getInt(newsInfoObj, "forwardCount");
                 commentCount = JsonUtil.getInt(newsInfoObj, "commentCount");
-                likeCount = JsonUtil.getInt(newsInfoObj, "niceCount");
+                likeCount = JsonUtil.getInt(newsInfoObj, "giftCount");
                 isAttention=JsonUtil.getBoolean(newsInfoObj,"attention");
                 slidingTabLayout = (SlidingTabLayout) findViewById(R.id.demo_tab);
                 viewPager = (ViewPager) findViewById(R.id.pager_fresh);

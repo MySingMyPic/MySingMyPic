@@ -1,6 +1,7 @@
 package com.ylsg365.pai.activity.message;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -8,11 +9,13 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.base.BaseActivity;
+import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.UIHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.face.FaceImage;
@@ -31,6 +35,11 @@ import com.ylsg365.pai.util.LogUtil;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CommentSendActivity extends BaseActivity implements View.OnClickListener,FaceListener{
     private TextView titleRightTextView;
     public EditText comment;
@@ -39,6 +48,10 @@ public class CommentSendActivity extends BaseActivity implements View.OnClickLis
     private RelativeLayout faceLayout;
     View faceView;
     boolean faceFlag=false;
+    //操作
+    ImageView atOp,faceOp;
+    //@某人
+    List<JSONObject> userList=new ArrayList<JSONObject>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +74,15 @@ public class CommentSendActivity extends BaseActivity implements View.OnClickLis
         comment=(EditText)findViewById(R.id.edit_content);
         faceLayout=(RelativeLayout)findViewById(R.id.face_layout);
         topRoot=(KeyboardListenRelativeLayout)findViewById(R.id.top_root);
+        atOp=(ImageView)findViewById(R.id.at);
+        faceOp=(ImageView)findViewById(R.id.face);
         FaceView face=new FaceView();
         faceView=face.faceView(this, this);
 
         faceLayout.addView(faceView);
+        showFace();
+
+
     }
 
     @Override
@@ -78,7 +96,6 @@ public class CommentSendActivity extends BaseActivity implements View.OnClickLis
             public void onKeyboardStateChanged(int state) {
                 switch (state) {
                     case KeyboardListenRelativeLayout.KEYBOARD_STATE_HIDE://软键盘隐藏
-                        faceFlag=true;
                         showFace();
 
                         break;
@@ -91,6 +108,55 @@ public class CommentSendActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         });
+        atOp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHelper.toPrivateMessageUserListPage(CommentSendActivity.this);
+            }
+        });
+        faceOp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(faceFlag==false)
+                    faceFlag=true;
+                else faceFlag=false;
+                showFace();
+            }
+        });
+    }
+
+    private void appendContent(String userNickName){
+        SpannableString spanString = new SpannableString(String.format("@%s", userNickName+" "));
+        ForegroundColorSpan span = new ForegroundColorSpan(getResources().getColor(R.color.purple));
+        spanString.setSpan(span, 0, spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        comment.append(spanString);
+    }
+
+    private final Pattern AT_PATTERN = Pattern.compile("@[\\u4e00-\\u9fa5\\w\\-]+");
+
+    private String getUsers(String content)
+    {
+        String result="";
+        if(userList.size()>0){
+            Matcher m = AT_PATTERN.matcher(content);
+            while (m.find()) {
+                String atUserName = m.group();
+                atUserName=atUserName.substring("@".length(),atUserName.length());
+                for(int i=0;i<userList.size();i++)
+                {
+
+                    JSONObject json=userList.get(i);
+                    String name=JsonUtil.getString(json,"nickName");
+                    if(name.trim().equals(atUserName))
+                    {
+                        result+=JsonUtil.getInt(json,"userId")+";";
+                    }
+                }
+            }
+            if(result.length()>0)
+                result=result.substring(0,result.length()-1);
+        }
+        return result;
     }
 
     public void showFace()
@@ -127,7 +193,8 @@ public class CommentSendActivity extends BaseActivity implements View.OnClickLis
 
         SpannableStringBuilder builder = new SpannableStringBuilder(comment.getText());
         Log.e("",""+builder.toString());
-        YinApi.sendNewsInfoComment(newsInfoId, builder.toString(), "2", new Response.Listener<JSONObject>() {
+        String users=getUsers(builder.toString());
+        YinApi.sendNewsInfoComment(newsInfoId, builder.toString(), users, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 LogUtil.logd("sendComment", response.toString());
@@ -171,5 +238,23 @@ public class CommentSendActivity extends BaseActivity implements View.OnClickLis
     public void removeFace()
     {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == NavHelper.RESULT_SELECT_USER_SUCCESS){
+            if(data!=null){
+            JSONObject userJsonObj = JsonUtil.getJSONObject(data.getStringExtra("selectedUser"));
+            userList.add(userJsonObj);
+            UIHelper.showToast(JsonUtil.getString(userJsonObj, "nickName"));
+            if(comment != null){
+                comment.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(comment, InputMethodManager.SHOW_IMPLICIT);
+
+                appendContent(JsonUtil.getString(userJsonObj, "nickName"));
+            }
+            }
+        }
     }
 }

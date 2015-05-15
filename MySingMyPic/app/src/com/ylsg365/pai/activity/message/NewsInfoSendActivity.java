@@ -113,7 +113,6 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
             public void onKeyboardStateChanged(int state) {
                 switch (state) {
                     case KeyboardListenRelativeLayout.KEYBOARD_STATE_HIDE://软键盘隐藏
-                        faceFlag=true;
                         showFace();
 
                         break;
@@ -141,6 +140,16 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 NavHelper.toPrivateMessageUserListPage(NewsInfoSendActivity.this);
+            }
+        });
+
+        faceOp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(faceFlag==false)
+                    faceFlag=true;
+                else faceFlag=false;
+                showFace();
             }
         });
     }
@@ -224,7 +233,7 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
 
 
     private void appendContent(String userNickName){
-        SpannableString spanString = new SpannableString(String.format("@%s", userNickName));
+        SpannableString spanString = new SpannableString(String.format("@%s", userNickName+" "));
         ForegroundColorSpan span = new ForegroundColorSpan(getResources().getColor(R.color.purple));
         spanString.setSpan(span, 0, spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         contentEditText.append(spanString);
@@ -291,6 +300,7 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == NavHelper.RESULT_SELECT_USER_SUCCESS){
+            if(data!=null){
             JSONObject userJsonObj = JsonUtil.getJSONObject(data.getStringExtra("selectedUser"));
             userList.add(userJsonObj);
             UIHelper.showToast(JsonUtil.getString(userJsonObj, "nickName"));
@@ -301,8 +311,10 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
 
                 appendContent(JsonUtil.getString(userJsonObj, "nickName"));
             }
+            }
         }
         else if (requestCode == NavHelper.RESULT_SELECT_IMAGE_SUCCESS) {   //获取图片
+            if(data!=null){
             ArrayList<String> imageList = data.getStringArrayListExtra("imageList");
 
             if(imageList!=null&&imageList.size()>0){
@@ -326,6 +338,7 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
             {
                 newsInfoImgAdapter.setData(imageList);
                 newsInfoImgAdapter.notifyDataSetChanged();
+            }
             }
             }
         }

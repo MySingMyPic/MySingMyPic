@@ -40,9 +40,9 @@ public class InfoLikeAdapter extends RecyclerView.Adapter<InfoLikeAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         JSONObject infoJsonObject = infoList.get(position);
 
-        holder.userNickNameTextView.setText(JsonUtil.getString(infoJsonObject, "nickName"));
+        holder.userNickNameTextView.setText(JsonUtil.getString(infoJsonObject, "nname"));
 
-        ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "headImg"), holder.userHeadImageview);
+        ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "imgUrl"), holder.userHeadImageview);
     }
 
     @Override

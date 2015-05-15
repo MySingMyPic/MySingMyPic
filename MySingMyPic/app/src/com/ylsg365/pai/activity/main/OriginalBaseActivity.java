@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * 原创基地页面
  */
-public class OriginalBaseActivity extends BaseActivity {
+public class OriginalBaseActivity extends BaseActivity implements OriginalAdapter.OnItemClickListener {
     private SuperRecyclerView recyclerView;
     int pageType;
     int userId;
@@ -217,5 +217,10 @@ public class OriginalBaseActivity extends BaseActivity {
                 recyclerView.hideMoreProgress();
             }
         });
+    }
+
+    @Override
+    public void onClick(int position) {
+
     }
 }
