@@ -6,10 +6,20 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 录像权限 -->
+    <uses-permission android:name="android.permission.RECORD_VIDEO"/>
+    <!-- 调用摄像头权限 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <!-- 修改扬声器声音权限 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <!-- 在SDCard中创建与删除文件权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-sdk android:minSdkVersion="8"/>
 
@@ -98,6 +108,11 @@
             android:name=".activity.user.MoneyManagerActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
+            android:name=".activity.user.CopyrightBuyActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+
+        <activity
             android:name=".activity.user.WithdrawActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".activity.user.NewsInfoListActivity" />
@@ -173,6 +188,11 @@
             android:label="@string/title_activity_deposit" >
         </activity>
         <activity
+            android:name=".activity.video.VideoAddEffectActivity"
+            android:label="@string/title_activity_video_add_effect" >
+        </activity>
+
+        <activity
             android:name=".OpenVipSelectActivity"
             android:label="@string/title_activity_open_vip_select" >
         </activity>
@@ -233,6 +253,36 @@
             android:name=".imagedisplay.ImageSelectActivity"
             android:label="imageselect" >
         </activity>
+        <activity
+            android:name=".activity.music.ChangeMusicVolumeActivity"
+            android:label="@string/title_activity_change_music_volume" >
+        </activity>
+        <activity
+            android:name=".activity.music.SingASoneActivity"
+            android:label="@string/title_activity_sing_asone" >
+        </activity>
+        <activity
+            android:name=".activity.music.SongScoreActivity"
+            android:label="@string/title_activity_song_score" >
+        </activity>
+        <activity
+            android:name=".activity.video.VideoStartActivity"
+            android:label="@string/title_activity_video_start" >
+        </activity>
+        <activity
+            android:name=".activity.video.VideoLongActivity"
+            android:label="@string/title_activity_video_long" >
+        </activity>
+        <activity
+            android:name=".activity.video.VideoAddMusicSelectActivity"
+            android:label="@string/title_activity_video_add_music_select" >
+        </activity>
+        <activity
+            android:name=".customview.CompessDialog"
+            android:label="@string/title_activity_compess_dialog"
+            android:theme="@style/MyDialogStyle">
+        </activity>
+
     </application>
 
 </manifest>

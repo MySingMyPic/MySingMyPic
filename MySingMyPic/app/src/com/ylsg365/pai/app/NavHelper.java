@@ -453,7 +453,13 @@ public class NavHelper {
         forwardAnim((Activity) context);
     }
 
-
+    public static void toSingASoneActivity(Context context,String path) {
+        Intent intent = new Intent(context, SingASoneActivity.class);
+        intent.putExtra("AUDIO_PATH",path);
+        context.startActivity(intent);
+        forwardAnim((Activity) context);
+    }
+	
     public static void toRoomMainPage(Context context) {
         Intent intent = new Intent(context, RoomMainActivity.class);
         ((Activity) context).startActivityForResult(intent, REQUEST_GO_TO_PHONE_BIND);
@@ -461,6 +467,7 @@ public class NavHelper {
 
     }
     
+	
     public static void toRoomMainPage(Context context, Bundle data) {
         Intent intent = new Intent(context, RoomMainActivity.class);
         intent.putExtras(data);
@@ -525,6 +532,13 @@ public class NavHelper {
         Intent i = new Intent(mContext,SongActivity.class);
         i.putExtra("type",code);
         i.putExtra("typename",name);
+        mContext.startActivity(i);
+        forwardAnim((Activity) mContext);
+
+    }
+    public static void toVideoActivity(Activity mContext,int choice) {
+        Intent i = new Intent(mContext,VideoActivity.class);
+        i.putExtra("choice",choice);
         mContext.startActivity(i);
         forwardAnim((Activity) mContext);
 
@@ -668,6 +682,27 @@ public class NavHelper {
             Intent intent = new Intent(context, ImageSelectActivity.class);
             ((Activity) context).startActivityForResult(intent, requestCode);
             forwardAnim((Activity) context);
+    }
+
+    public static void toVideoAddEffectActivity(Activity mContext,String path) {
+        Intent i = new Intent(mContext,VideoAddEffectActivity.class);
+        i.putExtra("VIDEO_PATH",path);
+        mContext.startActivity(i);
+        forwardAnim((Activity) mContext);
+    }
+
+    public static void toVideoLongActivity(Activity mContext,String path) {
+        Intent i = new Intent(mContext,VideoLongActivity.class);
+        i.putExtra("VIDEO_PATH",path);
+        mContext.startActivity(i);
+        forwardAnim((Activity) mContext);
+    }
+
+    public static void toChangeMusicVolumeActivity(Activity mContext,String path) {
+        Intent i = new Intent(mContext,ChangeMusicVolumeActivity.class);
+        i.putExtra("AUDIO_PATH",path);
+        mContext.startActivity(i);
+        forwardAnim((Activity) mContext);
     }
 
 
