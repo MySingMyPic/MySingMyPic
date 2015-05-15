@@ -25,7 +25,6 @@
             android:layout_weight="1"
             android:textColorHint="@color/search_text_hint"
             android:textSize="@dimen/font_mini"
-            android:textColor="@color/white"
             android:background="@color/transparent"
             android:hint="输入歌手，歌名" />
 

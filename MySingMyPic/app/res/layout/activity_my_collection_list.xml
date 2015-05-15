@@ -15,5 +15,11 @@
         android:layout_below="@+id/toolbar"
         android:background="@color/transparent"
         android:clipToPadding="false" />
-
+    <include
+        layout="@layout/layout_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        />
 </RelativeLayout>

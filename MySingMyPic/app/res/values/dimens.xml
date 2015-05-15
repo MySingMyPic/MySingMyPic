@@ -131,7 +131,9 @@
 
     <dimen name="line_margin_left">15dp</dimen>
 
-    <dimen name="face_height">180dp</dimen>
-    <dimen name="face_item_height">180dp</dimen>
-    <dimen name="face_item_length">50dp</dimen>
+    <dimen name="video_add_effect_bottom_image_length">90dp</dimen>
+    <dimen name="music_change_volume_item_width">50dp</dimen>
+
+    <dimen name="dialog_width">250dp</dimen>
+    <dimen name="video_add_music_item_width">50dp</dimen>
 </resources>

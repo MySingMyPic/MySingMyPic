@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="purple">#862ec3</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
@@ -9,6 +10,7 @@
     <color name="transparent">#00000000</color>
     <color name="font1">#232C40</color>
     <color name="background_layout">#EBEBEB</color>
+    <color name="yellow">#FFFF00</color>
 
     <color name="bg_main">#eeeeee</color>
     <color name="bg_main_common">#f7f7f7</color>
@@ -26,6 +28,8 @@
     <color name="text_item_grey">#9f9f9f</color>
     <color name="text_item_grey_2">#b4b4b4</color>
     <color name="tab_line_red">#ea3434</color>
+    <color name="tab_line_red2">#ea3455</color>
+    <color name="tab_line_red3">#ef9fa6</color>
     <color name="editbac">#e6e6e6</color>
 
 </resources>

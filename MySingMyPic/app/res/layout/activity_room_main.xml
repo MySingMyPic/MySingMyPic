@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ylsg365.pai.activity.newsinfo.NewsInfoDetalActivity" >
+    tools:context="com.ylsg365.pai.activity.newsinfo.NewsInfoDetalActivity">
 
     <RelativeLayout
         android:id="@+id/layout_user_info"
         android:layout_width="match_parent"
-        android:layout_height="260dp" >
+        android:layout_height="260dp">
 
         <ImageView
-            android:id="@+id/iv_house_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/s" />
@@ -21,10 +20,10 @@
             layout="@layout/toolbar_back_transparent" />
 
         <include
+            layout="@layout/layout_room_top"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_below="@+id/toolbar"
-            layout="@layout/layout_room_top" />
+            android:layout_below="@+id/toolbar" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,70 +33,67 @@
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="10dp" >
+            android:paddingTop="10dp">
 
             <ImageView
-                android:id="@+id/img_user_avatar"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:id="@+id/img_user_avatar"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
                 android:src="@drawable/img_user_avatar_default" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/img_user_avatar"
-                android:orientation="vertical" >
-
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
                 <TextView
-                    android:id="@+id/tv_user_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:text="90年代" />
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_height="0dp"
+                    android:text="90年代"
+                    android:layout_weight="1"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical" >
-
+                    android:gravity="center_vertical"
+                    android:layout_weight="1">
                     <ImageView
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/icon_clock_2" />
-
+                        android:src="@drawable/icon_clock_2"/>
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
-                        android:text="44秒" />
+                        android:drawablePadding="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="44秒"
+                        android:layout_weight="1"/>
+                    </LinearLayout>
+
                 </LinearLayout>
-            </LinearLayout>
 
             <Button
-                android:id="@+id/bt_attention"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/selector_btn_round_red"
-                android:paddingBottom="3dp"
+                android:layout_alignParentRight="true"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="3dp"
-                android:text="关注"
+                android:paddingBottom="3dp"
                 android:textColor="@color/white"
-                android:textSize="@dimen/font_mini" />
+                android:paddingTop="3dp"
+                android:textSize="@dimen/font_mini"
+                android:text="关注"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp" />
         </RelativeLayout>
     </RelativeLayout>
+
 
     <com.ylsg365.pai.activity.view.SlidingTabLayout
         android:id="@+id/demo_tab"
@@ -119,33 +115,30 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_zong_gray_top"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="15dp" >
+            android:clickable="true"
+            android:padding="15dp">
 
             <LinearLayout
-                android:id="@+id/ll_chat_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:clickable="true"
-                android:gravity="center" >
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="14dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/selector_btn_room_chat"
-                    android:duplicateParentState="true" />
+                    android:background="@drawable/selector_btn_room_chat" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:duplicateParentState="true"
                     android:singleLine="true"
                     android:text="聊天"
                     android:textColor="@color/bottom_bar_text_normal"
@@ -157,58 +150,56 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp" >
+            android:clickable="true"
+            android:padding="5dp">
 
             <LinearLayout
                 android:id="@+id/gift"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:gravity="center" >
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/selector_btn_room_gift"
-                    android:duplicateParentState="true" />
+                    android:background="@drawable/selector_btn_room_gift" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:duplicateParentState="true"
                     android:singleLine="true"
                     android:text="送礼物"
                     android:textColor="@color/bottom_bar_text_normal"
                     android:textSize="@dimen/font_normal" />
             </LinearLayout>
+
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="0dp" >
+            android:clickable="true"
+            android:padding="0dp">
 
             <LinearLayout
-                android:id="@+id/ll_pai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:clickable="true"
-                android:gravity="center" >
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="14.5dp"
                     android:layout_height="14.5dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/selector_btn_room_mic"
-                    android:duplicateParentState="true" />
+                    android:background="@drawable/selector_btn_room_mic" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:duplicateParentState="true"
                     android:singleLine="true"
                     android:text="点歌排麦"
                     android:textColor="@color/bottom_bar_text_normal"
@@ -220,27 +211,25 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="0dp" >
+            android:clickable="true"
+            android:padding="0dp">
 
             <LinearLayout
                 android:id="@+id/shard_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:clickable="true"
-                android:gravity="center" >
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="13dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/selector_btn_room_friend"
-                    android:duplicateParentState="true" />
+                    android:background="@drawable/selector_btn_room_friend" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:duplicateParentState="true"
                     android:singleLine="true"
                     android:text="邀请好友"
                     android:textColor="@color/bottom_bar_text_normal"
@@ -248,39 +237,4 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/fl_chat"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/bg_zong_gray_top"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="5dp" >
-
-            <EditText
-                android:id="@+id/et_content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_chat_input_p"
-                android:inputType="text" />
-
-            <Button
-                android:id="@+id/bt_commit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/bg_white_zone"
-                android:text="发送"
-                android:textColor="#000000" />
-        </LinearLayout>
-    </FrameLayout>
-
 </RelativeLayout>

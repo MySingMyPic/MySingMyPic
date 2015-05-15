@@ -31,7 +31,7 @@
                 android:id="@+id/layout_edit_login_phone"
                 style="@style/Yin.login.edit.container">
 
-                <com.rockerhieu.emojicon.EmojiconEditText
+                <EditText
                     android:id="@+id/edit_login_phone"
                     style="@style/Yin.login.edit"
                     android:hint="请输入房间名"

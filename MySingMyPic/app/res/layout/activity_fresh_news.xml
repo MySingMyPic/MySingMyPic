@@ -99,16 +99,24 @@
                 <ImageView
                     android:layout_marginRight="3dp"
                     android:layout_width="11dp"
-                    android:background="@drawable/selector_btn_room_gift"
+                    android:background="@drawable/img_like_n"
                     android:layout_height="15.5dp" />
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/font_normal"
                     android:textColor="@color/bottom_bar_text_normal"
-                    android:text="礼物"
+                    android:text="点赞"
                     />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
+
+    <include
+        layout="@layout/layout_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        />
 </RelativeLayout>

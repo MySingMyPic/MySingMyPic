@@ -96,15 +96,14 @@
     <string name="title_activity_wbauth">WBAuthActivity</string>
     <string name="no_more_toast">没有更多数据了哦..</string>
     <string name="title_activity_deposit">DepositActivity</string>
-    <string name="title_activity_open_vip_select">OpenVipSelectActivity</string>
-    <string name="title_activity_recharge">RechargeActivity</string>
-    <string name="title_activity_my_attentions">MyAttentionsActivity</string>
-    <string name="title_activity_already_purchase">AlreadyPurchaseActivity</string>
+    <string name="title_activity_video_add_effect">VideoAddEffectActivity</string>
     <string name="title_activity_test">TestActivity</string>
-    <string name="title_activity_music__intervention">Music_InterventionActivity</string>
-    <string name="title_activity_filter">FilterActivity</string>
-    <string name="title_activity_image_display">ImageDisplayActivity</string>
-    <string name="title_activity_private_message_send">PrivateMessageSendActivity</string>
-    <string name="title_activity_private_message_select_user">PrivateMessageSelectUserActivity</string>
+    <string name="title_activity_change_music_volume">ChangeMusicVolumeActivity</string>
+    <string name="title_activity_sing_asone">SingASoneActivity</string>
+    <string name="title_activity_song_score">SongScoreActivity</string>
+    <string name="title_activity_video_start">VideoStartActivity</string>
+    <string name="title_activity_video_long">VideoLongActivity</string>
+    <string name="title_activity_video_add_music_select">VideoAddMusicSelectActivity</string>
+    <string name="title_activity_compess_dialog">CompessDialog</string>
 
 </resources>
