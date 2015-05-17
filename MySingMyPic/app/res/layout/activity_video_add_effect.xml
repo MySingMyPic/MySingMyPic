@@ -1,0 +1,209 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ylsg365.pai.activity.video.VideoAddEffectActivity">
+
+    <include android:id="@+id/toolbar" layout="@layout/toolbar_back"/>
+
+    <SurfaceView
+        android:id="@+id/videosv"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/video_add_effect_bottom_layout"/>
+    <SurfaceView
+        android:id="@+id/rendersv"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/video_add_effect_bottom_layout"/>
+    <ImageView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:src="@drawable/img_video"
+        android:scaleType="centerCrop"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:layout_above="@+id/video_add_effect_bottom_layout" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/video_add_effect_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                android:layout_height="wrap_content"
+                android:text="滤镜"
+                android:textSize="20dp"
+                android:gravity="center_vertical|left"
+                android:textColor="@color/bottom_bar_text_normal"
+                android:id="@+id/textView2"></TextView>
+
+            <TextView
+                android:layout_toLeftOf="@+id/video_add_effect_checkBox"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="原声"
+                android:textSize="20dp"
+                android:paddingRight="7dp"
+                android:gravity="center_vertical|right"
+                android:textColor="@color/bottom_bar_text_normal"
+                android:id="@+id/textView3"></TextView>
+            <CheckBox
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="10dp"
+                style="@style/video_add_effect_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/video_add_effect_checkBox"
+                android:checked="false" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/purple"/>
+
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:id="@+id/video_yuantu"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="16dp"
+                    android:id="@+id/video_yuantu_img"
+                    android:scaleType="centerInside"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                    android:layout_height="@dimen/video_add_effect_bottom_image_length"
+                    android:src="@drawable/yuansheng"
+                    ></ImageView>
+                <TextView
+                    android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                    android:layout_height="wrap_content"
+                    android:text="原图"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    ></TextView>
+                </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/video_lomo"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <ImageView
+                    android:scaleType="centerInside"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="16dp"
+                    android:id="@+id/video_lomo_img"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                    android:layout_height="@dimen/video_add_effect_bottom_image_length"
+                    android:src="@drawable/lomo"
+                    ></ImageView>
+                <TextView
+                    android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                    android:layout_height="wrap_content"
+                    android:text="LOMO"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    ></TextView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/video_kesong"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <ImageView
+                    android:scaleType="centerInside"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="16dp"
+                    android:id="@+id/video_kesong_img"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                    android:layout_height="@dimen/video_add_effect_bottom_image_length"
+                    android:src="@drawable/kesong"
+                    ></ImageView>
+                <TextView
+                    android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                    android:layout_height="wrap_content"
+                    android:text="可颂"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    ></TextView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/video_moka"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <ImageView
+                    android:scaleType="centerInside"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="16dp"
+                    android:id="@+id/video_moka_img"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                    android:layout_height="@dimen/video_add_effect_bottom_image_length"
+                    android:src="@drawable/moka"
+                    ></ImageView>
+                <TextView
+                    android:layout_width="@dimen/video_add_effect_bottom_image_length"
+                    android:layout_height="wrap_content"
+                    android:text="摩卡"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    ></TextView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

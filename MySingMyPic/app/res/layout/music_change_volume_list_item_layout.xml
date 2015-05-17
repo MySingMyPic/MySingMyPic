@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="@dimen/music_change_volume_item_width"
+    android:id="@+id/item_layout"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="@dimen/music_change_volume_item_width"
+        android:layout_height="@dimen/music_change_volume_item_width"
+        android:text=""
+        android:textSize="20dp"
+        android:gravity="center"
+        android:textColor="@color/text_item_grey"
+        android:id="@+id/textView"></TextView>
+</LinearLayout>

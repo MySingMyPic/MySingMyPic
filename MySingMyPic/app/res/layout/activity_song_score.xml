@@ -1,0 +1,234 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ylsg365.pai.activity.music.SongScoreActivity">
+
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_video"
+        android:id="@+id/back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ImageView>
+    <ImageView
+        android:scaleType="centerCrop"
+        android:src="@drawable/black_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ImageView>
+    <include android:id="@+id/toolbar" layout="@layout/toolbar_back_2"/>
+
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:id="@+id/center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        ></ImageView>
+
+    <com.ylsg365.pai.customview.LyricView
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/mylrc"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/center" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_below="@+id/center"
+        android:layout_above="@+id/layout_sing_a_song_bottom_bar"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="center_vertical|left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_margin="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/luzhi"
+                android:scaleType="centerInside" />
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="16dp"
+                android:text="正在录制"
+                android:id="@+id/music_time" />
+
+            </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_toLeftOf="@+id/sub_center2"
+                android:layout_height="match_parent">
+                <TextView
+                    android:paddingLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/text_radio_normal"
+                    android:textSize="15dp"
+                    android:text="单句得分"
+                    android:gravity="left|center_vertical"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/purple"
+                    android:textSize="15dp"
+                    android:text=""
+                    android:gravity="left|center_vertical"
+                    android:id="@+id/current_score"
+                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/text_radio_normal"
+                    android:textSize="15dp"
+                    android:text="分"
+                    android:gravity="left|center_vertical"
+                    />
+                </LinearLayout>
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:layout_width="0dp"
+                android:id="@+id/sub_center2"
+                android:layout_height="match_parent" />
+            <TextView
+                android:paddingRight="10dp"
+                android:layout_toRightOf="@+id/sub_center2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/text_radio_normal"
+                android:textSize="15dp"
+                android:text=""
+                android:gravity="right|center_vertical"
+                android:id="@+id/total_score" />
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.ylsg365.pai.customview.CurveView
+                android:id="@+id/curve"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                ></com.ylsg365.pai.customview.CurveView>
+        </RelativeLayout>
+
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_sing_a_song_bottom_bar"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <RelativeLayout
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17.5dp"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/selector_btn_fangqi" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="放弃录制"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    android:textSize="@dimen/font_normal" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/play_again"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="17.5dp"
+                    android:layout_height="17.5dp"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/selector_btn_again" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="重新演唱"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    android:textSize="@dimen/font_normal" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:padding="0dp"
+            android:id="@+id/finish">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="17.5dp"
+                    android:layout_height="17.5dp"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/selector_btn_save" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="保存录音"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    android:textSize="@dimen/font_normal" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

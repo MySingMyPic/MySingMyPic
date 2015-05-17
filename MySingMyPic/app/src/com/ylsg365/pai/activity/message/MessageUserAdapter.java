@@ -86,7 +86,7 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
         @Override
         public void onClick(View v) {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v, getAdapterPosition());
+                onItemClickListener.onItemClick(v, getPosition());
             }
         }
     }

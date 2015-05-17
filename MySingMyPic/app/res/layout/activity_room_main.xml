@@ -11,6 +11,7 @@
         android:layout_height="260dp">
 
         <ImageView
+            android:id="@+id/iv_house_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/s" />
@@ -49,6 +50,7 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/tv_user_id"
                     android:includeFontPadding="false"
                     android:layout_width="wrap_content"
                     android:gravity="center_vertical"
@@ -79,6 +81,7 @@
                 </LinearLayout>
 
             <Button
+                android:id="@+id/bt_attention"
                 android:layout_centerVertical="true"
                 android:background="@drawable/selector_btn_round_red"
                 android:layout_alignParentRight="true"
@@ -125,6 +128,7 @@
             android:padding="15dp">
 
             <LinearLayout
+                android:id="@+id/ll_chat_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -186,6 +190,7 @@
             android:padding="0dp">
 
             <LinearLayout
+                android:id="@+id/ll_pai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -237,4 +242,36 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
+    <FrameLayout 
+        android:id="@+id/fl_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_zong_gray_top"
+            >
+            <EditText 
+                android:id="@+id/et_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"
+                android:inputType="text"
+                android:background="@drawable/bg_chat_input_p"
+                />
+            <Button 
+                android:id="@+id/bt_commit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="发送"
+				android:textColor="#000000"
+				android:background="@drawable/bg_white_zone"
+                />
+        </LinearLayout>
+    </FrameLayout>
 </RelativeLayout>

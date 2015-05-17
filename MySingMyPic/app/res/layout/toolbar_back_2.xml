@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:background="#00000000"
+    app:contentInsetStart="0dp"  app:contentInsetEnd="0dp"
+    >
+
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:text="请先登录"
+        android:textColor="@color/white"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:textSize="@dimen/font_huge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <CheckBox
+        style="@style/music_add_music_checkbox"
+        android:paddingLeft="10dp"
+        android:paddingRight="15dp"
+        android:layout_width="wrap_content"
+        android:text=""
+        android:id="@+id/text_right"
+        android:layout_gravity="right"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:background="@drawable/selector_bg_title"
+        android:layout_height="match_parent" />
+</android.support.v7.widget.Toolbar>

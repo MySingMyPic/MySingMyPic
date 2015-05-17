@@ -28,6 +28,8 @@ import com.ylsg365.pai.activity.message.NewsInfoSendActivity;
 import com.ylsg365.pai.activity.message.PrivateMessageSelectUserActivity;
 import com.ylsg365.pai.activity.message.PrivateMessageSendActivity;
 import com.ylsg365.pai.activity.message.SystemMessageActivity;
+import com.ylsg365.pai.activity.music.ChangeMusicVolumeActivity;
+import com.ylsg365.pai.activity.music.SingASoneActivity;
 import com.ylsg365.pai.activity.newsinfo.NewsInfoDetalActivity;
 import com.ylsg365.pai.activity.room.GameCenterActivity;
 import com.ylsg365.pai.activity.room.GameInfoActivity;
@@ -56,7 +58,12 @@ import com.ylsg365.pai.activity.user.UserHomeActivity;
 import com.ylsg365.pai.activity.user.UserInfoActivity;
 import com.ylsg365.pai.activity.user.WorksListActivity;
 import com.ylsg365.pai.activity.video.CappellaRecordActivity;
+import com.ylsg365.pai.activity.video.VideoActivity;
+import com.ylsg365.pai.activity.video.VideoAddEffectActivity;
+import com.ylsg365.pai.activity.video.VideoAddMusicSelectActivity;
 import com.ylsg365.pai.activity.video.VideoDetalActivity;
+import com.ylsg365.pai.activity.video.VideoLongActivity;
+import com.ylsg365.pai.activity.video.VideoStartActivity;
 import com.ylsg365.pai.imagedisplay.ImageSelectActivity;
 import com.ylsg365.pai.model.UserService;
 
@@ -706,6 +713,20 @@ public class NavHelper {
     }
 
 
+    public static void toVideoStartActivity(Context context) {
+        Intent intent = new Intent(context, VideoStartActivity.class);
+        context.startActivity(intent);
+        forwardAnim((Activity) context);
+    }
+
+    public static void toVideoAddMusicSelectActivity(Context context,int choice) {
+        Intent intent = new Intent(context, VideoAddMusicSelectActivity.class);
+        intent.putExtra("choice",choice);
+        context.startActivity(intent);
+
+        forwardAnim((Activity) context);
+    }
+    
     public static void forwardAnim(Activity activity, int animInId, int animOutId) {
         activity.overridePendingTransition(animInId, animOutId);
     }

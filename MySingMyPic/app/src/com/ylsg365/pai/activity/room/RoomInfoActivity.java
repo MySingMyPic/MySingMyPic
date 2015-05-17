@@ -440,7 +440,6 @@ public class RoomInfoActivity extends BaseActivity implements
                         room_notice.setText(roomNoticeStr);
                     } else {
                         pwdStr = t;
-
                     }
                 }
                 getWindow().setSoftInputMode(

@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ylsg365.pai.activity.video.VideoStartActivity">
+
+    <include android:id="@+id/toolbar" layout="@layout/toolbar_video"/>
+
+    <ImageView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:src="@drawable/img_video"
+        android:scaleType="centerCrop"
+        android:layout_above="@+id/layout_video_bottom_bar"
+        android:layout_height="match_parent" />
+    <ImageView
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/toolbar"
+        android:src="@drawable/black_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ImageView>
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/layout_video_bottom_bar"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/luzhishipin"/>
+        <TextView
+            android:text="录制视频"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/purple"
+            android:textSize="20dp"
+            ></TextView>
+        </LinearLayout>
+
+</RelativeLayout>

@@ -91,11 +91,11 @@ public class FansAdapter extends RecyclerView.Adapter<FansAdapter.ViewHolder> {
             switch (v.getId()){
                 case R.id.layout_item:
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, getAdapterPosition());
+                        onItemClickListener.onItemClick(v, getPosition());
                     }
                 case R.id.btn_attention:
                     if (onViewClickListener != null) {
-                        onViewClickListener.onViewClick(v, getAdapterPosition());
+                        onViewClickListener.onViewClick(v, getPosition());
                     }
             }
 

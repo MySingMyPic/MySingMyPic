@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="@dimen/video_add_music_item_width">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="@dimen/video_add_music_item_width">
+
+        <TextView
+            android:id="@+id/title"
+            android:text="库音乐"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/video_add_music_item_width"
+            android:gravity="left|center_vertical"
+            android:padding="10dp"
+            android:textColor="@color/text_radio_normal"
+            android:textSize="18dp"
+            ></TextView>
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/time"
+            android:text="库音乐"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/video_add_music_item_width"
+            android:gravity="left|center_vertical"
+            android:padding="10dp"
+            android:textColor="@color/text_radio_normal"
+            android:textSize="18dp"
+            ></TextView>
+        </RelativeLayout>
+</LinearLayout>

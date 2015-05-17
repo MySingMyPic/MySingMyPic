@@ -1847,4 +1847,18 @@ public class YinApi {
     }
 
 
+    /**
+     * 获取30秒歌曲
+     *
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getSongs30( Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.SONG);
+        URLUtils.addActionForGet(url, EnumAction.GETSONGS30);
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
+
 }

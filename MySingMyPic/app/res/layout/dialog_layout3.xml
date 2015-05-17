@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="@dimen/dialog_width"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_gravity="center"
+    android:paddingTop="10dp"
+    android:orientation="vertical">
+    <TextView
+
+        android:textColor="@color/text_radio_normal"
+        android:textSize="20dp"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="唱的真棒，快和小伙伴们分享吧"
+        />
+    <ImageView
+        android:background="@color/bg_main_bottom_bar"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        />
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/weixin"
+                android:layout_margin="10dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/img_weixin"/>
+
+        <ImageView
+            android:id="@+id/weibo"
+            android:layout_margin="10dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/img_weibo"/>
+
+        </LinearLayout>
+    <ImageView
+        android:background="@color/bg_main_bottom_bar"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        />
+    <TextView
+        android:id="@+id/cancel"
+        android:textColor="@color/text_radio_normal"
+        android:textSize="20dp"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="取消"
+        />
+
+</LinearLayout>

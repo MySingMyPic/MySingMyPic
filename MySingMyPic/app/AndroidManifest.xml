@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <uses-sdk android:minSdkVersion="8"/>
+    <uses-sdk android:minSdkVersion="11"/>
 
     <application
         android:name=".app.YinApplication"
@@ -111,8 +111,6 @@
             android:name=".activity.user.CopyrightBuyActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-
-        <activity
             android:name=".activity.user.WithdrawActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".activity.user.NewsInfoListActivity" />
@@ -194,19 +192,19 @@
 
         <activity
             android:name=".OpenVipSelectActivity"
-            android:label="@string/title_activity_open_vip_select" >
+            >
         </activity>
         <activity
             android:name=".activity.RechargeActivity"
-            android:label="@string/title_activity_recharge" >
+            >
         </activity>
         <activity
             android:name=".activity.user.MyAttentionsActivity"
-            android:label="@string/title_activity_my_attentions" >
+            >
         </activity>
         <activity
             android:name=".activity.user.AlreadyPurchaseActivity"
-            android:label="@string/title_activity_already_purchase" >
+            >
         </activity>
         <activity
             android:name=".activity.TestActivity"
@@ -214,29 +212,29 @@
         </activity>
         <activity
             android:name=".activity.Music_InterventionActivity"
-            android:label="@string/title_activity_music__intervention" >
+            >
         </activity>
         <activity
             android:name=".activity.Music_Intervention_fullActivity"
-            android:label="@string/title_activity_music__intervention" >
+            >
         </activity>
         <activity
             android:name=".activity.FilterActivity"
-            android:label="@string/title_activity_filter" >
+            >
         </activity>
         <activity android:name=".activity.user.BuyTheCopyrightActivity" >
         </activity>
         <activity
             android:name=".imagedisplay.ImageDisplayActivity"
-            android:label="@string/title_activity_image_display" >
+            >
         </activity>
         <activity
             android:name=".activity.message.PrivateMessageSendActivity"
-            android:label="@string/title_activity_private_message_send" >
+            >
         </activity>
         <activity
             android:name=".activity.message.PrivateMessageSelectUserActivity"
-            android:label="@string/title_activity_private_message_select_user" >
+            >
         </activity>
 
         <!-- alipay sdk begin -->
@@ -282,6 +280,7 @@
             android:label="@string/title_activity_compess_dialog"
             android:theme="@style/MyDialogStyle">
         </activity>
+
 
     </application>
 

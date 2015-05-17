@@ -1,0 +1,254 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ylsg365.pai.activity.music.ChangeMusicVolumeActivity">
+    <include android:id="@+id/toolbar" layout="@layout/toolbar_back"/>
+
+    <RelativeLayout
+        android:id="@+id/layout1"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.ylsg365.pai.customview.DrawView
+
+            android:id="@+id/draw1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/h_scroll"
+            android:layout_marginBottom="-2dp"
+            />
+
+        <com.ylsg365.pai.customview.ObservableScrollView
+            android:id="@+id/h_scroll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <com.ylsg365.pai.customview.RepeatImageView
+                    android:id="@+id/image"
+                    android:layout_width="1000dp"
+                    android:src="@drawable/backtest"
+                    android:layout_height="200dp"
+                    />
+
+
+            </LinearLayout>
+        </com.ylsg365.pai.customview.ObservableScrollView>
+
+        <RelativeLayout
+            android:id="@+id/move_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/h_scroll"
+            >
+            <com.ylsg365.pai.customview.MoveView
+                android:id="@+id/huadong"
+                android:src="@drawable/huadong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></com.ylsg365.pai.customview.MoveView>
+
+            <com.ylsg365.pai.customview.MoveView
+                android:layout_alignParentRight="true"
+                android:id="@+id/huadong2"
+                android:src="@drawable/huadong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></com.ylsg365.pai.customview.MoveView>
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/move_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:id="@+id/time_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/bottom_bar_text_normal"
+                android:textSize="@dimen/font_normal" />
+            <TextView
+                android:layout_marginRight="15dp"
+                android:id="@+id/time_to"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/bottom_bar_text_normal"
+                android:textSize="@dimen/font_normal" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/layout1"
+        android:layout_above="@+id/layout_music_change_volume_bottom_bar"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:layout_width="@dimen/video_add_effect_bottom_image_length"
+            android:layout_height="wrap_content"
+            android:text="调音调"
+            android:textSize="20dp"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/purple"
+            android:id="@+id/textView2"></TextView>
+        <com.ylsg365.pai.customview.ObservableScrollView
+            android:background="@color/white"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/textView2"
+            android:layout_centerVertical="true"
+            android:id="@+id/data_Hscroll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:alwaysDrawnWithCache="true"
+            android:orientation="vertical"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="horizontal|vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <GridView
+                    android:id="@+id/data_gridview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/music_change_volume_item_width"
+                    android:layout_gravity="center"
+                    android:columnWidth="@dimen/music_change_volume_item_width"
+                    android:gravity="center"
+                    android:numColumns="auto_fit"
+                    android:scrollbarAlwaysDrawHorizontalTrack="true"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbars="horizontal|vertical"
+                    android:horizontalSpacing="1dip"
+                    android:verticalSpacing="1dip" />
+            </LinearLayout>
+        </com.ylsg365.pai.customview.ObservableScrollView>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/data_Hscroll"
+            android:id="@+id/roots" >
+
+            <ImageView
+                android:id="@+id/button1"
+                android:src="@drawable/huadong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+        </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_music_change_volume_bottom_bar"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <RelativeLayout
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17.5dp"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/selector_btn_fangqi" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="放弃调音"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    android:textSize="@dimen/font_normal" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/play_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/play_img"
+                    android:layout_width="16dp"
+                    android:layout_height="22dp"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/bofang01" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:padding="0dp"
+            android:id="@+id/finish">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="17.5dp"
+                    android:layout_height="17.5dp"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/selector_btn_save" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="完成调音"
+                    android:textColor="@color/bottom_bar_text_normal"
+                    android:textSize="@dimen/font_normal" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

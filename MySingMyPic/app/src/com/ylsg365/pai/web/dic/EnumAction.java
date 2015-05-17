@@ -130,11 +130,12 @@ public enum EnumAction {
     CASH("cash"),
     GETCASHLIST("getCashList"),
     RECHARGE("recharge"),
-
+    GETSONGS30("getSongsBy30s"),
     GETRECHARGELIST("getRechargeList"),
     SENDINDEXGIFT("sendIndexGift"),
     GETCONTACT("getContact"),
     GETCONTACTS("getContacts"),
+
 
     ;
 

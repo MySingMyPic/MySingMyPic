@@ -77,7 +77,7 @@ public class AttentionUserAdapter extends RecyclerView.Adapter<AttentionUserAdap
         @Override
         public void onClick(View v) {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v, getAdapterPosition());
+                onItemClickListener.onItemClick(v, getPosition());
             }
         }
     }
