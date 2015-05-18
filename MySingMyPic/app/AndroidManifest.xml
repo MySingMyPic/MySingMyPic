@@ -119,7 +119,8 @@
         <activity android:name=".activity.user.AttentionListActivity" />
         <activity
             android:name=".activity.room.KaraokeActivity"
-            android:label="@string/title_activity_karaoke" />
+            android:windowSoftInputMode="stateHidden" 
+            />
         <activity android:name=".activity.room.GameCenterActivity" />
         <activity android:name=".activity.room.RoomMainActivity" 
             android:windowSoftInputMode="adjustResize"

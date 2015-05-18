@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +35,7 @@ import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.event.UserAttentionEvent;
+import com.ylsg365.pai.model.UserService;
 import com.ylsg365.pai.util.JsonUtil;
 import com.ylsg365.pai.util.LogUtil;
 import com.ylsg365.pai.util.ShareUtil;
@@ -44,6 +43,8 @@ import com.ylsg365.pai.util.ShareUtil;
 import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.http.util.TextUtils;
 import org.json.JSONException;
@@ -59,24 +60,36 @@ public class RoomMainActivity extends BaseActivity implements
     private LinearLayout gift;
     private IWeiboShareAPI mWeiboShareAPI;
     private Bitmap bmp;
-    
+
     private ImageView mHouseImgIV, mUserImgIV;
     private TextView mUserIdTV;
     private Button mAttentionBT;
-    
+
     /**
      * 聊天
      */
     private FrameLayout mChatFLayout;
     private EditText mChatET;
     private Button mChatBT;
-    
+
     private LinearLayout mChatLL, mPaiLL;
 
     private String mHouseId;
     private int mUserId;
-    
+
     private RoomChatFragment mChatFragment;
+    private UserAttentionFragment mViewerFragment;
+    private MicQueueFragment mMicFragment;
+
+    private TimerTask mTask = new TimerTask() {
+        @Override
+        public void run() {
+            mChatFragment.refresh();
+            mViewerFragment.refresh();
+            mMicFragment.refresh();
+        }
+    };
+    private Timer mTimer = new Timer(false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,16 +101,16 @@ public class RoomMainActivity extends BaseActivity implements
         if (savedInstanceState != null) {
             mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
         }
-        
-        mHouseImgIV = (ImageView)findViewById(R.id.iv_house_img);
-        mUserImgIV = (ImageView)findViewById(R.id.img_user_avatar);
-        mUserIdTV = (TextView)findViewById(R.id.tv_user_id);
-        mAttentionBT = (Button)findViewById(R.id.bt_attention);
-        
-        mChatFLayout = (FrameLayout)findViewById(R.id.fl_chat);
+
+        mHouseImgIV = (ImageView) findViewById(R.id.iv_house_img);
+        mUserImgIV = (ImageView) findViewById(R.id.img_user_avatar);
+        mUserIdTV = (TextView) findViewById(R.id.tv_user_id);
+        mAttentionBT = (Button) findViewById(R.id.bt_attention);
+
+        mChatFLayout = (FrameLayout) findViewById(R.id.fl_chat);
         mChatFLayout.setOnClickListener(this);
-        mChatET = (EditText)findViewById(R.id.et_content);
-        mChatBT = (Button)findViewById(R.id.bt_commit);
+        mChatET = (EditText) findViewById(R.id.et_content);
+        mChatBT = (Button) findViewById(R.id.bt_commit);
         mChatBT.setOnClickListener(this);
 
         slidingTabLayout = (SlidingTabLayout) findViewById(R.id.demo_tab);
@@ -106,9 +119,9 @@ public class RoomMainActivity extends BaseActivity implements
         shard_btn = (LinearLayout) findViewById(R.id.shard_btn);
         gift = (LinearLayout) findViewById(R.id.gift);
         gift.setOnClickListener(this);
-        mChatLL = (LinearLayout)findViewById(R.id.ll_chat_);
+        mChatLL = (LinearLayout) findViewById(R.id.ll_chat_);
         mChatLL.setOnClickListener(this);
-        mPaiLL = (LinearLayout)findViewById(R.id.ll_pai);
+        mPaiLL = (LinearLayout) findViewById(R.id.ll_pai);
         mPaiLL.setOnClickListener(this);
         bmp = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_launcher);
@@ -138,20 +151,16 @@ public class RoomMainActivity extends BaseActivity implements
                 });
             }
         });
-//        gift.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                 NavHelper.toGiftListActivity(RoomMainActivity.this,"");
-//            }
-//        });
 
         mHouseId = getIntent().getExtras().getString("nid");
         // 设置ViewPager
         fragments = new ArrayList<TabFragment>();
         mChatFragment = new RoomChatFragment(mHouseId);
         fragments.add(mChatFragment);
-        fragments.add(new UserAttentionFragment(mHouseId));
-        fragments.add(new MicQueueFragment(mHouseId));
+        mViewerFragment = new UserAttentionFragment(mHouseId);
+        fragments.add(mViewerFragment);
+        mMicFragment = new MicQueueFragment(mHouseId);
+        fragments.add(mMicFragment);
         viewPager_Adapter = new ViewPager_Adapter(getSupportFragmentManager(),
                 fragments);
         viewPager.setOffscreenPageLimit(fragments.size());
@@ -163,6 +172,8 @@ public class RoomMainActivity extends BaseActivity implements
         setupToolbar();
 
         getHouseDetail();
+
+        mTimer.schedule(mTask, 15000, 15000);
     }
 
     private void getHouseDetail() {
@@ -178,14 +189,27 @@ public class RoomMainActivity extends BaseActivity implements
                     json = new JSONObject(response);
                 } catch (JSONException e) {
                 }
-                if(json != null && JsonUtil.getBoolean(json, "status")) {
-                    ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN +JsonUtil.getString(json, "imgUrl"), mHouseImgIV);
-                    ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN +JsonUtil.getString(json, "headImg"), mUserImgIV);
+                if (json != null && JsonUtil.getBoolean(json, "status")) {
+                    ImageLoader.getInstance().displayImage(
+                            Constants.WEB_IMG_DOMIN
+                                    + JsonUtil.getString(json, "imgUrl"),
+                            mHouseImgIV);
+                    ImageLoader.getInstance().displayImage(
+                            Constants.WEB_IMG_DOMIN
+                                    + JsonUtil.getString(json, "headImg"),
+                            mUserImgIV);
                     setTitle(JsonUtil.getString(json, "nname"));
                     mUserIdTV.setText(JsonUtil.getString(json, "nickName"));
                     mUserId = JsonUtil.getInt(json, "userId");
-                    final boolean attention = JsonUtil.getBoolean(json, "attention");
-                    if(attention) {
+                    if (mUserId == UserService.getUser().getUserId()) {
+                        mAttentionBT.setVisibility(View.INVISIBLE);
+                        return;
+                    } else {
+                        mAttentionBT.setVisibility(View.VISIBLE);
+                    }
+                    final boolean attention = JsonUtil.getBoolean(json,
+                            "attention");
+                    if (attention) {
                         mAttentionBT.setPressed(true);
                     } else {
                         mAttentionBT.setPressed(false);
@@ -193,7 +217,9 @@ public class RoomMainActivity extends BaseActivity implements
                     mAttentionBT.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            EventBus.getDefault().post(new UserAttentionEvent(mUserId, attention, mAttentionBT));
+                            EventBus.getDefault().post(
+                                    new UserAttentionEvent(mUserId, attention,
+                                            mAttentionBT));
                         }
                     });
                 }
@@ -204,46 +230,6 @@ public class RoomMainActivity extends BaseActivity implements
 
             }
         });
-    }
-
-    public static class Fragment_Tab_1 extends TabFragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_sing_shoot, container,
-                    false);
-        }
-
-        public String getTitle() {
-            return "公聊";
-        }
-    }
-
-    public static class Fragment_Tab_2 extends TabFragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_me, container, false);
-        }
-
-        public String getTitle() {
-            return "观众(39)";
-        }
-    }
-
-    public static class Fragment_Tab_3 extends TabFragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_me, container, false);
-        }
-
-        public String getTitle() {
-            return "拍麦(22)";
-        }
     }
 
     public class ViewPager_Adapter extends FragmentPagerAdapter {
@@ -292,10 +278,11 @@ public class RoomMainActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mTimer.cancel();
         exitHouse(mHouseId);
         EventBus.getDefault().unregister(this);
     }
-    
+
     private void exitHouse(final String houseId) {
         YinApi.inoutHouse(houseId, 0, "", new Response.Listener<String>() {
             @Override
@@ -371,9 +358,9 @@ public class RoomMainActivity extends BaseActivity implements
                     }
                 });
     }
-    
+
     private void showChatLayout(boolean flag) {
-        if(flag) {
+        if (flag) {
             mChatFLayout.setVisibility(View.VISIBLE);
             mChatET.requestFocus();
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -382,60 +369,68 @@ public class RoomMainActivity extends BaseActivity implements
             mChatFLayout.setVisibility(View.GONE);
         }
     }
-    
+
     private void commitChat() {
         String content = mChatET.getText().toString().trim();
-        if(TextUtils.isEmpty(content)) {
-            Toast.makeText(getBaseContext(), "请输入内容", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(content)) {
+            Toast.makeText(getBaseContext(), "请输入内容", Toast.LENGTH_SHORT)
+                    .show();
             mChatET.requestFocus();
             return;
         }
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mChatET.getWindowToken(), 0);
         showChatLayout(false);
-        
-        YinApi.sendHouseChat(mHouseId, content, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                LogUtil.logd("sendHouseChat", response.toString());
-                if (response != null && JsonUtil.getBoolean(response, "status")) {
-                    Toast.makeText(getBaseContext(), "发送成功", Toast.LENGTH_SHORT).show();
-                    mChatET.setText("");
-                    mChatFragment.refresh();
-                } else {
-                    Toast.makeText(getBaseContext(), "发送失败", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getBaseContext(), "发送失败", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        YinApi.sendHouseChat(mHouseId, content,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        LogUtil.logd("sendHouseChat", response.toString());
+                        if (response != null
+                                && JsonUtil.getBoolean(response, "status")) {
+                            Toast.makeText(getBaseContext(), "发送成功",
+                                    Toast.LENGTH_SHORT).show();
+                            mChatET.setText("");
+                            mChatFragment.refresh();
+                        } else {
+                            Toast.makeText(getBaseContext(), "发送失败",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getBaseContext(), "发送失败",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
         case R.id.bt_commit:
-            //发送聊天
+            // 发送聊天
             commitChat();
             break;
         case R.id.ll_chat_:
-            //打开聊天页面
+            // 打开聊天页面
             showChatLayout(true);
             break;
         case R.id.gift:
-            //送礼物
-            NavHelper.toGiftListActivity(RoomMainActivity.this, mHouseId, mUserId + "");
+            // 送礼物
+            NavHelper.toGiftListActivity(RoomMainActivity.this, mHouseId,
+                    mUserId + "");
             break;
         case R.id.ll_pai:
-            //点歌排麦
+            // 点歌排麦
             break;
         case R.id.fl_chat:
-            //关闭聊天页面
+            // 关闭聊天页面
             showChatLayout(false);
             break;
         }
     }
+
 }

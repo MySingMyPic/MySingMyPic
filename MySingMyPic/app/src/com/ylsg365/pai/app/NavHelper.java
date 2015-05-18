@@ -324,6 +324,13 @@ public class NavHelper {
         context.startActivity(intent);
         forwardAnim((Activity) context);
     }
+    public static void toPrivateMessageSelectUserActivityForResult(Activity context, int requestCode, Bundle data)
+    {
+        Intent intent = new Intent(context, PrivateMessageSelectUserActivity.class);
+        intent.putExtras(data);
+        context.startActivityForResult(intent, requestCode);
+        forwardAnim((Activity) context);
+    }
 
     /**
      * 转去我的收藏列表页面
@@ -813,5 +820,7 @@ public class NavHelper {
     public static final int REQUEST_FROM_LOGIN = 10001;
 
     public static final int RESULT_SELECT_IMAGE_SUCCESS = 22;
+    public static final int RESULT_SELECT_PRIOR_SINGER = 23;
+    public static final int RESULT_SELECT_MASTER = 24;
 
 }

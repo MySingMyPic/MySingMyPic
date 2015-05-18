@@ -120,7 +120,7 @@ public class MyRoomActivity extends BaseActivity {
             @Override
             public void convert(ViewHolder holder, Object item) {
 
-                ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN +JsonUtil.getString((JSONObject)item,"headImg"), (ImageView)holder.getView(R.id.img_roomImg));
+                ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN +JsonUtil.getString((JSONObject)item,"imgUrl"), (ImageView)holder.getView(R.id.img_roomImg));
                 holder.setText(R.id.text_room_name,JsonUtil.getString((JSONObject)item,"nname"));
                 holder.setText(R.id.text_room_author,JsonUtil.getString((JSONObject)item,"nickName"));
                 holder.setText(R.id.text_room_hot,JsonUtil.getString((JSONObject)item,"singAuth"));

@@ -1,18 +1,11 @@
 package com.ylsg365.pai.activity.room;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,8 +18,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.base.BaseActivity;
-import com.ylsg365.pai.activity.singsong.SongActivity;
-import com.ylsg365.pai.activity.singsong.SongCategoryActivity;
 import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.UIHelper;
@@ -49,17 +40,21 @@ import java.util.ArrayList;
 public class KaraokeActivity extends BaseActivity implements View.OnClickListener{
     private PullToRefreshListView recyclerView;
     private boolean isHaveRoom = false;
+    @SuppressWarnings("rawtypes")
     private CommonAdapter adapter ;
     private ArrayList<JSONObject> infoList = new ArrayList<JSONObject>();;
     private int currentPage = 0;
     private static final int rows = 10;
     private boolean isRefresh = false;
 
+    @SuppressWarnings({
+            "unchecked", "rawtypes"
+    })
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_karaoke);
-
+        
         setupToolbar();
         setTitle("包房K歌");
 
@@ -111,8 +106,6 @@ public class KaraokeActivity extends BaseActivity implements View.OnClickListene
                     getKtvRoomList(keyword.trim(), 0, rows);
                 }
 
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
 
@@ -122,7 +115,7 @@ public class KaraokeActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void convert(ViewHolder holder, Object item) {
 
-                ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN +JsonUtil.getString((JSONObject)item,"headImg"), (ImageView)holder.getView(R.id.img_roomImg));
+                ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN +JsonUtil.getString((JSONObject)item,"imgUrl"), (ImageView)holder.getView(R.id.img_roomImg));
                 holder.setText(R.id.text_room_name,JsonUtil.getString((JSONObject)item,"nname"));
                 holder.setText(R.id.text_room_author,JsonUtil.getString((JSONObject)item,"nickName"));
                 holder.setText(R.id.text_room_hot,JsonUtil.getString((JSONObject)item,"singAuth"));
@@ -136,7 +129,7 @@ public class KaraokeActivity extends BaseActivity implements View.OnClickListene
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JSONObject obj = (JSONObject)adapter.getItem(position);
+                JSONObject obj = (JSONObject)adapter.getItem(position - 1);
                 String nid = JsonUtil.getString(obj,"nid");
                 enterHouse(nid);
             }
@@ -155,13 +148,13 @@ public class KaraokeActivity extends BaseActivity implements View.OnClickListene
                     obj = new JSONObject(response);
                 } catch (JSONException e) {
                 }
-//                if (obj != null && JsonUtil.getBoolean(obj, "status")) {
+                if (obj != null && JsonUtil.getBoolean(obj, "status")) {
                     Bundle data = new Bundle();
                     data.putString("nid", houseId);
                     NavHelper.toRoomMainPage(KaraokeActivity.this, data);
-//                }else {
-//                    Toast.makeText(getBaseContext(), "进入包房失败", Toast.LENGTH_SHORT).show();
-//                }
+                }else {
+                    Toast.makeText(getBaseContext(), "进入包房失败", Toast.LENGTH_SHORT).show();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -192,8 +185,6 @@ public class KaraokeActivity extends BaseActivity implements View.OnClickListene
                     for (int i = 0; i < infoJsonArray.length(); i++) {
                         infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
                     }
-
-                    adapter.addData(infoList);
 
                     if(infoList.size() < rows){
                         recyclerView.setIsLoadMore(false);

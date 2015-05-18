@@ -27,7 +27,8 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
     private int layoutResId;
     private OnItemClickListener onItemClickListener;
     Context context;
-    private int selectPos=-1;
+//    private int selectPos=-1;
+    private List<Integer> mPosList;
     public MessageUserAdapter(Context context,int layoutResId, List<JSONObject> list) {
         infoList = new ArrayList<JSONObject>(list);
         this.context=context;
@@ -48,9 +49,10 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
         holder.userNicknameTextView.setText(JsonUtil.getString(infoJsonObject, "nickName"));
 
         ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "headImg"), holder.userHeadImageview);
-        if(selectPos==position)
+        if(mPosList != null && !mPosList.isEmpty() && mPosList.contains(position)) {
             holder.selectImage.setImageDrawable(context.getResources().getDrawable(R.drawable.duoxuanxuanzhong));
-        else holder.selectImage.setImageDrawable(context.getResources().getDrawable(R.drawable.duoxuan));
+        } else 
+            holder.selectImage.setImageDrawable(context.getResources().getDrawable(R.drawable.duoxuan));
     }
 
     @Override
@@ -100,8 +102,8 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
         infoList.addAll(tempInfoList);
     }
 
-    public void setSelectPso(int pos)
+    public void setSelPosList(List<Integer> list)
     {
-        selectPos=pos;
+        mPosList = list;
     }
 }

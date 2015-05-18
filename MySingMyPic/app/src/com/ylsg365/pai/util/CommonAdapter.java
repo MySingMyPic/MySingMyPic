@@ -64,12 +64,12 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 
 
     public void addData(List<T> mDatas) {
-        if (this.mDatas == null) {
-            this.mDatas = mDatas;
-        } else {
-            this.mDatas.addAll(mDatas);
-        }
-        notifyDataSetChanged();
+//        if (this.mDatas == null) {
+//            this.mDatas = mDatas;
+//        } else {
+//            this.mDatas.addAll(mDatas);
+//        }
+//        notifyDataSetChanged();
     }
 
 

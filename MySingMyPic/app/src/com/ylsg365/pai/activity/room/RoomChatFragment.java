@@ -108,7 +108,7 @@ public class RoomChatFragment extends TabFragment implements
         return rootView;
     }
     
-    public void refresh() {
+    public synchronized void refresh() {
         getChatList();
     }
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,13 +105,8 @@ public class RoomInfoActivity extends BaseActivity implements
 
     private boolean IsOwner = false; // 标记是否房主
 
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-//            houseUpdate();
-        }
-    };
+    private boolean mIsStarted = false;
+    private boolean mNeedUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,8 +126,11 @@ public class RoomInfoActivity extends BaseActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        loadViews();
-        initData();
+        if (!mIsStarted) {
+            loadViews();
+            initData();
+            mIsStarted = true;
+        }
     }
 
     protected void loadViews() {
@@ -317,7 +314,6 @@ public class RoomInfoActivity extends BaseActivity implements
                                 img.setVisibility(View.VISIBLE);
                                 j--;
                             }
-                            mHandler.post(mRunnable);
                         } catch (JSONException e) {
 
                         }
@@ -358,10 +354,16 @@ public class RoomInfoActivity extends BaseActivity implements
             initList(0);
             break;
         case R.id.priority_sing: // 优先唱歌
-
+            Bundle data1 = new Bundle();
+            data1.putBoolean("karaok", true);
+            data1.putString("title", "选择优先歌者");
+            NavHelper.toPrivateMessageSelectUserActivityForResult(RoomInfoActivity.this, NavHelper.RESULT_SELECT_PRIOR_SINGER, data1);
             break;
         case R.id.harem_master: // 群主管理
-
+            Bundle data2 = new Bundle();
+            data2.putBoolean("karaok", true);
+            data2.putString("title", "选择群主");
+            NavHelper.toPrivateMessageSelectUserActivityForResult(RoomInfoActivity.this, NavHelper.RESULT_SELECT_MASTER, data2);
             break;
         case R.id.room_name:
             alertModifyDialog(room_name.getText().toString(), "name");
@@ -458,8 +460,8 @@ public class RoomInfoActivity extends BaseActivity implements
      * 调用更新房间
      */
     private void houseUpdate() {
-        LogUtil.logd("houseUpdate", "1");
-        if (!roomNameStr_Old.equals(roomNameStr)
+        if (mNeedUpdate 
+                || !roomNameStr_Old.equals(roomNameStr)
                 || !roomImgStr_Old.equals(roomImgStr)
                 || !roomNoticeStr_Old.equals(roomNoticeStr)
                 || !isAuto_Switch_Old.equals(isAuto_Switch)
@@ -504,7 +506,7 @@ public class RoomInfoActivity extends BaseActivity implements
                                 isAuto_Switch_Old = isAuto_Switch;
                                 inRoomStr_Old = inRoomStr;
                                 SingStr_Old = SingStr;
-//                            mHandler.postDelayed(mRunnable, 1000);
+                                // mHandler.postDelayed(mRunnable, 1000);
                             } else {
                                 LogUtil.logd("houseUpdate", "失败");
                             }
@@ -512,12 +514,12 @@ public class RoomInfoActivity extends BaseActivity implements
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-//                            mHandler.postDelayed(mRunnable, 1000);
+                            // mHandler.postDelayed(mRunnable, 1000);
                             LogUtil.logd("houseUpdate", "失败");
                         }
                     });
         } else {
-//            mHandler.postDelayed(mRunnable, 1000);
+            // mHandler.postDelayed(mRunnable, 1000);
         }
     }
 
@@ -560,6 +562,9 @@ public class RoomInfoActivity extends BaseActivity implements
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode != RESULT_OK) {
+            return;
+        }
         if (requestCode == NavHelper.REQUEST_GO_TO_PICCUT) {
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -590,7 +595,7 @@ public class RoomInfoActivity extends BaseActivity implements
                                     JSONArray array = JsonUtil.getJSONArray(
                                             json, "fileName");
                                     if (array.length() > 0) {
-                                        str = FileUtils.host + array.get(0);
+                                        str = array.get(0).toString();
                                         roomImgStr = str;
                                     }
 
@@ -608,6 +613,50 @@ public class RoomInfoActivity extends BaseActivity implements
 
             }
 
+        } else if(requestCode == NavHelper.RESULT_SELECT_MASTER) {
+            mNeedUpdate = true;
+            managerIds = data.getStringArrayListExtra("id");
+            managerHeads = data.getStringArrayListExtra("head");
+            for(int i = 0; i < 3; i++) {
+                ImageView img = (ImageView) harem_master
+                        .getChildAt(i);
+                img.setVisibility(View.GONE);
+            }
+            int j = 2;
+            for (int i = 0; i < managerIds.size(); i++) {
+                ImageView img = (ImageView) harem_master
+                        .getChildAt(j);
+                if (i > 2) {
+                    return;
+                }
+                ImageLoader.getInstance().displayImage(
+                        Constants.WEB_IMG_DOMIN
+                                + managerHeads.get(i), img);
+                img.setVisibility(View.VISIBLE);
+                j--;
+            }
+        } else if(requestCode == NavHelper.RESULT_SELECT_PRIOR_SINGER) {
+            mNeedUpdate = true;
+            zhuboIds = data.getStringArrayListExtra("id");
+            zhuboHeads = data.getStringArrayListExtra("head");
+            for(int i = 0; i < 3; i++) {
+                ImageView img = (ImageView) priority_sing
+                        .getChildAt(i);
+                img.setVisibility(View.GONE);
+            }
+            int j = 2;
+            for (int i = 0; i < zhuboIds.size(); i++) {
+                ImageView img = (ImageView) priority_sing
+                        .getChildAt(j);
+                if (i > 2) {
+                    return;
+                }
+                ImageLoader.getInstance().displayImage(
+                        Constants.WEB_IMG_DOMIN
+                                + zhuboHeads.get(i), img);
+                img.setVisibility(View.VISIBLE);
+                j--;
+            }
         }
     }
 
@@ -615,6 +664,5 @@ public class RoomInfoActivity extends BaseActivity implements
     protected void onDestroy() {
         super.onDestroy();
         houseUpdate();
-        mHandler.removeCallbacks(mRunnable);
     }
 }

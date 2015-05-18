@@ -102,6 +102,10 @@ public class UserAttentionFragment extends TabFragment implements AbsListView.On
         return rootView;
     }
     
+    public synchronized void refresh() {
+        getViewerList();
+    }
+    
     private void getViewerList() {
         YinApi.getHouseViewers(nid, 0, new Response.Listener<String>() {
             @Override

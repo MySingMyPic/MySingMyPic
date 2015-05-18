@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.event.UserAttentionEvent;
+import com.ylsg365.pai.model.UserService;
 import com.ylsg365.pai.util.JsonUtil;
 
 import de.greenrobot.event.EventBus;
@@ -74,6 +75,13 @@ public class UserAttentionAdapter extends
 
             Button btn = (Button) getView(R.id.btn_attention);
             final int userId = JsonUtil.getInt(item, "userId");
+            if(userId == UserService.getUser().getUserId()) {
+                btn.setVisibility(View.INVISIBLE);
+                btn.setOnClickListener(null);
+                return;
+            } else {
+                btn.setVisibility(View.VISIBLE);
+            }
             final boolean attentioned = JsonUtil.getBoolean(item, "attention");
             btn.setOnClickListener(new OnClickListener() {
                 @Override

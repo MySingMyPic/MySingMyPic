@@ -1,5 +1,6 @@
 package com.ylsg365.pai.activity.message;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -28,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PrivateMessageSelectUserActivity extends BaseActivity implements OnItemClickListener {
 
@@ -37,18 +40,30 @@ public class PrivateMessageSelectUserActivity extends BaseActivity implements On
     private boolean isRefresh = false;
     private boolean isLoad=true;
     private TextView sendMessage;
-    private int selectPos=-1;
-    private JSONObject selectObject=null;
+//    private int selectPos=-1;
+//    private JSONObject selectObject=null;
+    private List<Integer> mSelPosList = new ArrayList<Integer>();
+    private boolean mIsFromKaraOK = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_message_select_user);
         setupToolbar();
-
-        setTitle("选择联系人");
+        
+        Bundle data = getIntent().getExtras();
+        if(data != null) {
+            mIsFromKaraOK = data.getBoolean("karaok");
+            setTitle(data.getString("title"));
+        } else {
+            setTitle("选择联系人");
+        }
 
         recyclerView = (SuperRecyclerView) findViewById(R.id.recycler);
         sendMessage=(TextView)findViewById(R.id.send_message);
+        sendMessage.setEnabled(false);
+        if(mIsFromKaraOK) {
+            sendMessage.setText("确认");
+        }
 //        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -107,16 +122,34 @@ public class PrivateMessageSelectUserActivity extends BaseActivity implements On
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectObject!=null)
+                if(mSelPosList!=null && !mSelPosList.isEmpty())
                 {
-                    NavHelper.toPrivateMessageSendActivity(PrivateMessageSelectUserActivity.this,JsonUtil.getInt(selectObject,"userId"),JsonUtil.getString(selectObject,"nickName"));
+                    JSONObject obj = null;
+                    if(mIsFromKaraOK) {
+                        ArrayList<String> idList = new ArrayList<String>();
+                        ArrayList<String> headList = new ArrayList<String>();
+                        for(Integer i : mSelPosList) {
+                            obj = messageUserAdapter.getItem(i);
+                            idList.add(JsonUtil.getString(obj, "userId"));
+                            headList.add(JsonUtil.getString(obj, "headImg"));
+                        }
+                        Intent intent = new Intent();
+                        intent.putStringArrayListExtra("id", idList);
+                        intent.putStringArrayListExtra("head", headList);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        obj = messageUserAdapter.getItem(mSelPosList.get(0));
+                    NavHelper.toPrivateMessageSendActivity(PrivateMessageSelectUserActivity.this,JsonUtil.getInt(obj,"userId"),JsonUtil.getString(obj,"nickName"));
                     NavHelper.finish(PrivateMessageSelectUserActivity.this);
+                    }
                 }
             }
         });
         messageUserAdapter = new MessageUserAdapter(this,R.layout.item_user_message_select, infoList);
         messageUserAdapter.setOnItemClickListener(PrivateMessageSelectUserActivity.this);
         recyclerView.setAdapter(messageUserAdapter);
+        messageUserAdapter.setSelPosList(mSelPosList);
 
         getAttentions(currentPage, rows);
     }
@@ -163,18 +196,37 @@ public class PrivateMessageSelectUserActivity extends BaseActivity implements On
 
     @Override
     public void onItemClick(View view, int postion) {
-
-        JSONObject jsonObject = messageUserAdapter.getItem(postion);
-
-        if(selectPos!=postion){
-            selectObject=jsonObject;
-            selectPos=postion;
+        Integer pos = Integer.valueOf(postion);
+        if(mIsFromKaraOK) {
+            if(mSelPosList.isEmpty() || mSelPosList.size() < 2 && !mSelPosList.contains(pos)) {
+                mSelPosList.add(pos);
+            } else {
+                if(mSelPosList.contains(pos)) {
+                    mSelPosList.remove(pos);
+                } else {
+                    Toast.makeText(getBaseContext(), "最多选两个", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else {
+                mSelPosList.clear();
+                mSelPosList.add(pos);
         }
-        else{
-            selectObject=null;
-            selectPos=-1;
+        if(mSelPosList.isEmpty()) {
+            sendMessage.setEnabled(false);
+        } else {
+            sendMessage.setEnabled(true);
         }
-        messageUserAdapter.setSelectPso(selectPos);
+//        JSONObject jsonObject = messageUserAdapter.getItem(postion);
+//
+//        if(selectPos!=postion){
+//            selectObject=jsonObject;
+//            selectPos=postion;
+//        }
+//        else{
+//            selectObject=null;
+//            selectPos=-1;
+//        }
+//        messageUserAdapter.setSelectPso(selectPos);
 
         messageUserAdapter.notifyDataSetChanged();
     }
