@@ -30,6 +30,7 @@ import com.ylsg365.pai.activity.message.PrivateMessageSendActivity;
 import com.ylsg365.pai.activity.message.SystemMessageActivity;
 import com.ylsg365.pai.activity.music.ChangeMusicVolumeActivity;
 import com.ylsg365.pai.activity.music.SingASoneActivity;
+import com.ylsg365.pai.activity.music.SongScoreActivity;
 import com.ylsg365.pai.activity.newsinfo.NewsInfoDetalActivity;
 import com.ylsg365.pai.activity.room.GameCenterActivity;
 import com.ylsg365.pai.activity.room.GameInfoActivity;
@@ -704,6 +705,13 @@ public class NavHelper {
         mContext.startActivity(i);
         forwardAnim((Activity) mContext);
     }
+    public static void toVideoAddEffectActivity(Activity mContext,String videopath,String audiopath) {
+        Intent i = new Intent(mContext,VideoAddEffectActivity.class);
+        i.putExtra("VIDEO_PATH",videopath);
+        i.putExtra("AUDIO_PATH",audiopath);
+        mContext.startActivity(i);
+        forwardAnim((Activity) mContext);
+    }
 
     public static void toVideoLongActivity(Activity mContext,String path) {
         Intent i = new Intent(mContext,VideoLongActivity.class);
@@ -731,6 +739,14 @@ public class NavHelper {
         intent.putExtra("choice",choice);
         context.startActivity(intent);
 
+        forwardAnim((Activity) context);
+    }
+    
+    public static void toSongScoreActivity(Context context,String singer,String song) {
+        Intent intent = new Intent(context, SongScoreActivity.class);
+        intent.putExtra("singer",singer);
+        intent.putExtra("song",song);
+        context.startActivity(intent);
         forwardAnim((Activity) context);
     }
     

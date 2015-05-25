@@ -58,7 +58,7 @@ public class RoomMainActivity extends BaseActivity implements
     private ViewPager_Adapter viewPager_Adapter;
     private LinearLayout shard_btn;
     private LinearLayout gift;
-    private IWeiboShareAPI mWeiboShareAPI;
+//    private IWeiboShareAPI mWeiboShareAPI;
     private Bitmap bmp;
 
     private ImageView mHouseImgIV, mUserImgIV;
@@ -99,7 +99,7 @@ public class RoomMainActivity extends BaseActivity implements
         EventBus.getDefault().register(this);
 
         if (savedInstanceState != null) {
-            mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
+            ShareUtil.mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
         }
 
         mHouseImgIV = (ImageView) findViewById(R.id.iv_house_img);
@@ -133,7 +133,7 @@ public class RoomMainActivity extends BaseActivity implements
                     @Override
                     public void onWechatClick() {
                         ShareUtil
-                                .sendReq(RoomMainActivity.this, 0, "测试分享", bmp);
+                                .sendReq(RoomMainActivity.this, 1, "测试分享", bmp);
                     }
 
                     @Override
@@ -259,8 +259,9 @@ public class RoomMainActivity extends BaseActivity implements
     }
 
     protected void onNewIntent(Intent intent) {
+        LogUtil.logd("newIntent", "newIntent");
         super.onNewIntent(intent);
-        mWeiboShareAPI.handleWeiboResponse(intent, this); // 当前应用唤起微博分享后，返回当前应用
+        ShareUtil.mWeiboShareAPI.handleWeiboResponse(intent, this); // 当前应用唤起微博分享后，返回当前应用
     }
 
     @Override

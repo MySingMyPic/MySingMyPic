@@ -129,7 +129,9 @@ public class VideoAddMusicSelectActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     if (request_result==0){
-                        //TODO 返回给上一页面音乐url
+                        //TODO 点击右上角返回给上一页面音乐文件,要添加音乐文件路径参数
+                        //NavHelper.toVideoAddEffectActivity(VideoAddMusicSelectActivity.this,null,Environment.getExternalStorageDirectory()+"/ipai/"+music_url.split("//")[1]);
+                        NavHelper.toVideoAddEffectActivity(VideoAddMusicSelectActivity.this,null,Environment.getExternalStorageDirectory()+"/ipai/"+path_filestore);
                         NavHelper.finish(VideoAddMusicSelectActivity.this);
                     }
                 }
@@ -143,7 +145,8 @@ public class VideoAddMusicSelectActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 music_url = (String) myMusicList.get(position).get("songUrl");
-                compose();
+                //compose();
+                download();
             }
         });
 
@@ -151,7 +154,8 @@ public class VideoAddMusicSelectActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 music_url = (String) otherMusicList.get(position).get("songUrl");
-                compose();
+                //compose();
+                download();
             }
         });
     }
@@ -160,11 +164,9 @@ public class VideoAddMusicSelectActivity extends ActionBarActivity {
      * 从后台获取歌曲列表
      */
     private void getData(){
-        //TODO 要根据上传返回的json数据显示在列表中
+        //根据上传返回的json数据显示在列表中
         myMusicList.clear();
         otherMusicList.clear();
-        String url = Constants.WEB_SERVER_DOMAIN + "songController/getSongsBy30s";
-
         /**
          * 获取歌曲数据
          */
@@ -179,7 +181,7 @@ public class VideoAddMusicSelectActivity extends ActionBarActivity {
                                 Map<String, Object> map = new HashMap<String, Object>();
                                 map.put("songId", JsonUtil.getString(json, "songId"));
                                 map.put("songName", JsonUtil.getString(json, "songName"));
-                                map.put("songUrl", JsonUtil.getString(json, "songUrl"));
+                                map.put("songUrl", JsonUtil.getString(json, "songUrl"));  //TODO 疑问：是URL还是仅是文件名
 
                                 otherMusicList.add(map);
                                 fillData();
@@ -240,8 +242,7 @@ public class VideoAddMusicSelectActivity extends ActionBarActivity {
         new Thread(){
             @Override
             public void run() {
-                //String url = Constants.WEB_SERVER_DOMAIN + "songController/getSongsBy30s";
-                String url = music_url;
+                String url = Constants.WEB_SERVER_DOMAIN + "   ";
                 Map<String, File> files = new HashMap<String, File>();
                 Map<String, String> params = new HashMap<String, String>();
 
@@ -253,6 +254,7 @@ public class VideoAddMusicSelectActivity extends ActionBarActivity {
                         if (JsonUtil.getBoolean(json, "status")) {
                             String purl = JsonUtil.getString(json, "songUrl");
                             if (purl!=null) {
+                                path_filestore = purl;
                                 str = FileUtils.host + purl;
                                 path_url = "http://"+str;
                                 Message msg = new Message();
@@ -274,12 +276,14 @@ public class VideoAddMusicSelectActivity extends ActionBarActivity {
     }
 
     private void download(){
+        Toast.makeText(VideoAddMusicSelectActivity.this,"开始下载!",Toast.LENGTH_SHORT);
         new Thread(){
             @Override
             public void run() {
                 HttpMethodHelper httpMethodHelper = new HttpMethodHelper();
                 int result = -1;
-                result = httpMethodHelper.downfile(path_url, "1pai/", path_filestore);
+                //result = httpMethodHelper.downfile("http://182.92.170.38:18080" + music_url, "1pai/", music_url.split("//")[1]);
+                result = httpMethodHelper.downfile("http://182.92.170.38:18080" + music_url, "1pai/", path_filestore);
                 mHandler.sendEmptyMessage(result);
             }
 

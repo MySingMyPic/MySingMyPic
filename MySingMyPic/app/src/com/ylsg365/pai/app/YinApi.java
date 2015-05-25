@@ -119,17 +119,29 @@ public class YinApi {
      * @param errorListener
      */
     public static void registerByPhoneStep_2(String nickName, String headImgUrl, String gender, String address, String token, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+//        StringBuilder url = new StringBuilder();
+//        URLUtils.addController(url, EnumController.MEMBER);
+//        URLUtils.addActionForGet(url, EnumAction.REGISTER2); 
+//
+//        URLUtils.addParameter(url, EnumParameter.NICKNAME, nickName);
+//        URLUtils.addParameter(url, EnumParameter.HEADIMG, headImgUrl);
+//        URLUtils.addParameter(url, EnumParameter.SEX, gender);
+//        URLUtils.addParameter(url, EnumParameter.AREA, address);
+//        URLUtils.addParameter(url, EnumParameter.TOKEN, token);
+//
+//        httpGet(url.toString(), responseListener, errorListener);
+        
         StringBuilder url = new StringBuilder();
         URLUtils.addController(url, EnumController.MEMBER);
-        URLUtils.addActionForGet(url, EnumAction.REGISTER2);
+        URLUtils.addActionForPost(url, EnumAction.REGISTER2);
 
-        URLUtils.addParameter(url, EnumParameter.NICKNAME, nickName);
-        URLUtils.addParameter(url, EnumParameter.HEADIMG, headImgUrl);
-        URLUtils.addParameter(url, EnumParameter.SEX, gender);
-        URLUtils.addParameter(url, EnumParameter.AREA, address);
-        URLUtils.addParameter(url, EnumParameter.TOKEN, token);
-
-        httpGet(url.toString(), responseListener, errorListener);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(EnumParameter.NICKNAME.getDesc(), nickName);
+        params.put(EnumParameter.HEADIMG.getDesc(), headImgUrl);
+        params.put(EnumParameter.SEX.getDesc(), gender);
+        params.put(EnumParameter.AREA.getDesc(), address);
+        params.put(EnumParameter.TOKEN.getDesc(), token);
+        httpPost(url.toString(), params, responseListener, errorListener);
     }
 
     /**
@@ -1859,6 +1871,32 @@ public class YinApi {
         URLUtils.addActionForGet(url, EnumAction.GETSONGS30);
 
         httpGet(url.toString(), responseListener, errorListener);
+    }
+    
+    /**
+     * 监听音频变音色处理文件状态
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getAuodioFileState(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.FILE);
+        URLUtils.addActionForPost(url, EnumAction.BSSTATE);
+
+        httpGet(url.toString(),responseListener, errorListener);
+    }
+    
+    /**
+     * 监听视频处理文件状态
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getVideoFileState(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.FILE);
+        URLUtils.addActionForPost(url, EnumAction.WORKSTATE);
+
+        httpGet(url.toString(),responseListener, errorListener);
     }
 
 }

@@ -36,6 +36,8 @@ public enum EnumAction {
     GETFANS("getFans"),
     LOOK("look"),
     LOOKLIST("lookList"),
+    WORKSTATE("workState"),
+    BSSTATE("beautifySoundState"),
 
     //fileController
     IMGUPLOAD("imgUpload"),

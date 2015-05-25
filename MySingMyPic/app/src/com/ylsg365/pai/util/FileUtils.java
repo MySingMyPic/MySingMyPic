@@ -20,7 +20,8 @@ public class FileUtils {
 
     public static final String roomHead ="roomHead.jpeg";  //包房头像
 
-    public static final String host = Constants.SITE_DOMAIN;
+    public static final String host = Constants.SITE_DOMAIN_FILE;
+;
 
     public static final String mp3 ="mp3/";  //mp3路径
 

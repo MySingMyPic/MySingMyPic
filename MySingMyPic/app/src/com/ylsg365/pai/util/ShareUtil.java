@@ -58,7 +58,7 @@ public class ShareUtil {
 
     public  static void initWXShare(Context mContext) {
         if (wxApi == null) {
-            wxApi = WXAPIFactory.createWXAPI(mContext, Constants.WX_APP_ID);
+            wxApi = WXAPIFactory.createWXAPI(mContext, Constants.WX_APP_ID, false);
             wxApi.registerApp(Constants.WX_APP_ID);
         }
     }

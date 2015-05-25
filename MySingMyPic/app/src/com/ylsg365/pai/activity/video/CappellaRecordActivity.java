@@ -66,6 +66,7 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
         switch (v.getId()){
             case R.id.layout_cancel:
                 stop();
+                NavHelper.finish(CappellaRecordActivity.this);
                 break;
             case R.id.layout_record:
                 record();
@@ -109,7 +110,7 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
             //mMediaRecorder.setMaxDuration(duration);    //设置可录制长度
             mMediaRecorder.setOnInfoListener(this);
             mMediaRecorder.setOutputFile(audioFile.getAbsolutePath());
-            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);// 设置声音编码的格式
+            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);// 设置声音编码的格式
             try {
                 timer.setVisibility(View.VISIBLE);
                 startTime = System.currentTimeMillis();

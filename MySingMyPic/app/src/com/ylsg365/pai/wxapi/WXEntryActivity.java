@@ -29,7 +29,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         super.onCreate(savedInstanceState);
     }
     @Override
-    public void onReq(BaseReq arg0) { }
+    public void onReq(BaseReq arg0) { 
+        finish();
+    }
 
     @Override
     public void onResp(BaseResp resp) {
@@ -45,5 +47,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 //分享拒绝
                 break;
         }
+        finish();
     }
 }

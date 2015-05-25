@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ylsg365.pai.R;
+import com.ylsg365.pai.activity.video.VideoAddEffectActivity;
 import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.event.NavEvent;
 import com.ylsg365.pai.util.StringUtil;
@@ -164,6 +165,9 @@ public class SingShootFragment extends Fragment {
                 break;
             case R.id.layout_category_3:
                 NavHelper.toKaraokePage(getActivity());
+                break;
+            case R.id.layout_category_4:
+                NavHelper.toVideoStartActivity(getActivity());
                 break;
             case R.id.layout_category_5:
                 NavHelper.toCappellaRecordPage(getActivity());

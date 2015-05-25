@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -29,16 +30,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ylsg365.pai.R;
+import com.ylsg365.pai.app.Constants;
+import com.ylsg365.pai.app.NavHelper;
+import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.customview.DrawView;
 import com.ylsg365.pai.customview.MoveView;
 import com.ylsg365.pai.customview.ObservableScrollView;
 import com.ylsg365.pai.customview.RepeatImageView;
 import com.ylsg365.pai.listener.ScrollViewListener;
 import com.ylsg365.pai.util.DensityUtil;
+import com.ylsg365.pai.util.FileUtils;
+import com.ylsg365.pai.util.HttpMethodHelper;
+import com.ylsg365.pai.util.JsonUtil;
+import com.ylsg365.pai.util.StringUtil;
 import com.ylsg365.pai.util.TimeUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChangeMusicVolumeActivity extends ActionBarActivity {
     private Toolbar toolbar;
@@ -98,8 +114,9 @@ public class ChangeMusicVolumeActivity extends ActionBarActivity {
 
     //音乐播放
     private  MediaPlayer mediaPlayer;
-    //本地歌曲的路径
-    private  String path;
+    //本地歌曲的路径 以及获取的处理后的网络路径 以及保存在本地的文件名
+    private  String path,path_url,path_filestore;
+
     RelativeLayout playLayout,cancel,finish;
     ImageView playImg;
     private boolean isPlay=false;
@@ -174,12 +191,27 @@ public class ChangeMusicVolumeActivity extends ActionBarActivity {
             Log.e("flag",""+isPlay);
              switch(msg.what)
              {
+                 case 0:
+                     Toast.makeText(ChangeMusicVolumeActivity.this,"下载成功！",Toast.LENGTH_SHORT);
+                     NavHelper.toSingASoneActivity(ChangeMusicVolumeActivity.this,Environment.getExternalStorageDirectory()+"/1pai/"+path_filestore);
+                     NavHelper.finish(ChangeMusicVolumeActivity.this);
+                     break;
                  case 1:
+                     Toast.makeText(ChangeMusicVolumeActivity.this,"文件已存在！",Toast.LENGTH_SHORT);
+                     break;
+                 case -1:
+                     Toast.makeText(ChangeMusicVolumeActivity.this,"下载失败！",Toast.LENGTH_SHORT);
+                     break;
+                 case 11:
+                     Toast.makeText(ChangeMusicVolumeActivity.this,"处理成功！",Toast.LENGTH_SHORT);
+                     download();
+                     break;
+                 case 3:
                      mediaPlayer.seekTo((int)leftTime);
                      mediaPlayer.start();
                      setPlayButton();
                      break;
-                 case 2:
+                 case 4:
                      mediaPlayer.pause();
                      setPlayButton();
                      break;
@@ -359,7 +391,7 @@ public class ChangeMusicVolumeActivity extends ActionBarActivity {
                             isPlay=true;
                         else isPlay=false;
 
-                        handler.sendEmptyMessage(1);
+                        handler.sendEmptyMessage(3);
                         long i=0;
                         for( i=leftTime;i<(rightTime);i++)
                         {
@@ -373,7 +405,7 @@ public class ChangeMusicVolumeActivity extends ActionBarActivity {
                         }
                         if(i==rightTime)
                             isPlay=false;
-                        handler.sendEmptyMessage(2);
+                        handler.sendEmptyMessage(4);
 
                     }
                 }.start();
@@ -384,17 +416,84 @@ public class ChangeMusicVolumeActivity extends ActionBarActivity {
         {
             @Override
             public void onClick(View v) {
-                //TODO
+                compose();//完成调音将先上传处理，下载完成后再跳转到音频处理界面
             }
         });
 
         cancel.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v) {
-                //TODO
+            public void onClick(View v) {//注意：放弃调音直接跳转到录制界面
+                NavHelper.finish(ChangeMusicVolumeActivity.this);
             }
         });
+    }
+
+    private void compose()
+    {
+        //get url of adding music
+
+//        Intent i=new Intent(this, CompessDialog.class); //TODO   no use!!!!
+//        startActivity(i);
+
+        new Thread(){
+            @Override
+            public void run() {
+                String url = "http://182.92.170.38:18082/Weitie/client/fileController/snsByFile";
+                File file = new File(path);
+                if (!file.exists()) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Map<String, File> files = new HashMap<String, File>();
+                Map<String, String> params = new HashMap<String, String>();
+                //变音调参数
+                params.put("startTime" , String.valueOf(leftTime));//音频调音高
+                params.put("endTime" , String.valueOf(rightTime));
+                params.put("tune" , String.valueOf(volume));
+
+                try {
+                    String str = YinApi.mediaUpload(url, params, files);
+                    if (!StringUtil.isNull(str)) {
+                        JSONObject json = null;
+                        json = new JSONObject(str);
+                        if (JsonUtil.getBoolean(json, "status")) {
+                            JSONArray array = JsonUtil.getJSONArray(json, "fileName");  //得到返回的URL
+                            if (array.length() > 0) {
+                                path_filestore = (String)array.get(0);
+                                path_url = "http://"+FileUtils.host +str;
+                                Message msg = new Message();
+                                msg.what = 11;
+                                msg.obj = path_url;
+                                handler.sendMessage(msg);
+                            }
+
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }.start();
+    }
+
+    private void download(){
+        new Thread(){
+            @Override
+            public void run() {
+                HttpMethodHelper httpMethodHelper = new HttpMethodHelper();
+                int result = -1;
+                result = httpMethodHelper.downfile(path_url, "1pai",path_filestore);
+                handler.sendEmptyMessage(result);
+            }
+
+        }.start();
     }
 
     public void setPlayButton()

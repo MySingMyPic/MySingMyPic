@@ -199,7 +199,7 @@ public class VideoActivity extends ActionBarActivity implements View.OnClickList
             Toast.makeText(this, "视频文件已存在！", Toast.LENGTH_SHORT).show();
             //jumpToProccess();
             if(choice_maxdur == 0){
-                NavHelper.toVideoAddEffectActivity(VideoActivity.this,path);
+                NavHelper.toVideoAddEffectActivity(VideoActivity.this,path,null);
             }
             else{
                 NavHelper.toVideoLongActivity(VideoActivity.this,path);
@@ -217,7 +217,7 @@ public class VideoActivity extends ActionBarActivity implements View.OnClickList
             findViewById(R.id.btnpause).setVisibility(View.GONE);
             //jumpToProccess();
             if(choice_maxdur == 0){
-                NavHelper.toVideoAddEffectActivity(VideoActivity.this,path);
+                NavHelper.toVideoAddEffectActivity(VideoActivity.this,path,null);
             }
             else{
                 NavHelper.toVideoLongActivity(VideoActivity.this, path);

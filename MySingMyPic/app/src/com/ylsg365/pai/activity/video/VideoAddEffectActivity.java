@@ -26,6 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.app.NavHelper;
@@ -108,10 +110,17 @@ public class VideoAddEffectActivity extends ActionBarActivity implements MediaPl
         Bundle pageData = getIntent().getExtras();
         if (pageData != null)
         {
-            path = getIntent().getStringExtra("VIDEO_PATH");
+            if (getIntent().getStringExtra("VIDEO_PATH")!=null&&!getIntent().getStringExtra("VIDEO_PATH").equals("")){
+                path = getIntent().getStringExtra("VIDEO_PATH");
+            }
+            if (getIntent().getStringExtra("AUDIO_PATH")!=null&&!getIntent().getStringExtra("AUDIO_PATH").equals("")){
+                path_audio = getIntent().getStringExtra("AUDIO_PATH");
+            }else{
+                path_audio = null;
+            }
+
         }
         else {
-            path = null;
             Toast.makeText(this, "获取视频文件失败!", Toast.LENGTH_SHORT).show();
         }
         setupToolbar();
@@ -331,14 +340,26 @@ public class VideoAddEffectActivity extends ActionBarActivity implements MediaPl
         new Thread(){
             @Override
             public void run() {
-                String url = Constants.WEB_SERVER_DOMAIN + "fileController/beautifySoundByFile";
-                String mpath = Environment.getExternalStorageDirectory() + "/1pai/test.mp3";
-                File file = new File(mpath);
+                String url = "http://182.92.170.38:18080/Weitie/client/fileController/workByFile";
+                //String mpath = Environment.getExternalStorageDirectory() + "/1pai/test.mp3";
+                File file = new File(path);
+                if (!file.exists()){
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 Map<String, File> files = new HashMap<String, File>();
                 files.put("video", file);
+                if (path_audio!=null){
+                    File audfile = new File(path_audio);
+                    files.put("audio", audfile);
+                }
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("flag", effectchose);
-                params.put("type", "0");
+                params.put("type", "0");  //TODO 需要做判断，对应哪种类型
 
                 try {
                     String str = YinApi.mediaUpload(url,params,files);
@@ -347,13 +368,14 @@ public class VideoAddEffectActivity extends ActionBarActivity implements MediaPl
                         JSONObject json = null;
                         json = new JSONObject(str);
                         if (JsonUtil.getBoolean(json, "status")) {
+
+                            loopFileState();
+
                             JSONArray array = JsonUtil.getJSONArray(json, "fileName");
                             if (array.length() > 0) {
-                                str = FileUtils.host + array.get(0);
-                                path_url = "http://"+str;
-
+                                path_filestore = (String)array.get(0);
+                                path_url = "http://"+FileUtils.host +str;
                                 //Toast.makeText(VideoAddEffectActivity.this,path_url,Toast.LENGTH_SHORT);
-
                                 Message msg = new Message();
                                 msg.what = 11;
                                 msg.obj = path_url;
@@ -449,6 +471,22 @@ public class VideoAddEffectActivity extends ActionBarActivity implements MediaPl
             }
         });
 
+    }
+
+    private void loopFileState() {
+        YinApi.getVideoFileState(new Response.Listener<JSONObject>() { // 自写的调用状态接口的方法；注意切换处理音频视频时，需要改里面的状态接口网址
+            @Override
+            public void onResponse(JSONObject response) {
+                if (!JsonUtil.getBoolean(response, "status")) {
+                    //这里需要重新调用状态接口
+                    loopFileState();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
     }
 
     private void download(){

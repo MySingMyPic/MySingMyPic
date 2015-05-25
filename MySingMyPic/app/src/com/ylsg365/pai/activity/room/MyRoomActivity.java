@@ -137,7 +137,7 @@ public class MyRoomActivity extends BaseActivity {
                 NavHelper.toRoomInfoActivity(MyRoomActivity.this, true, JsonUtil.getString(infoList.get(position-1),"nid"));
             }
         });
-
+        getMyHouse(null, currentPage, rows);
     }
 
     private  int currentPage = 0;
@@ -184,11 +184,11 @@ public class MyRoomActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getMyHouse(null, currentPage, rows);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        getMyHouse(null, currentPage, rows);
+//    }
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

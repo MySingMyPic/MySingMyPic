@@ -357,13 +357,17 @@ public class RoomInfoActivity extends BaseActivity implements
             Bundle data1 = new Bundle();
             data1.putBoolean("karaok", true);
             data1.putString("title", "选择优先歌者");
-            NavHelper.toPrivateMessageSelectUserActivityForResult(RoomInfoActivity.this, NavHelper.RESULT_SELECT_PRIOR_SINGER, data1);
+            NavHelper.toPrivateMessageSelectUserActivityForResult(
+                    RoomInfoActivity.this,
+                    NavHelper.RESULT_SELECT_PRIOR_SINGER, data1);
             break;
         case R.id.harem_master: // 群主管理
             Bundle data2 = new Bundle();
             data2.putBoolean("karaok", true);
             data2.putString("title", "选择群主");
-            NavHelper.toPrivateMessageSelectUserActivityForResult(RoomInfoActivity.this, NavHelper.RESULT_SELECT_MASTER, data2);
+            NavHelper.toPrivateMessageSelectUserActivityForResult(
+                    RoomInfoActivity.this, NavHelper.RESULT_SELECT_MASTER,
+                    data2);
             break;
         case R.id.room_name:
             alertModifyDialog(room_name.getText().toString(), "name");
@@ -460,8 +464,7 @@ public class RoomInfoActivity extends BaseActivity implements
      * 调用更新房间
      */
     private void houseUpdate() {
-        if (mNeedUpdate 
-                || !roomNameStr_Old.equals(roomNameStr)
+        if (mNeedUpdate || !roomNameStr_Old.equals(roomNameStr)
                 || !roomImgStr_Old.equals(roomImgStr)
                 || !roomNoticeStr_Old.equals(roomNoticeStr)
                 || !isAuto_Switch_Old.equals(isAuto_Switch)
@@ -495,6 +498,7 @@ public class RoomInfoActivity extends BaseActivity implements
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            LogUtil.logd("houseUpdate", response.toString());
 
                             if (JsonUtil.getBoolean(response, "status")) {
 
@@ -562,7 +566,7 @@ public class RoomInfoActivity extends BaseActivity implements
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK) {
+        if (resultCode != RESULT_OK) {
             return;
         }
         if (requestCode == NavHelper.REQUEST_GO_TO_PICCUT) {
@@ -583,13 +587,14 @@ public class RoomInfoActivity extends BaseActivity implements
                         File file = new File(filepath);
                         Map<String, File> files = new HashMap<String, File>();
                         files.put(file.getName(), file);
-                        String url = Constants.WEB_SERVER_DOMAIN
+                        String url = Constants.WEB_SERVER_DOMAIN2
                                 + "fileController/imgUpload";
 
                         try {
                             String str = YinApi.imgUplode(url,
                                     new HashMap<String, String>(), files);
                             if (!StringUtil.isNull(str)) {
+                                LogUtil.logd("imgUplode", str);
                                 JSONObject json = new JSONObject(str);
                                 if (JsonUtil.getBoolean(json, "status")) {
                                     JSONArray array = JsonUtil.getJSONArray(
@@ -613,47 +618,41 @@ public class RoomInfoActivity extends BaseActivity implements
 
             }
 
-        } else if(requestCode == NavHelper.RESULT_SELECT_MASTER) {
+        } else if (requestCode == NavHelper.RESULT_SELECT_MASTER) {
             mNeedUpdate = true;
             managerIds = data.getStringArrayListExtra("id");
             managerHeads = data.getStringArrayListExtra("head");
-            for(int i = 0; i < 3; i++) {
-                ImageView img = (ImageView) harem_master
-                        .getChildAt(i);
+            for (int i = 0; i < 3; i++) {
+                ImageView img = (ImageView) harem_master.getChildAt(i);
                 img.setVisibility(View.GONE);
             }
             int j = 2;
             for (int i = 0; i < managerIds.size(); i++) {
-                ImageView img = (ImageView) harem_master
-                        .getChildAt(j);
+                ImageView img = (ImageView) harem_master.getChildAt(j);
                 if (i > 2) {
                     return;
                 }
                 ImageLoader.getInstance().displayImage(
-                        Constants.WEB_IMG_DOMIN
-                                + managerHeads.get(i), img);
+                        Constants.WEB_IMG_DOMIN + managerHeads.get(i), img);
                 img.setVisibility(View.VISIBLE);
                 j--;
             }
-        } else if(requestCode == NavHelper.RESULT_SELECT_PRIOR_SINGER) {
+        } else if (requestCode == NavHelper.RESULT_SELECT_PRIOR_SINGER) {
             mNeedUpdate = true;
             zhuboIds = data.getStringArrayListExtra("id");
             zhuboHeads = data.getStringArrayListExtra("head");
-            for(int i = 0; i < 3; i++) {
-                ImageView img = (ImageView) priority_sing
-                        .getChildAt(i);
+            for (int i = 0; i < 3; i++) {
+                ImageView img = (ImageView) priority_sing.getChildAt(i);
                 img.setVisibility(View.GONE);
             }
             int j = 2;
             for (int i = 0; i < zhuboIds.size(); i++) {
-                ImageView img = (ImageView) priority_sing
-                        .getChildAt(j);
+                ImageView img = (ImageView) priority_sing.getChildAt(j);
                 if (i > 2) {
                     return;
                 }
                 ImageLoader.getInstance().displayImage(
-                        Constants.WEB_IMG_DOMIN
-                                + zhuboHeads.get(i), img);
+                        Constants.WEB_IMG_DOMIN + zhuboHeads.get(i), img);
                 img.setVisibility(View.VISIBLE);
                 j--;
             }
