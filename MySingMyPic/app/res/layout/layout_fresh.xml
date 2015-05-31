@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
     android:background="@drawable/bg_me_zong"
     android:paddingBottom="15dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="15dp">
+    android:paddingTop="15dp"
+    android:orientation="vertical"
+    >
 
     <RelativeLayout
         android:id="@+id/layout_top"
@@ -76,7 +77,6 @@
         android:id="@+id/text_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_top"
         android:textSize="@dimen/font_small"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
@@ -87,9 +87,9 @@
     <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/recycler_imgs"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="60dp"
         android:background="@color/transparent"
-        android:layout_below="@+id/text_content"
-        android:clipToPadding="false" />
+        android:visibility="gone"
+        />
 
-</RelativeLayout>
+</LinearLayout>

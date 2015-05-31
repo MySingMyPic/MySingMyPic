@@ -1,5 +1,6 @@
 package com.ylsg365.pai.activity.main;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -30,11 +30,8 @@ import com.ylsg365.pai.util.BmpUtils;
 import com.ylsg365.pai.util.FileUtils;
 import com.ylsg365.pai.util.LogUtil;
 import com.ylsg365.pai.util.StringUtil;
-
 import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
-
 import de.greenrobot.event.EventBus;
 
 
@@ -84,6 +81,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
     }
 
 
+    @SuppressLint("NewApi")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,7 +145,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         lookmeView.setOnClickListener(this);
         myMoneyView.setOnClickListener(this);
 
-        rootView.findViewById(R.id.layout_newsInfo).setOnClickListener(this);
+        rootView.findViewById(R.id.layout_newsInfo).setVisibility(View.GONE);
         rootView.findViewById(R.id.layout_myCollection).setOnClickListener(this);
         rootView.findViewById(R.id.layout_song_purchased).setOnClickListener(this);
         rootView.findViewById(R.id.layout_attention).setOnClickListener(this);
@@ -293,7 +291,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         NavHelper.toOriginalBaseListPage(getActivity(), NavHelper.REQUEST_MY_ORIGINAL);
     }
     private void toLookmePage(){
-        NavHelper.toLookMeListPage(getActivity());
+    	int isMeal=UserService.getUser().getIsMeal();
+    	if(isMeal==0)
+    	{
+    		showOpenVipDialog();
+    	}else
+            NavHelper.toLookMeListPage(getActivity());
     }
     private void toMyMoneyPage(){
         NavHelper.toMyMoneyPage(getActivity());

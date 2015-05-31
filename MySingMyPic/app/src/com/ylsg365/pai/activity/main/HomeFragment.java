@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -83,7 +84,14 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener, O
         TextView titileTextView = (TextView)rootView.findViewById(R.id.toolbar_title);
         titileTextView.setText("新鲜事");
         rootView.findViewById(R.id.text_toolbar_left).setVisibility(View.GONE);
-        rootView.findViewById(R.id.text_right).setVisibility(View.VISIBLE);
+        View v = rootView.findViewById(R.id.text_right);
+        v.setVisibility(View.VISIBLE);
+        v.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHelper.toVideoStartActivity(getActivity());
+            }
+        });
 
         recyclerView = (SuperRecyclerView) rootView.findViewById(R.id.recycler_song_category);
 //        recyclerView.setHasFixedSize(true);
@@ -223,7 +231,12 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener, O
         String newsInfoStr = newInfoAdapter.getItem(postion).toString();
         JSONObject infoObj = JsonUtil.getJSONObject(newsInfoStr);
         int nid = JsonUtil.getInt(infoObj, "nid");
-        collectNewsInfo(nid);
+        String count = (String)view.getTag();
+        if(count.equals("0")) {
+            collectNewsInfo(nid);
+        } else {
+            cancelCollectNewsInfo(nid);
+        }
     }
     /**
      * item 点击
@@ -280,6 +293,30 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener, O
             @Override
             public void onErrorResponse(VolleyError error) {
                 UIHelper.showToast("收藏失败");
+            }
+        });
+    }
+    
+    private void cancelCollectNewsInfo(int nid){
+        YinApi.cancelCollectNewsInfo(nid, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                LogUtil.logd("cancelCollectNewsInfo", response.toString());
+
+                if (JsonUtil.getBoolean(response, "status")) {
+                    UIHelper.showToast("取消收藏成功");
+
+//                    attentionTextView.setText("取消关注");
+                } else {
+                    UIHelper.showToast("取消收藏失败");
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                UIHelper.showToast("取消收藏失败");
             }
         });
     }

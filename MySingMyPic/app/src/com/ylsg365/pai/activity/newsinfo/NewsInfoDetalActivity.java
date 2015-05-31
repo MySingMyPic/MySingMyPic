@@ -2,6 +2,7 @@ package com.ylsg365.pai.activity.newsinfo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -33,8 +34,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickListener, View.OnClickListener {
+public class NewsInfoDetalActivity extends BaseActivity implements
+        OnItemClickListener, View.OnClickListener {
     private SlidingTabLayout slidingTabLayout;
     private ViewPager viewPager;
     private ArrayList<TabFragment> fragments;
@@ -45,7 +48,7 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
     public ImageView userHeadImageview;
     public TextView infoContentTextView;
     public TextView attentionTextView;
-    boolean isAttention=false;
+    boolean isAttention = false;
 
     private int forwardCount;
     private int commentCount;
@@ -53,58 +56,53 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
 
     private SuperRecyclerView infoImageRecyclerView;
     private NewsInfoImgAdapter newsInfoImgAdapter;
+    private List<JSONObject> mInfoList = new ArrayList<JSONObject>();
     private int newsInfoId;
     private int userId;
-    //底部按钮
+
+    // 底部按钮
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fresh_news);
 
-        newsInfoObj = JsonUtil.getJSONObject(getIntent().getStringExtra("newsInfo"));
+        newsInfoObj = JsonUtil.getJSONObject(getIntent().getStringExtra(
+                "newsInfo"));
         newsInfoId = JsonUtil.getInt(newsInfoObj, "nid");
         getNewInfo(newsInfoId);
 
     }
 
-    public void getNewInfo(final int newsInfoId)
-    {
-        YinApi.getNewInfo(newsInfoId,new Response.Listener<JSONObject>() {
+    public void getNewInfo(final int newsInfoId) {
+        YinApi.getNewInfo(newsInfoId, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                newsInfoObj=response;
+                newsInfoObj = response;
                 userId = JsonUtil.getInt(newsInfoObj, "userId");
-
 
                 forwardCount = JsonUtil.getInt(newsInfoObj, "forwardCount");
                 commentCount = JsonUtil.getInt(newsInfoObj, "commentCount");
                 likeCount = JsonUtil.getInt(newsInfoObj, "giftCount");
-                isAttention=JsonUtil.getBoolean(newsInfoObj,"attention");
+                isAttention = JsonUtil.getBoolean(newsInfoObj, "attention");
                 slidingTabLayout = (SlidingTabLayout) findViewById(R.id.demo_tab);
                 viewPager = (ViewPager) findViewById(R.id.pager_fresh);
 
-
                 // 设置ViewPager
                 fragments = new ArrayList<TabFragment>();
-                fragments.add(NewsInfoForwardFragment.newInstance(newsInfoId, forwardCount));
-                fragments.add(InfoCommentFragment.newInstance(newsInfoId, commentCount));
-                fragments.add(InfoLikeFragment.newInstance(newsInfoId, likeCount));
-                viewPager_Adapter = new ViewPager_Adapter(getSupportFragmentManager(),
-                        fragments);
+                fragments.add(NewsInfoForwardFragment.newInstance(newsInfoId,
+                        forwardCount));
+                fragments.add(InfoCommentFragment.newInstance(newsInfoId,
+                        commentCount));
+                fragments.add(InfoLikeFragment.newInstance(newsInfoId,
+                        likeCount));
+                viewPager_Adapter = new ViewPager_Adapter(
+                        getSupportFragmentManager(), fragments);
                 viewPager.setOffscreenPageLimit(fragments.size());
                 viewPager.setAdapter(viewPager_Adapter);
 
                 // 设置SlidingTab
                 slidingTabLayout.setViewPager(viewPager);
-
-
-                //新鲜事图片
-                infoImageRecyclerView = (SuperRecyclerView) findViewById(R.id.recycler_imgs);
-//        infoImageRecyclerView.setHasFixedSize(true);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(NewsInfoDetalActivity.this);
-                layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                infoImageRecyclerView.setLayoutManager(layoutManager);
 
                 setupToolbar();
                 setTitle("新鲜事");
@@ -112,8 +110,22 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
                 init();
 
                 getNewInfoImg(newsInfoId);
+
+                // 新鲜事图片
+                infoImageRecyclerView = (SuperRecyclerView) findViewById(R.id.recycler_imgs);
+                // infoImageRecyclerView.setHasFixedSize(true);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(
+                        NewsInfoDetalActivity.this);
+                layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                infoImageRecyclerView.setLayoutManager(layoutManager);
+                newsInfoImgAdapter = new NewsInfoImgAdapter(
+                        R.layout.item_info_img, mInfoList);
+                infoImageRecyclerView.setAdapter(newsInfoImgAdapter);
+                newsInfoImgAdapter
+                        .setOnItemClickListener(NewsInfoDetalActivity.this);
+                infoImageRecyclerView.setVisibility(View.VISIBLE);
             }
-        },new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
@@ -128,16 +140,14 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
                 LogUtil.logd("getNewInfoForwards", response.toString());
 
                 if (JsonUtil.getBoolean(response, "status")) {
-                    JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "data");
-                    ArrayList<JSONObject> infoList = new ArrayList<JSONObject>();
+                    JSONArray infoJsonArray = JsonUtil.getJSONArray(response,
+                            "data");
                     for (int i = 0; i < infoJsonArray.length(); i++) {
-                        infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
+                        mInfoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
                     }
-                    newsInfoImgAdapter = new NewsInfoImgAdapter(R.layout.item_info_img, infoList);
-                    newsInfoImgAdapter.setOnItemClickListener(NewsInfoDetalActivity.this);
-                    infoImageRecyclerView.setAdapter(newsInfoImgAdapter);
+                    LogUtil.logd("mInfoList", mInfoList.size() + "");
+                    newsInfoImgAdapter.notifyDataSetChanged();
                 }
-
 
             }
         }, new Response.ErrorListener() {
@@ -160,12 +170,18 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
     @Override
     protected void initViews() {
         nickNameTextView.setText(JsonUtil.getString(newsInfoObj, "nickName"));
-        cTimeTextView.setText(DateUtil.getFriendlyDate(JsonUtil.getString(newsInfoObj, "cTime")));
-        infoContentTextView.setText(FaceUtil.setText(this,JsonUtil.getString(newsInfoObj, "ntext")));
-        if(isAttention)
+        cTimeTextView.setText(DateUtil.getFriendlyDate(JsonUtil.getString(
+                newsInfoObj, "cTime")));
+        infoContentTextView.setText(FaceUtil.setText(this,
+                JsonUtil.getString(newsInfoObj, "ntext")));
+        if (isAttention)
             attentionTextView.setText("取消关注");
-        else attentionTextView.setText("关注");
-        ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(newsInfoObj, "headImg"), userHeadImageview);
+        else
+            attentionTextView.setText("关注");
+        ImageLoader.getInstance().displayImage(
+                Constants.WEB_IMG_DOMIN
+                        + JsonUtil.getString(newsInfoObj, "headImg"),
+                userHeadImageview);
     }
 
     @Override
@@ -178,36 +194,34 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
 
     @Override
     public void onItemClick(View view, int postion) {
-         JSONObject item=(JSONObject) newsInfoImgAdapter.getItem(postion);
-         String path=JsonUtil.getString(item, "imgUrl");
-         Intent it=new Intent(this, ImageDisplayActivity.class);
-         it.putExtra(ImageDisplayActivity.PATH,path);
+        JSONObject item = (JSONObject) newsInfoImgAdapter.getItem(postion);
+        String path = JsonUtil.getString(item, "imgUrl");
+        Intent it = new Intent(this, ImageDisplayActivity.class);
+        it.putExtra(ImageDisplayActivity.PATH, path);
         startActivity(it);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.layout_like:
-                doNewsInfoLike();
-                break;
-            case R.id.layout_comment:
-                toCommentSendPage();
-                break;
-            case R.id.layout_forward:
-                toForwardSendPage();
-                break;
-            case R.id.text_attention:
-                if(isAttention)
-                {
-                    unAttentionToUser();
-                }
-                else
-                    attentionToUser();
+        switch (v.getId()) {
+        case R.id.layout_like:
+            doNewsInfoLike();
+            break;
+        case R.id.layout_comment:
+            toCommentSendPage();
+            break;
+        case R.id.layout_forward:
+            toForwardSendPage();
+            break;
+        case R.id.text_attention:
+            if (isAttention) {
+                unAttentionToUser();
+            } else
+                attentionToUser();
         }
     }
 
-    private void attentionToUser(){
+    private void attentionToUser() {
         YinApi.attentionToUser(userId, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -216,38 +230,12 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
                 if (JsonUtil.getBoolean(response, "status")) {
                     UIHelper.showToast("关注成功");
 
-                    isAttention=true;
+                    isAttention = true;
                     attentionTextView.setText("取消关注");
-                }else {
-                    UIHelper.showToast("操作失败");
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                UIHelper.showToast("操作失败");
-            }
-        });
-    }
-
-    private void unAttentionToUser(){
-        YinApi.unAttentionToUser(userId+"", new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                LogUtil.logd("unAttentionToUser", response.toString());
-
-                if (JsonUtil.getBoolean(response, "status")) {
-                    UIHelper.showToast("取消关注成功");
-
-                    isAttention=false;
-                    attentionTextView.setText("关注");
                 } else {
                     UIHelper.showToast("操作失败");
                 }
 
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -257,26 +245,53 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
         });
     }
 
+    private void unAttentionToUser() {
+        YinApi.unAttentionToUser(userId + "",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        LogUtil.logd("unAttentionToUser", response.toString());
 
+                        if (JsonUtil.getBoolean(response, "status")) {
+                            UIHelper.showToast("取消关注成功");
 
-    private void doNewsInfoLike(){
+                            isAttention = false;
+                            attentionTextView.setText("关注");
+                        } else {
+                            UIHelper.showToast("操作失败");
+                        }
 
-        NavHelper.toGiftListActivityForNewsInfo(NewsInfoDetalActivity.this,newsInfoId+"",1); //送礼物
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        UIHelper.showToast("操作失败");
+                    }
+                });
     }
 
-    private void toCommentSendPage(){
-        NavHelper.toCommentSendPage(NewsInfoDetalActivity.this, newsInfoObj.toString());
-    }
-    private void toForwardSendPage(){
-        NavHelper.toForwardSendPage(NewsInfoDetalActivity.this, newsInfoObj.toString());
+    private void doNewsInfoLike() {
+
+        NavHelper.toGiftListActivityForNewsInfo(NewsInfoDetalActivity.this,
+                newsInfoId + "", 1); // 送礼物
     }
 
+    private void toCommentSendPage() {
+        NavHelper.toCommentSendPage(NewsInfoDetalActivity.this,
+                newsInfoObj.toString());
+    }
+
+    private void toForwardSendPage() {
+        NavHelper.toForwardSendPage(NewsInfoDetalActivity.this,
+                newsInfoObj.toString());
+    }
 
     public class ViewPager_Adapter extends FragmentPagerAdapter {
 
         private ArrayList<TabFragment> fragments;
 
-        public ViewPager_Adapter(FragmentManager fm, ArrayList<TabFragment> fragments) {
+        public ViewPager_Adapter(FragmentManager fm,
+                ArrayList<TabFragment> fragments) {
             super(fm);
             this.fragments = fragments;
         }
@@ -294,13 +309,16 @@ public class NewsInfoDetalActivity extends BaseActivity implements OnItemClickLi
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return String.format("%s%d", getItem(position).getTitle(), forwardCount);
+                return String.format("%s%d", getItem(position).getTitle(),
+                        forwardCount);
             }
             if (position == 1) {
-                return String.format("%s%d", getItem(position).getTitle(), commentCount);
+                return String.format("%s%d", getItem(position).getTitle(),
+                        commentCount);
             }
             if (position == 2) {
-                return String.format("%s%d", getItem(position).getTitle(), likeCount);
+                return String.format("%s%d", getItem(position).getTitle(),
+                        likeCount);
             }
             return getItem(position).getTitle();
         }

@@ -14,22 +14,24 @@ import com.ylsg365.pai.util.JsonUtil;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class NewsInfoImgAdapter extends RecyclerView.Adapter<NewsInfoImgAdapter.ViewHolder> {
+public class NewsInfoImgAdapter extends
+        RecyclerView.Adapter<NewsInfoImgAdapter.ViewHolder> {
     private List<JSONObject> infoList;
     private int layoutResId;
     private OnItemClickListener itemClickListener;
+
     public NewsInfoImgAdapter(int layoutResId, List<JSONObject> list) {
-        infoList = new ArrayList<JSONObject>(list);
+        infoList = list;
         this.layoutResId = layoutResId;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                layoutResId, parent, false);
+        
         ViewHolder holder = new ViewHolder(view);
         holder.setItemClickListener(itemClickListener);
         return holder;
@@ -39,8 +41,10 @@ public class NewsInfoImgAdapter extends RecyclerView.Adapter<NewsInfoImgAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         JSONObject infoJsonObject = infoList.get(position);
 
-
-        ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "imgUrl"), holder.inifoImageview);
+        ImageLoader.getInstance().displayImage(
+                Constants.WEB_IMG_DOMIN
+                        + JsonUtil.getString(infoJsonObject, "imgUrl"),
+                holder.inifoImageview);
     }
 
     @Override
@@ -50,18 +54,19 @@ public class NewsInfoImgAdapter extends RecyclerView.Adapter<NewsInfoImgAdapter.
 
     /**
      * 设置Item点击监听
+     * 
      * @param listener
      */
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.itemClickListener = listener;
     }
-
-    public JSONObject getItem(int position){
+    
+    public JSONObject getItem(int position) {
         return infoList.get(position);
     }
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements
+            View.OnClickListener {
         public View itemView;
         private OnItemClickListener mListener;
 
@@ -70,7 +75,7 @@ public class NewsInfoImgAdapter extends RecyclerView.Adapter<NewsInfoImgAdapter.
         public ViewHolder(View itemView) {
             super(itemView);
 
-            inifoImageview = (ImageView)itemView.findViewById(R.id.img_info);
+            inifoImageview = (ImageView) itemView.findViewById(R.id.img_info);
 
             itemView.setOnClickListener(this);
         }
@@ -85,11 +90,10 @@ public class NewsInfoImgAdapter extends RecyclerView.Adapter<NewsInfoImgAdapter.
 
         @Override
         public void onClick(View v) {
-            if(mListener != null){
-                mListener.onItemClick(v,getPosition());
+            if (mListener != null) {
+                mListener.onItemClick(v, getPosition());
             }
         }
-
 
     }
 }

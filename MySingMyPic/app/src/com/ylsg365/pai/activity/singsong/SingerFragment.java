@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -19,6 +21,7 @@ import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.base.TabFragment;
 import com.ylsg365.pai.activity.dialog.MVUploadFragment;
 import com.ylsg365.pai.activity.room.GameCenterActivity;
+import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.util.CommonAdapter;
 import com.ylsg365.pai.util.JsonUtil;
@@ -61,6 +64,7 @@ public class SingerFragment extends TabFragment implements AbsListView.OnItemCli
         mCode =  getArguments().getString("code");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,7 +87,14 @@ public class SingerFragment extends TabFragment implements AbsListView.OnItemCli
             public void convert(ViewHolder holder, Object item) {
                 holder.setText(R.id.song_name, ((HashMap) item).get("name").toString());
                 holder.setText(R.id.song_time, ((HashMap) item).get("sing").toString());
-
+                final String url = ((HashMap) item).get("url").toString();
+                Button btn = (Button)(holder.getView(R.id.song_btn));
+                btn.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NavHelper.toCappellaRecordPage(getActivity(), url);
+                    }
+                });
             }
         };
         /**
@@ -147,6 +158,7 @@ public class SingerFragment extends TabFragment implements AbsListView.OnItemCli
                                 Map<String, String> map = new HashMap<String, String>();
                                 map.put("sing", JsonUtil.getString(json, "singerName"));
                                 map.put("name", JsonUtil.getString(json, "songName"));
+                                map.put("url", JsonUtil.getString(json, "songUrl"));
                                 songs.add(map);
                             }
                             if (page == 1) {

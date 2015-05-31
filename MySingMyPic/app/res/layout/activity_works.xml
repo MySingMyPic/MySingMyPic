@@ -1,23 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_main_common"
-                android:fitsSystemWindows="true"
-    tools:context="com.ylsg365.pai.activity.main.HomeActivity$PlaceholderFragment">
+    android:fitsSystemWindows="true"
+    tools:context="com.ylsg365.pai.activity.main.HomeActivity$PlaceholderFragment" >
 
-    <include android:id="@+id/toolbar" layout="@layout/toolbar_back"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back" />
+
     <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:layout_below="@+id/toolbar"
         android:id="@+id/recycler"
-        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"/>
+        android:layout_below="@+id/toolbar"
+        android:background="@color/transparent"
+        android:clipToPadding="false" />
+
     <include
-        layout="@layout/layout_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="invisible"
-        />
+        layout="@layout/layout_loading"
+        android:visibility="invisible" />
+
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.ylsg365.pai.activity.video;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -9,8 +10,6 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -18,14 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ylsg365.pai.R;
-import com.ylsg365.pai.activity.base.BaseActivity;
-import com.ylsg365.pai.activity.music.SingASoneActivity;
+import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.app.NavHelper;
-import com.ylsg365.pai.app.RecordManager;
-import com.ylsg365.pai.app.UIHelper;
+import com.ylsg365.pai.model.Player;
+import com.ylsg365.pai.util.LogUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 
@@ -36,6 +33,7 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
     private String path;
     private MediaRecorder mMediaRecorder;
     private File audioFile;
+    @SuppressWarnings("unused")
     private int duration = 0;
     private int hour = 0;
     private int minute = 0;
@@ -44,10 +42,21 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
     private boolean isrecording;
 
     private TextView timer;
+    
+    private Player mPlayer;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cappella_record);
+        
+        String url = getIntent().getStringExtra("music_url");
+        if(url != null) {
+            url = "http://" + Constants.SITE_DOMAIN + url;
+            LogUtil.logd("url", url);
+            mPlayer = new Player(null);
+            mPlayer.playUrl(url, true);
+        }
 
         rateSurfaceView = (SurfaceView) findViewById(R.id.surface_rate);
         rateSurfaceView.setZOrderOnTop(true);
@@ -59,6 +68,21 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
         // sfv.setOnTouchListener(new TouchEvent());
         // sfv.setOnClickListener(new TouchEvent());
         drawwave();
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mPlayer != null) {
+            mPlayer.pause();
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        if(mPlayer != null) {
+            mPlayer.stop();
+        }
+        mPlayer = null;
     }
 
     @Override
@@ -77,6 +101,7 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void record() {
         if(isrecording){
             stop();
@@ -110,7 +135,7 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
             //mMediaRecorder.setMaxDuration(duration);    //设置可录制长度
             mMediaRecorder.setOnInfoListener(this);
             mMediaRecorder.setOutputFile(audioFile.getAbsolutePath());
-            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);// 设置声音编码的格式
+            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);// 设置声音编码的格式
             try {
                 timer.setVisibility(View.VISIBLE);
                 startTime = System.currentTimeMillis();
@@ -118,6 +143,9 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
                 isrecording = true;
                 mMediaRecorder.prepare();
                 mMediaRecorder.start();
+                if(mPlayer != null) {
+                    mPlayer.play();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -157,6 +185,7 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
         }
     }
 
+    @SuppressWarnings("unused")
     private void retry() {
         if (mMediaRecorder != null) {
             //timer.setText(format(hour) + ":" + format(minute) + ":"+ format(second));
@@ -246,6 +275,7 @@ public class CappellaRecordActivity extends Activity implements View.OnClickList
                 int minLineHalf = 10;
                 int increaseHeight = 10;
                 int increaseWidth = 20;
+                @SuppressWarnings("unused")
                 int initLineHeight = minLineHalf;
 
 

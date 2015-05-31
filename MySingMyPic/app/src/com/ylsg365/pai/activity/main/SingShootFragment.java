@@ -1,28 +1,49 @@
 package com.ylsg365.pai.activity.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.malinskiy.superrecyclerview.OnMoreListener;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.ylsg365.pai.R;
+import com.ylsg365.pai.activity.NewInfoAdapter;
+import com.ylsg365.pai.activity.Listener.OnItemClickListener;
+import com.ylsg365.pai.activity.Listener.OnMyItemClickListener;
+import com.ylsg365.pai.activity.Listener.OnUserHeadClickListener;
 import com.ylsg365.pai.activity.video.VideoAddEffectActivity;
 import com.ylsg365.pai.app.NavHelper;
+import com.ylsg365.pai.app.UIHelper;
+import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.event.NavEvent;
+import com.ylsg365.pai.util.JsonUtil;
+import com.ylsg365.pai.util.LogUtil;
 import com.ylsg365.pai.util.StringUtil;
 
 import de.greenrobot.event.EventBus;
 
-public class SingShootFragment extends Fragment {
+public class SingShootFragment extends Fragment implements OnItemClickListener, OnUserHeadClickListener,OnMyItemClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,7 +58,12 @@ public class SingShootFragment extends Fragment {
     //搜索
     private EditText searchInput;
     private ImageView searchIcon;
-
+     SingShootAdapter singShootAdapter;
+     SuperRecyclerView recyclerView;
+     private int currentPage = 0;
+     private final int rows = 10;
+     private boolean isRefresh = false;
+     private boolean isLoad=true;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -77,17 +103,26 @@ public class SingShootFragment extends Fragment {
         TextView titileTextView = (TextView)rootView.findViewById(R.id.toolbar_title);
         titileTextView.setText("我唱我拍");
         rootView.findViewById(R.id.text_toolbar_left).setVisibility(View.GONE);
-        rootView.findViewById(R.id.text_right).setVisibility(View.VISIBLE);
+        View v = rootView.findViewById(R.id.text_right);
+        v.setVisibility(View.VISIBLE);
+        v.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHelper.toVideoStartActivity(getActivity());
+            }
+        });
 
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_fresh);
-        recyclerView.setHasFixedSize(true);
+        recyclerView = (SuperRecyclerView) rootView.findViewById(R.id.recycler_fresh);
+//        recyclerView.setHasFixedSize(true);
 
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.layout_category, null);
 
-        final SingShootAdapter singShootAdapter = new SingShootAdapter(header, R.layout.item_home, 30);
+         singShootAdapter = new SingShootAdapter(header,getActivity(), R.layout.item_home, new ArrayList<JSONObject>());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        singShootAdapter.setOnItemClickListener(SingShootFragment.this);
+        singShootAdapter.setOnUserHeadClickListener(SingShootFragment.this);
+        singShootAdapter.setOnMyItemClickListener(SingShootFragment.this);
         recyclerView.setAdapter(singShootAdapter);
 
         searchInput=(EditText)rootView.findViewById(R.id.edit_search);
@@ -104,9 +139,71 @@ public class SingShootFragment extends Fragment {
                 }
             }
         });
+        
+        recyclerView.setupMoreListener(new OnMoreListener() {
+            @Override
+            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                if(isLoad){
+                isRefresh = false;
+                    getNewInfos(currentPage++, rows);
+                }
+                else
+                {
+                    recyclerView.setLoadingMore(false);
+                    recyclerView.hideMoreProgress();
+                }
+            }
+        }, 3);
+
+        recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                isLoad=true;
+                currentPage = 0;
+                recyclerView.setLoadingMore(true);
+                isRefresh = true;
+                getNewInfos(currentPage, rows);
+            }
+        });
+        getNewInfos(currentPage, rows);
+        
         return rootView;
     }
 
+    private void getNewInfos(final int currentPage, final int rows){
+        YinApi.getNewInfos(currentPage, rows, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                LogUtil.logd("getNewInfos", response.toString());
+
+                if (JsonUtil.getBoolean(response, "status")) {
+                    JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "data");
+                    if (isRefresh) {
+                    	singShootAdapter.clearData();
+                    }
+                     ArrayList<JSONObject> infoList=new ArrayList<JSONObject>();
+                    for (int i = 0; i < infoJsonArray.length(); i++) {
+                        infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
+                    }
+                    singShootAdapter.addData(infoList);
+                    if (infoList.size() < rows) {
+                        isLoad=false;
+                        recyclerView.setLoadingMore(false);
+//                      /**/  Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+                    }
+                    singShootAdapter.notifyDataSetChanged();
+                }
+                recyclerView.hideMoreProgress();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                recyclerView.hideMoreProgress();
+            }
+        });
+    }
+    
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
@@ -182,5 +279,167 @@ public class SingShootFragment extends Fragment {
                 NavHelper.toGameCenterPage(getActivity());
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int postion) {
+    	Log.e("","点击");
+            String newsInfoStr = singShootAdapter.getItem(postion).toString();
+        
+        JSONObject infoObj = JsonUtil.getJSONObject(newsInfoStr);
+        int infoType = JsonUtil.getInt(infoObj, "ntype");
+        
+        switch (infoType){
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            	
+                NavHelper.toVideoDetailPage(getActivity(), newsInfoStr);
+                break;
+            case 4:
+            	
+                NavHelper.toNewsInfoDetailPage(getActivity(), newsInfoStr);
+                break;
+        }       
+    }
+
+
+    /**
+     * 点解列表中头像回调方法
+     * @param view
+     * @param postion
+     */
+    @Override
+    public void onUserHeadClick(View view, int postion) {
+        String newsInfoStr = singShootAdapter.getItem(postion).toString();
+
+        JSONObject infoObj = JsonUtil.getJSONObject(newsInfoStr);
+        int userId = JsonUtil.getInt(infoObj, "userId");
+
+        NavHelper.toUserDetailPage(getActivity(), userId);
+    }
+    /**
+     * item 收藏点击
+     * @param view
+     * @param postion
+     */
+    @Override
+    public void OnCollectClick(View view, int postion) {
+        String newsInfoStr = singShootAdapter.getItem(postion).toString();
+        JSONObject infoObj = JsonUtil.getJSONObject(newsInfoStr);
+        int nid = JsonUtil.getInt(infoObj, "nid");
+        String count = (String)view.getTag();
+        if(count.equals("0")) {
+            collectNewsInfo(nid);
+        } else {
+            cancelCollectNewsInfo(nid);
+        }
+    }
+    /**
+     * item 点击
+     * @param view
+     * @param postion
+     */
+    @Override
+    public void OnShareClick(View view, int postion) {
+
+    }
+    /**
+     * item 点击
+     * @param view
+     * @param postion
+     */
+    @Override
+    public void OnMsgClick(View view, int postion) {
+
+    }
+
+    /**
+     * item 送礼物点击
+     * @param view
+     * @param postion
+     */
+    @Override
+    public void OnGiftClick(View view, int postion) {
+
+        String newsInfoStr = singShootAdapter.getItem(postion).toString();
+        JSONObject infoObj = JsonUtil.getJSONObject(newsInfoStr);
+        int userId = JsonUtil.getInt(infoObj, "userId");
+
+        NavHelper.toGiftListActivity(SingShootFragment.this.getActivity(),"",userId+"");
+    }
+
+
+    private void collectNewsInfo(int nid){
+        YinApi.collectNewsInfo(nid, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                LogUtil.logd("collectNewsInfo", response.toString());
+
+                if (JsonUtil.getBoolean(response, "status")) {
+                    UIHelper.showToast("收藏成功");
+
+//                    attentionTextView.setText("取消关注");
+                } else {
+                    UIHelper.showToast("收藏失败");
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                UIHelper.showToast("收藏失败");
+            }
+        });
+    }
+    
+    private void cancelCollectNewsInfo(int nid){
+        YinApi.cancelCollectNewsInfo(nid, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                LogUtil.logd("cancelCollectNewsInfo", response.toString());
+
+                if (JsonUtil.getBoolean(response, "status")) {
+                    UIHelper.showToast("取消收藏成功");
+
+//                    attentionTextView.setText("取消关注");
+                } else {
+                    UIHelper.showToast("取消收藏失败");
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                UIHelper.showToast("取消收藏失败");
+            }
+        });
+    }
+
+    private void unCollectNewsInfo(){
+//        YinApi.unAttentionToUser(userId + "", new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                LogUtil.logd("unAttentionToUser", response.toString());
+//
+//                if (JsonUtil.getBoolean(response, "status")) {
+//                    UIHelper.showToast("取消关注成功");
+//
+//                    attentionTextView.setText("关注");
+//                } else {
+//                    UIHelper.showToast("操作失败");
+//                }
+//
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                UIHelper.showToast("操作失败");
+//            }
+//        });
     }
 }

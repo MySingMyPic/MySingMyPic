@@ -88,6 +88,7 @@ public class NewInfoAdapter extends RecyclerView.Adapter<NewInfoAdapter.ViewHold
 
         if( holder.collectionCountTextView != null){
             holder.collectionCountTextView.setText(JsonUtil.getString(infoJsonObject, "collectionCount"));
+            holder.collectLayout.setTag(JsonUtil.getString(infoJsonObject, "collectionCount"));
         }
 
         if(JsonUtil.getBoolean(infoJsonObject, "attention")){

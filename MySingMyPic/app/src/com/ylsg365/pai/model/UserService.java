@@ -34,6 +34,7 @@ public class UserService {
         user.setGiftMoney(JsonUtil.getDouble(json, "giftMoney"));
         user.setAttentionNUm(JsonUtil.getInt(json, "attentionNum"));
         user.setNewInfoNum(JsonUtil.getInt(json, "newInfoNum"));
+        user.setIsMeal(JsonUtil.getInt(json, "isMeal"));
 
         if(!StringUtils.isEmpty(JsonUtil.getString(json, "headImg"))){
             user.setHeadImg(Constants.WEB_IMG_DOMIN + JsonUtil.getString(json, "headImg").trim());
@@ -55,7 +56,7 @@ public class UserService {
         user.setGiftMoney(JsonUtil.getDouble(json, "giftMoney"));
         user.setAttentionNUm(JsonUtil.getInt(json, "attentionNum"));
         user.setNewInfoNum(JsonUtil.getInt(json, "newInfoNum"));
-
+        user.setIsMeal(JsonUtil.getInt(json, "isMeal"));
         if(!StringUtils.isEmpty(JsonUtil.getString(json, "headImg"))){
             user.setHeadImg(Constants.WEB_IMG_DOMIN + JsonUtil.getString(json, "headImg"));
         }

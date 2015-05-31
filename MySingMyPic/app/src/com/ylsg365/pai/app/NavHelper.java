@@ -467,6 +467,17 @@ public class NavHelper {
         context.startActivity(intent);
         forwardAnim((Activity) context);
     }
+    
+    /**
+     * 转去录音界面
+     * @param context
+     */
+    public static void toCappellaRecordPage(Context context, String musicUrl) {
+        Intent intent = new Intent(context, CappellaRecordActivity.class);
+        intent.putExtra("music_url", musicUrl);
+        context.startActivity(intent);
+        forwardAnim((Activity) context);
+    }
 
     public static void toSingASoneActivity(Context context,String path) {
         Intent intent = new Intent(context, SingASoneActivity.class);
@@ -734,10 +745,10 @@ public class NavHelper {
         forwardAnim((Activity) context);
     }
 
-    public static void toVideoAddMusicSelectActivity(Context context,int choice) {
+    public static void toVideoAddMusicSelectActivityForResult(Activity context,int choice) {
         Intent intent = new Intent(context, VideoAddMusicSelectActivity.class);
         intent.putExtra("choice",choice);
-        context.startActivity(intent);
+        context.startActivityForResult(intent, 0x1111);
 
         forwardAnim((Activity) context);
     }

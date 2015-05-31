@@ -2,7 +2,10 @@ package com.ylsg365.pai.activity.singsong;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -12,6 +15,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.activity.base.BaseActivity;
+import com.ylsg365.pai.app.NavHelper;
 import com.ylsg365.pai.app.YinApi;
 import com.ylsg365.pai.util.CommonAdapter;
 import com.ylsg365.pai.util.JsonUtil;
@@ -38,6 +42,7 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
     private CommonAdapter adapter;
     private boolean isRefresh = false;
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +90,14 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
             public void convert(ViewHolder holder, Object item) {
                 holder.setText(R.id.song_name, ((HashMap) item).get("name").toString());
                 holder.setText(R.id.song_time, ((HashMap) item).get("sing").toString());
+                final String url = ((HashMap) item).get("url").toString();
+                Button btn = (Button)(holder.getView(R.id.song_btn));
+                btn.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NavHelper.toCappellaRecordPage(SongActivity.this, url);
+                    }
+                });
             }
         };
         listView.setAdapter(adapter);
@@ -114,6 +127,7 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
                                 Map<String, String> map = new HashMap<String, String>();
                                 map.put("sing", JsonUtil.getString(json, "singerName"));
                                 map.put("name", JsonUtil.getString(json, "songName"));
+                                map.put("url", JsonUtil.getString(json, "songUrl"));
                                 songs.add(map);
                             }
 //                            if (page == 1) {

@@ -18,7 +18,17 @@ public class User {
     private int attentionNUm;
     private int newInfoNum;
     private String token;
+    private int isMeal;
 
+    public int getIsMeal()
+    {
+        return isMeal;
+    }
+    public void setIsMeal(int isMeal)
+    {
+        this.isMeal=isMeal;
+    }
+    
     public String getPhone() {
         return phone;
     }

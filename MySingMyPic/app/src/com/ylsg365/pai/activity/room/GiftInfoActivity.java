@@ -48,7 +48,7 @@ public class GiftInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //充值
-
+            	NavHelper.toRechargeActivity(GiftInfoActivity.this);
             }
         });
 
@@ -63,7 +63,7 @@ public class GiftInfoActivity extends BaseActivity {
         btn_login_login = (Button) findViewById(R.id.btn_login_login);
 
         datas = getIntent().getStringArrayExtra("giftInfo");
-        User user = UserService.getUser();
+        final User user = UserService.getUser();
         price.setText(datas[2]);
         name.setText(datas[0]);
         money.setText(user.getBalance() + "");//我的音乐币剩余数量
@@ -75,14 +75,21 @@ public class GiftInfoActivity extends BaseActivity {
                 /**
                  * 赠送礼物的方法
                  */
+            	double price=Double.parseDouble(datas[2].trim());
+            	if(price>user.getBalance())
+            	{
+            		NavHelper.showToast(GiftInfoActivity.this, "余额不足，请充值");                  
+            	}
+            	else{
                 if(type==0){
                 YinApi.sendGift(datas[3], getIntent().getStringExtra("count"), getIntent().getStringExtra("houseId"), getIntent().getStringExtra("receiveUserId"), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         if (JsonUtil.getBoolean(response, "status")) {
                             NavHelper.showToast(GiftInfoActivity.this, "礼物赠送成功!");
+                            NavHelper.finish(GiftInfoActivity.this);
                         } else {
-                            NavHelper.showToast(GiftInfoActivity.this, "礼物赠送失败!");
+                            NavHelper.showToast(GiftInfoActivity.this, JsonUtil.getString(response, "msg"));
                         }
 
                     }
@@ -100,8 +107,9 @@ public class GiftInfoActivity extends BaseActivity {
                         public void onResponse(JSONObject response) {
                             if (JsonUtil.getBoolean(response, "status")) {
                                 NavHelper.showToast(GiftInfoActivity.this, "礼物赠送成功!");
+                                NavHelper.finish(GiftInfoActivity.this);
                             } else {
-                                NavHelper.showToast(GiftInfoActivity.this, "礼物赠送失败!");
+                                NavHelper.showToast(GiftInfoActivity.this, JsonUtil.getString(response, "msg"));
                             }
 
                         }
@@ -111,6 +119,7 @@ public class GiftInfoActivity extends BaseActivity {
                             NavHelper.showToast(GiftInfoActivity.this, "礼物赠送失败!");
                         }
                     });
+                }
                 }
             }
         });

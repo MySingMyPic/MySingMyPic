@@ -15,16 +15,14 @@ import java.io.OutputStream;
  */
 public class FileUtils {
     public static final String path = Environment.getExternalStorageDirectory()
-            .toString()+"/IsingIshot/";
-    public static final String headPath ="head.jpeg";  //用户头像
+            .toString() + "/IsingIshot/";
+    public static final String headPath = "head.jpeg"; // 用户头像
 
-    public static final String roomHead ="roomHead.jpeg";  //包房头像
+    public static final String roomHead = "roomHead.jpeg"; // 包房头像
 
-    public static final String host = Constants.SITE_DOMAIN_FILE;
-;
+    public static final String host = Constants.SITE_DOMAIN_FILE;;
 
-    public static final String mp3 ="mp3/";  //mp3路径
-
+    public static final String mp3 = "mp3/"; // mp3路径
 
     /**
      * 递归删除文件和文件夹
@@ -53,16 +51,17 @@ public class FileUtils {
             }
         }
     }
-    private static String SDPATH;
+
+    private static String SDPATH = Environment.getExternalStorageDirectory()
+            + "/";
 
     public static String getSDPATH() {
         return SDPATH;
     }
+
     public FileUtils() {
-        //得到当前外部存储设备的目录
-        // /SDCARD
-        SDPATH = Environment.getExternalStorageDirectory() + "/";
     }
+
     /**
      * 在SD卡上创建文件
      *
@@ -88,7 +87,7 @@ public class FileUtils {
     /**
      * 判断SD卡上的文件夹是否存在
      */
-    public static boolean isFileExist(String fileName){
+    public static boolean isFileExist(String fileName) {
         File file = new File(SDPATH + fileName);
         return file.exists();
     }
@@ -96,27 +95,26 @@ public class FileUtils {
     /**
      * 将一个InputStream里面的数据写入到SD卡中
      */
-    public static File write2SDFromInput(String path,String fileName,InputStream input){
+    public static File write2SDFromInput(String path, String fileName,
+            InputStream input) {
         File file = null;
         OutputStream output = null;
-        try{
+        try {
             creatSDDir(path);
             file = creatSDFile(path + fileName);
             output = new FileOutputStream(file);
-            byte buffer [] = new byte[4 * 1024];
-            while((input.read(buffer)) != -1){
-                output.write(buffer);
+            byte buffer[] = new byte[4 * 1024];
+            int length;
+            while ((length = input.read(buffer)) != -1) {
+                output.write(buffer, 0, length);
             }
             output.flush();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally{
-            try{
+        } finally {
+            try {
                 output.close();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -9,7 +9,7 @@
     <include android:id="@+id/toolbar" layout="@layout/toolbar_common"/>
     <include android:layout_below="@+id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/search" layout="@layout/layout_search_common"/>
 
-    <android.support.v7.widget.RecyclerView
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:paddingTop="15dp"
         android:layout_below="@+id/search"
         android:id="@+id/recycler_fresh"
