@@ -78,23 +78,22 @@ public class SingerFragment extends TabFragment implements AbsListView.OnItemCli
         listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         ILoadingLayout startLabels = listView.getLoadingLayoutProxy( true,false);
         startLabels.setPullLabel("下拉刷新");
-        startLabels.setRefreshingLabel("加载中...");
+        startLabels.setRefreshingLabel("加载中..");
         startLabels.setReleaseLabel("释放刷新");
 
-        adapter = new CommonAdapter(getActivity(), songs, R.layout.item_song) {
+         adapter = new CommonAdapter(getActivity(), songs, R.layout.item_singer) {
 
             @Override
-            public void convert(ViewHolder holder, Object item) {
-                holder.setText(R.id.song_name, ((HashMap) item).get("name").toString());
-                holder.setText(R.id.song_time, ((HashMap) item).get("sing").toString());
-                final String url = ((HashMap) item).get("url").toString();
-                Button btn = (Button)(holder.getView(R.id.song_btn));
-                btn.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NavHelper.toCappellaRecordPage(getActivity(), url);
-                    }
-                });
+            public void convert(ViewHolder holder,final Object item) {
+                holder.setText(R.id.singer_name, ((HashMap) item).get("name").toString());
+                holder.getConvertView().setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						NavHelper.toSongActivity(getActivity(), ((HashMap) item).get("singid").toString(), ((HashMap) item).get("name").toString(), 1);
+					}
+				});
             }
         };
         /**
@@ -144,7 +143,7 @@ public class SingerFragment extends TabFragment implements AbsListView.OnItemCli
         /**
          * 获取歌曲数据
          */
-        YinApi.getSongs("", code, "", page, rows,
+       YinApi.getSingers(code, "", "", page, rows,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -156,9 +155,9 @@ public class SingerFragment extends TabFragment implements AbsListView.OnItemCli
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject json = JsonUtil.getJSONObject(array, i);
                                 Map<String, String> map = new HashMap<String, String>();
-                                map.put("sing", JsonUtil.getString(json, "singerName"));
-                                map.put("name", JsonUtil.getString(json, "songName"));
-                                map.put("url", JsonUtil.getString(json, "songUrl"));
+                               map.put("singid", JsonUtil.getString(json, "singerId"));
+                                map.put("name", JsonUtil.getString(json, "singerName"));
+                                map.put("typeid", JsonUtil.getString(json, "typeId"));
                                 songs.add(map);
                             }
                             if (page == 1) {

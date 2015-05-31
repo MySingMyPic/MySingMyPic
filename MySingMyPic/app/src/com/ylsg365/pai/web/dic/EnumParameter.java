@@ -60,6 +60,8 @@ public enum EnumParameter {
     MEALID("mealId"),
     ntype("ntype"),
     NTYPE("ntype"),
+    typeId("typeId"),
+    singerId("singerId")
     ;
 
     private String desc;

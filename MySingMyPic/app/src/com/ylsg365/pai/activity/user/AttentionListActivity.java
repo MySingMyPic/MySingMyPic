@@ -101,7 +101,7 @@ public class AttentionListActivity extends BaseActivity implements OnViewClickLi
     private static final int rows = 10;
 
     private void getAttentions(int currentPage, final int rows){
-        YinApi.getAttentions(currentPage, rows, new Response.Listener<JSONObject>() {
+        YinApi.getMyAttentions(currentPage, rows, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 LogUtil.logd("getAttentions", response.toString());
@@ -113,7 +113,10 @@ public class AttentionListActivity extends BaseActivity implements OnViewClickLi
                     JSONArray infoJsonArray = JsonUtil.getJSONArray(response, "data");
                     infoList.clear();
                     for (int i = 0; i < infoJsonArray.length(); i++) {
-                        infoList.add(JsonUtil.getJSONObject(infoJsonArray, i));
+                        	JSONObject item=JsonUtil.getJSONObject(infoJsonArray, i);
+                    	JsonUtil.put(item, "attention", true);
+                        infoList.add(item);
+                    
                     }
 
                     attentionsAdapter.addData(infoList);

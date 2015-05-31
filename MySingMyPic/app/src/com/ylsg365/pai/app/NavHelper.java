@@ -230,7 +230,7 @@ public class NavHelper {
         forwardAnim((Activity) context);
     }
     /**
-     * 转去看过我的人页面
+     * 转去看过我的人页�?
      *
      * @param context
      */
@@ -241,7 +241,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去我的音乐币页面
+     * 转去我的音乐币页�?
      *
      * @param context
      */
@@ -252,7 +252,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去我赞过的新鲜事列表页面
+     * 转去我赞过的新鲜事列表页�?
      *
      * @param context
      */
@@ -264,7 +264,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去我的新鲜事列表页面
+     * 转去我的新鲜事列表页�?
      * @param context
      */
     public static void toMyNewsInfoListPage(Context context) {
@@ -288,7 +288,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去新鲜事详情页面
+     * 转去新鲜事详情页�?
      *
      * @param context
      */
@@ -300,7 +300,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去发送私信页面
+     * 转去发送私信页�?
      *
      * @param context
      */
@@ -314,7 +314,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去选择联系人页面
+     * 转去选择联系人页�?
      *
      * @param context
      */
@@ -385,7 +385,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去音视频详情页面
+     * 转去音视频详情页�?
      *
      * @param context
      */
@@ -397,7 +397,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去其他人空间页面
+     * 转去其他人空间页�?
      *
      * @param context
      */
@@ -411,7 +411,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去发评论页面
+     * 转去发评论页�?
      *
      * @param context
      * @param infoObjstr
@@ -424,7 +424,7 @@ public class NavHelper {
     }
 
     /**
-     * 转去发评论页面
+     * 转去发评论页�?
      *
      * @param context
      */
@@ -562,6 +562,16 @@ public class NavHelper {
         forwardAnim((Activity) mContext);
 
     }
+
+public static void toSongActivity(Activity mContext, String code, String name,int use) {
+        Intent i = new Intent(mContext,SongActivity.class);
+        i.putExtra("singid",code);
+        i.putExtra("typename",name);
+        i.putExtra("use",use);
+        mContext.startActivity(i);
+        forwardAnim((Activity) mContext);
+
+    }
     public static void toVideoActivity(Activity mContext,int choice) {
         Intent i = new Intent(mContext,VideoActivity.class);
         i.putExtra("choice",choice);
@@ -666,7 +676,7 @@ public class NavHelper {
     }
 
     /**
-     * 跳转到充值界面
+     * 跳转到充值界�?
      * @param mContext
      */
     public static void toRechargeActivity(Context mContext) {
@@ -801,7 +811,7 @@ public class NavHelper {
     public static final String REQUEST_CODE = "request_code";
     public static final String USER_ID = "userId";
 
-    //请求去登录
+    //请求去登�?
     public static final int REQUEST_GO_TO_LOGIN = 1;
     public static final int RESULT_GO_TO_LOGIN_SUCCESS = 2;
     public static final int RESULT_GO_TO_LOGIN_FAILED = 3;
@@ -826,20 +836,20 @@ public class NavHelper {
 
     //我的原创基地
     public static final int REQUEST_MY_ORIGINAL = 14;
-    //其他用户的原创基地
+    //其他用户的原创基�?
     public static final int REQUEST_OTHER_ORIGINAL = 15;
-    //所有原创基地
+    //所有原创基�?
     public static final int REQUEST_ALL_ORIGINAL = 16;
 
     //我的作品
     public static final int REQUEST_MY_WORKS = 17;
-    //其他用户的作品
+    //其他用户的作�?
     public static final int REQUEST_OTHER_WORKS = 18;
 
 
-    //我的新鲜事列表
+    //我的新鲜事列�?
     public static final int REQUEST_MY_NEWSINFO = 19;
-    //我赞过的新鲜事列表
+    //我赞过的新鲜事列�?
     public static final int REQUEST_NICE_NEWSINFO = 20;
     //其他用户的新鲜事列表
     public static final int REQUEST_OTHER_NEWSINFO = 21;

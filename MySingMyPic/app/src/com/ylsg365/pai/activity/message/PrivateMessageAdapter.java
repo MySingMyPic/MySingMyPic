@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ylsg365.pai.R;
 import com.ylsg365.pai.app.Constants;
 import com.ylsg365.pai.app.NavHelper;
+import com.ylsg365.pai.face.FaceUtil;
 import com.ylsg365.pai.util.DateUtil;
 import com.ylsg365.pai.util.JsonUtil;
 
@@ -141,7 +142,7 @@ public class PrivateMessageAdapter extends RecyclerView.Adapter<PrivateMessageAd
 
 
             holder.userNickNamTextView.setText(JsonUtil.getString(infoJsonObject, "sendNickName"));
-            holder.messageContentTextView.setText(String.format("%s", JsonUtil.getString(infoJsonObject, "ntext")));
+            holder.messageContentTextView.setText(FaceUtil.setText(mContext, JsonUtil.getString(infoJsonObject, "ntext")));
             holder.messageCTimeTextView.setText(String.format("%s", DateUtil.getFriendlyDate(JsonUtil.getString(infoJsonObject, "cTime"))));
 
             ImageLoader.getInstance().displayImage(Constants.WEB_IMG_DOMIN + JsonUtil.getString(infoJsonObject, "sendHeadImg"), holder.userHeadImageview);

@@ -42,6 +42,7 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
     private CommonAdapter adapter;
     private boolean isRefresh = false;
 
+    int use=0;
     @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
         setContentView(R.layout.activity_song);
 
         intent = getIntent();
+use=intent.getIntExtra("use", 0);
         setupToolbar();
 
         setTitle("歌曲");
@@ -65,7 +67,7 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
         listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         ILoadingLayout startLabels = listView.getLoadingLayoutProxy(true, false);
         startLabels.setPullLabel("下拉刷新");
-        startLabels.setRefreshingLabel("加载中...");
+        startLabels.setRefreshingLabel("加载中..");
         startLabels.setReleaseLabel("释放刷新");
         /**
          * 自动加载更多数据
@@ -82,7 +84,7 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
 
         initData(intent.getStringExtra("type"), intent.getStringExtra("singid"), intent.getStringExtra("songname"), page, rows);
         /**
-         * adapter实例化
+         * adapter实例�?
          */
         adapter = new CommonAdapter(SongActivity.this, songs, R.layout.item_song) {
 
@@ -105,7 +107,7 @@ public class SongActivity extends BaseActivity implements PullToRefreshBase.OnRe
     }
 
     /**
-     * 初始化歌曲数据
+     * 初始化歌曲数�?
      * @param type
      * @param singid
      * @param songname

@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_small"
-                android:text="5分钟前"
+                android:text="5分钟"
                 android:textColor="@color/text_item_grey" />
         </LinearLayout>
 
@@ -78,27 +78,31 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/layout_collect"
                 android:layout_width="0dp"
                 android:gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <ImageView
+                     android:id="@+id/img_collectionCount"
                     android:layout_width="16dp"
                     android:layout_height="15.5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/img_keep_n" />
 
                 <TextView
+                    android:id="@+id/text_collectionCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left|center"
                     android:textSize="@dimen/font_small"
-                    android:text="553"
+                    android:text=""
                     android:textColor="@color/text_radio_normal" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_share"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -116,10 +120,11 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_small"
                     android:gravity="left|center"
-                    android:text="553"
+                    android:text=""
                     android:textColor="@color/text_radio_normal" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/layout_msg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -137,10 +142,11 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|center"
                     android:textSize="@dimen/font_small"
-                    android:text="553"
+                    android:text=""
                     android:textColor="@color/text_radio_normal" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/layout_gift"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -159,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_small"
                     android:gravity="left|center"
-                    android:text="553"
+                    android:text=""
                     android:textColor="@color/text_radio_normal" />
             </LinearLayout>
         </LinearLayout>

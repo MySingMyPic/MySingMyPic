@@ -91,7 +91,7 @@ public class ImageSelectActivity extends ActionBarActivity {
                             if(file.exists())
                                 files.put(file.getName(), file);
                         }
-                        String url = Constants.WEB_SERVER_DOMAIN + "fileController/imgUpload" ;
+                        String url = Constants.WEB_SERVER_DOMAIN2 + "fileController/imgUpload" ;
 
                         try {
                             String str = YinApi.imgUplode(url, new HashMap<String, String>(), files);
@@ -215,7 +215,7 @@ public class ImageSelectActivity extends ActionBarActivity {
                         File file = new File(filepath);
                         Map<String, File> files = new HashMap<String, File>();
                         files.put(file.getName(), file);
-                        String url = Constants.WEB_SERVER_DOMAIN + "fileController/imgUpload" ;
+                        String url = Constants.WEB_SERVER_DOMAIN2 + "fileController/imgUpload" ;
 
                         try {
                             String str = YinApi.imgUplode(url, new HashMap<String, String>(), files);

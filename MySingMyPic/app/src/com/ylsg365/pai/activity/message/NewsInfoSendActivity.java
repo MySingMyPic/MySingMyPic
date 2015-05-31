@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -56,7 +57,7 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
     ImageView atOp,faceOp,ImgOp;
 
     //插入图片
-    private SuperRecyclerView infoImageRecyclerView;
+    private RecyclerView infoImageRecyclerView;
     private NewsInfoSendImgAdapter newsInfoImgAdapter;
     private List<String> images=new ArrayList<String>();
     String filepath="";
@@ -93,15 +94,12 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
 
         faceLayout.addView(faceView);
 
-        //新鲜事图片
-        infoImageRecyclerView = (SuperRecyclerView) findViewById(R.id.recycler_imgs);
+        //新鲜事图�?
+        infoImageRecyclerView = (RecyclerView) findViewById(R.id.recycler_imgs);
         LinearLayoutManager layoutManager = new LinearLayoutManager(NewsInfoSendActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         infoImageRecyclerView.setLayoutManager(layoutManager);
-        infoImageRecyclerView.setLoadingMore(false);
 
-//        infoImageRecyclerView.hideProgress();
-        infoImageRecyclerView.hideMoreProgress();
     }
 
     @Override
@@ -112,11 +110,11 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
 
             public void onKeyboardStateChanged(int state) {
                 switch (state) {
-                    case KeyboardListenRelativeLayout.KEYBOARD_STATE_HIDE://软键盘隐藏
+                    case KeyboardListenRelativeLayout.KEYBOARD_STATE_HIDE://软键盘隐�?
                         showFace();
 
                         break;
-                    case KeyboardListenRelativeLayout.KEYBOARD_STATE_SHOW://软键盘显示
+                    case KeyboardListenRelativeLayout.KEYBOARD_STATE_SHOW://软键盘显�?
                         faceFlag=false;
                         showFace();
                         break;
@@ -216,6 +214,7 @@ public class NewsInfoSendActivity extends BaseActivity implements View.OnClickLi
 
                 if (JsonUtil.getBoolean(response, "status")) {
                     UIHelper.showToast("发送成功");
+                    NavHelper.finish(NewsInfoSendActivity.this);
                 } else {
                     UIHelper.showToast("发送失败");
                 }

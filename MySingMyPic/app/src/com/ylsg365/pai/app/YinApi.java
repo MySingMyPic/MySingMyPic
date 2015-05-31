@@ -59,8 +59,8 @@ public class YinApi {
     }
 
     // /**
-    // * 忘记密码获取短信验证码
-    // * @param phone 手机号
+    // * 忘记密码获取短信验证�?
+    // * @param phone 手机�?
     // */
     // public static void getValidateCodePwdForget(String phone,
     // Response.Listener<JSONObject> responseListener, Response.ErrorListener
@@ -96,7 +96,7 @@ public class YinApi {
     }
 
     /**
-     * 通过手机号注册
+     * 通过手机号注码
      *
      * @param phone
      *            手机号
@@ -123,7 +123,7 @@ public class YinApi {
     }
 
     /**
-     * 注册第二步，此操作完成才算注册成功
+     * 注册第二步，此操作完成才算注册成会员
      *
      * @param nickName
      * @param headImgUrl
@@ -962,7 +962,7 @@ public class YinApi {
     }
 
     /**
-     * 6.根据验证码获取用户接口
+     * 6.根据验证码获取用户接�?
      *
      * @param responseListener
      * @param errorListener
@@ -1071,7 +1071,7 @@ public class YinApi {
         conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA
                 + ";boundary=" + BOUNDARY);
 
-        // 首先组拼文本类型的参数
+        // 首先组拼文本类型的参�?
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> entry : params.entrySet()) {
             sb.append(PREFIX);
@@ -1090,7 +1090,7 @@ public class YinApi {
                 conn.getOutputStream());
         outStream.write(sb.toString().getBytes());
 
-        // 发送文件数据
+        // 发送文件数�?
         if (files != null)
             for (Map.Entry<String, File> file : files.entrySet()) {
                 StringBuilder sb1 = new StringBuilder();
@@ -1119,7 +1119,7 @@ public class YinApi {
         outStream.write(end_data);
         outStream.flush();
 
-        // 得到响应码
+        // 得到响应�?
         int res = conn.getResponseCode();
         InputStream in = conn.getInputStream();
         InputStreamReader isReader = new InputStreamReader(in);
@@ -1165,7 +1165,7 @@ public class YinApi {
         conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA
                 + ";boundary=" + BOUNDARY);
 
-        // 首先组拼文本类型的参数
+        // 首先组拼文本类型的参�?
         StringBuilder sb = new StringBuilder();
         if (params != null) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -1186,7 +1186,7 @@ public class YinApi {
                 conn.getOutputStream());
         outStream.write(sb.toString().getBytes());
 
-        // 发送文件数据
+        // 发送文件数�?
         if (files != null) {
             File file = null;
             String key = null;
@@ -1253,7 +1253,7 @@ public class YinApi {
         outStream.write(end_data);
         outStream.flush();
 
-        // 得到响应码
+        // 得到响应�?
         int res = conn.getResponseCode();
         InputStream in = conn.getInputStream();
         InputStreamReader isReader = new InputStreamReader(in);
@@ -1272,7 +1272,7 @@ public class YinApi {
     }
 
     /**
-     * 新鲜事点赞
+     * 新鲜事点�?
      *
      * @param newsInfoId
      * @param responseListener
@@ -1292,7 +1292,7 @@ public class YinApi {
     }
 
     /**
-     * 新鲜事发送评论
+     * 新鲜事发送评�?
      *
      * @param newsInfoId
      * @param comment
@@ -1319,7 +1319,7 @@ public class YinApi {
     }
 
     /**
-     * 新鲜事转发
+     * 新鲜事转�?
      *
      * @param newsInfoId
      * @param comment
@@ -1591,11 +1591,11 @@ public class YinApi {
     }
 
     /**
-     * 进如|退出包房
+     * 进如|退出包�?
      * 
      * @param houseId
      * @param type
-     *            0：进入，1：退出
+     *            0：进入，1：退�?
      * @param pwd
      *            密码
      * @param responseListener
@@ -1633,7 +1633,7 @@ public class YinApi {
     }
 
     /**
-     * 发送包房聊天
+     * 发送包房聊�?
      * 
      * @param houseId
      * @param content
@@ -1781,11 +1781,11 @@ public class YinApi {
         URLUtils.addController(url, EnumController.SONG);
         URLUtils.addActionForGet(url, EnumAction.GETSONGS);
         if (!StringUtil.isNull(typeId)) {
-            URLUtils.addParameter(url, EnumParameter.TYPEID, typeId);
+            URLUtils.addParameter(url, EnumParameter.typeId, typeId);
         }
         if (!StringUtil.isNull(singerId)) {
 
-            URLUtils.addParameter(url, EnumParameter.SINGERID, singerId);
+            URLUtils.addParameter(url, EnumParameter.singerId, singerId);
         }
         if (!StringUtil.isNull(songName)) {
 
@@ -1797,6 +1797,40 @@ public class YinApi {
         httpGet(url.toString(), responseListener, errorListener);
     }
 
+/**
+     * 获取歌手
+     *
+     * @param typeId
+     * @param singerId
+     * @param songName
+     * @param page
+     * @param rows
+     * @param responseListener
+     * @param errorListener
+     */
+    public static void getSingers(String typeId, String singerId,
+            String songName, int page, int rows,
+            Response.Listener<JSONObject> responseListener,
+            Response.ErrorListener errorListener) {
+        StringBuilder url = new StringBuilder();
+        URLUtils.addController(url, EnumController.SINGER);
+        URLUtils.addActionForGet(url, EnumAction.GETSINGERS);
+        if (!StringUtil.isNull(typeId)) {
+            URLUtils.addParameter(url, EnumParameter.typeId, typeId);
+        }
+        if (!StringUtil.isNull(singerId)) {
+
+            URLUtils.addParameter(url, EnumParameter.singerId, singerId);
+        }
+        if (!StringUtil.isNull(songName)) {
+
+            URLUtils.addParameter(url, EnumParameter.SONGNAME, songName);
+        }
+        URLUtils.addParameter(url, EnumParameter.PAGE, page + "");
+        URLUtils.addParameter(url, EnumParameter.ROWS, rows + "");
+
+        httpGet(url.toString(), responseListener, errorListener);
+    }
     /**
      * 获取比赛详情
      * 
@@ -1952,7 +1986,7 @@ public class YinApi {
     }
 
     /**
-     * 送礼物
+     * 送礼�?
      * 
      * @param giftId
      * @param gCount
@@ -1981,7 +2015,7 @@ public class YinApi {
     }
 
     /**
-     * 送礼物
+     * 送礼�?
      * 
      * @param giftId
      * @param gCount
@@ -2010,7 +2044,7 @@ public class YinApi {
     }
 
     /**
-     * 通过银行卡号码获得银行名称
+     * 通过银行卡号码获得银行名�?
      * 
      * @param id
      * @param responseListener
@@ -2073,7 +2107,7 @@ public class YinApi {
     }
 
     /**
-     * 开通会员
+     * 开通会�?
      * 
      * @param MealId
      * @param responseListener
@@ -2113,7 +2147,7 @@ public class YinApi {
     }
 
     /**
-     * 充值记录
+     * 充值记�?
      * 
      * @param page
      * @param rows
@@ -2202,7 +2236,7 @@ public class YinApi {
     }
 
     /**
-     * 获取30秒歌曲
+     * 获取30秒歌�?
      *
      * @param responseListener
      * @param errorListener
@@ -2218,7 +2252,7 @@ public class YinApi {
     }
 
     /**
-     * 监听音频变音色处理文件状态
+     * 监听音频变音色处理文件状�?
      * 
      * @param responseListener
      * @param errorListener
@@ -2235,7 +2269,7 @@ public class YinApi {
     }
 
     /**
-     * 监听视频处理文件状态
+     * 监听视频处理文件状�?
      * 
      * @param responseListener
      * @param errorListener
